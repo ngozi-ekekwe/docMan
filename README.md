@@ -1,1 +1,1 @@
-# docMan
+# Document Management System
