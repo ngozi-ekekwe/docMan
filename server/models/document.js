@@ -1,12 +1,29 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Document = sequelize.define('Document', {
-    id: DataTypes.INTEGER,
-    username: DataTypes.STRING
+  const Document = sequelize.define('document', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    access: {
+      type: DataTypes.STRING,
+      defaultValue: 'public'
+    },
+    OwnerId: DataTypes.INTEGER,
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: (models) => {
         // associations can be defined here
+        Document.belongsTo(models.User, {
+          as: 'Owner',
+          onDelete: 'CASCADE',
+          foreignKey: {allowNull: false}
+        });
       }
     }
   });
