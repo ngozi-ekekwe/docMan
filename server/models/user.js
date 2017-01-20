@@ -27,13 +27,11 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         User.belongsTo(models.Role, {
           foreignKey: {
-            allowNull: false},
-          onDelete: 'CASCADE'
+            allowNull: false}
         });
-
         User.hasMany(models.Document, {
           foreignKey: 'OwnerId'
-        })
+        });
       }
     }
   });

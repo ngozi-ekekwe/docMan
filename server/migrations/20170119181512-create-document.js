@@ -21,6 +21,7 @@ module.exports = {
         defaultValue: 'public',
         type: Sequelize.STRING
       },
+      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -13,6 +13,7 @@ module.exports = {
         unique: true,
         type: Sequelize.STRING
       },
+      OwnerId: Sequelize.INTEGER,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
