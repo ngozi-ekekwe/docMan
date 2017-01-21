@@ -4,9 +4,7 @@
 const should = require('should');
 const app = require('../../../server');
 const Role = require('../model/role-test');
-const 
+const chai = require('chai');
 
-// global variables
-var role;
+const assert = chai.assert;
 
-//test
