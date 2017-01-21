@@ -9,6 +9,7 @@ const express = require('express'),
       app = express(),
       jwt = require('jsonwebtoken'),
       config = require('./server/config/config.json');
+      require('./server/routes')(app);
       
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -20,6 +21,7 @@ app.set('port', port);
 const server = http.createServer(app);
 server.listen(port);
 console.log(`server is running on port ${port}`);
+
 
 app.get('*', (req,res) => {
   res.send(200).status({

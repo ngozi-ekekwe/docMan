@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    roleId: {
+      allowNull: false,
+      type: DataTypes.INTEGER
     }
   }, {
     classMethods: {
@@ -27,11 +31,10 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         User.belongsTo(models.Role, {
           foreignKey: {
-            allowNull: false}
+            allowNull: false
+          }
         });
-        User.hasMany(models.Document, {
-          foreignKey: 'OwnerId'
-        });
+        //User.hasMany(models.Document);
       }
     }
   });

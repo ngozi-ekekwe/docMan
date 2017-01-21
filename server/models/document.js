@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  const Document = sequelize.define('document', {
+  const Document = sequelize.define('Documents', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
       associate: (models) => {
         // associations can be defined here
         Document.belongsTo(models.User, {
-          as: 'OwnerId',
+          as: 'userId',
           onDelete: 'CASCADE',
           foreignKey: {allowNull: false}
         });
