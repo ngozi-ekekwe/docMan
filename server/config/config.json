@@ -4,7 +4,7 @@
     "password": null,
     "database": "docMan-dev",
     "host": "127.0.0.1",
-    "port": 5432,
+    "port": 5439,
     "dialect": "postgres"
   },
   "test": {
@@ -12,7 +12,7 @@
     "password": null,
     "database": "docMan-test",
     "host": "127.0.0.1",
-    "port": 5432,
+    "port": 5439,
     "dialect": "postgres"
   },
   "production": {

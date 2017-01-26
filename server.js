@@ -10,6 +10,7 @@ const app = express();
 const config = require('./server/config/config.json');
 const router = express.Router();
 const roleController = require('./server/controllers/roles');
+const userController = require('./server/controllers/users');
 
 //create port
 const port = parseInt(process.env.PORT, 10) || 8000;
@@ -28,11 +29,16 @@ server.listen(port);
 console.log(`server is running on port ${port}`);
 
 router.get('/', function(req, res) {
-    res.send('im the home page!');  
+    res.send({message: 'API Document '});  
 });
 
-// about page route (http://localhost:8080/roles)
+//roles routes
 router.post('/roles', roleController.create);
+router.get('/roles', roleController.index);
+
+//user routes
+router.post('/users', userController.create);
+router.get('/users', userController.index);
 
 
 module.exports = app;

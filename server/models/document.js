@@ -20,7 +20,6 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         Document.belongsTo(models.User, {
           as: 'userId',
-          onDelete: 'CASCADE',
           foreignKey: {allowNull: false}
         });
       }
