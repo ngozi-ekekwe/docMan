@@ -1,44 +1,42 @@
-'use strict'
-/**
- * module dependencies
- */
-const express = require('express');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const http = require('http');
-const app = express();
-const config = require('./server/config/config.json');
-const router = express.Router();
-const roleController = require('./server/controllers/roles');
-const userController = require('./server/controllers/users');
+import express from 'express';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import webpack from 'webpack';
+import config from './webpack.config';
+import open from 'open';
+import path from 'path';
 
-//create port
-const port = parseInt(process.env.PORT, 10) || 8000;
+/* eslint-disable no-console */
+
+const app = express();
+const port =  8000;
+const compiler = webpack(config);
+
 app.set('port', port);
       
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// apply the routes to our application
-app.use('/', router);
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
 
-//create server
-const server = http.createServer(app);
-server.listen(port);
-console.log(`server is running on port ${port}`);
+app.use(require('webpack-hot-middleware')(compiler));
 
-router.get('/', function(req, res) {
-    res.send({message: 'API Document '});  
+app.get('*', function(req, res) {
+  res.send({message: 'hello welcome to Document Manager'});
 });
 
-//roles routes
-router.post('/roles', roleController.create);
-router.get('/roles', roleController.index);
+app.listen(port, function(err) {
+  if (err) {
+    console.log(err);
+  } else {
+    open(`http://localhost:${port}`);
+  }
+});
 
-//user routes
-router.post('/users', userController.create);
-router.get('/users', userController.index);
 
 
 module.exports = app;
