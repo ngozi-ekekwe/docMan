@@ -26,7 +26,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.get('*', function(req, res) {
-  res.send({message: 'hello welcome to Document Manager'});
+  res.sendFile(path.join(__dirname, './client/index.html'));
 });
 
 app.listen(port, function(err) {
