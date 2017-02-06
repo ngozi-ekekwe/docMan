@@ -1,4 +1,4 @@
-const document = require('../models/document');
+const document = require('../models').Document;
 
 module.exports = {
   create(req, res) {
@@ -10,5 +10,12 @@ module.exports = {
     })
     .then(document => res.status(200).send(document))
     .catch(error =>res.status(400).send(error));
+  },
+
+  index(req, res) {
+    return document
+      .all()
+      .then(document => res.status(201).res.send(document))
+      .catch(error => res.staus(400).res.send(error))
   }
 }

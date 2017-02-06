@@ -2,6 +2,7 @@ const Role = require('../models').Role;
 
 module.exports = {
   create(req, res) {
+     console.log(req);
     return Role
       .create({
         title: req.body.title,

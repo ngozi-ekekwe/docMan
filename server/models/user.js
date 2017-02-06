@@ -1,4 +1,6 @@
 'use strict';
+const bcrypt = require('bcrypt');
+
 module.exports = function(sequelize, DataTypes) {
   const User = sequelize.define('User', {
     firstname: {
@@ -21,20 +23,41 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    roleId: {
+    role: {
+      type: DataTypes.STRING,
       allowNull: false,
-      type: DataTypes.INTEGER
     }
   }, {
     classMethods: {
-      associate: (models) => {
-        // associations can be defined here
+      associate(models) {
         User.belongsTo(models.Role, {
-          foreignKey: {
-            allowNull: false
-          }
+          foreignKey: 'id',
+          onDelete: 'CASCADE',
         });
-        //User.hasMany(models.Document);
+
+        User.hasMany(models.Documents);
+      }
+    }, 
+
+    instanceMethods: {
+      validPassword(password) {
+        return bcrypt.compareSync(password, this.password);
+      },
+
+      hashPassword() {
+        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+      }
+    },
+
+    hooks: {
+      beforeCreate(user) {
+        user.hashPassword()
+      },
+
+      beforeUpdate(user) {
+        if(user._changed.password) {
+          user.hashPassword();
+        }
       }
     }
   });

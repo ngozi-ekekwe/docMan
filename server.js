@@ -1,18 +1,19 @@
-import express from 'express';
+import Express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import webpack from 'webpack';
 import config from './webpack.config';
 import open from 'open';
 import path from 'path';
+import routes from './server/routes';
 
 /* eslint-disable no-console */
-
-const app = express();
+const app = Express();
 const port =  8000;
 const compiler = webpack(config);
 
 app.set('port', port);
+
       
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -22,10 +23,12 @@ app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
 }));
+routes(app);
+
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './client/index.html'));
 });
 

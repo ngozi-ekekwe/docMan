@@ -17,10 +17,10 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
+      
         Document.belongsTo(models.User, {
-          as: 'userId',
-          foreignKey: {allowNull: false}
+          foreignKey: 'userId',
+          onDelete: 'CASCADE',
         });
       }
     }

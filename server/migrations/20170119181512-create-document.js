@@ -18,6 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       access: {
+        allowNull: false,
         defaultValue: 'public',
         type: Sequelize.STRING
       },
