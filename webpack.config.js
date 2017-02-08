@@ -26,7 +26,13 @@ export default {
   ],
   module: {
     loaders: [
+      {
+        test: /app\/js\/.+.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
       {test: /\.scss$/, loaders: ["style-loader", "css-loader", "sass-loader"]},
+      {test: /.\json$/, loaders:['json-loader']},
       {test: /\.js$/, include: path.join(__dirname, 'client'), loaders: ['babel']},
       {test: /(\.css)$/, loaders: ['style-loader', 'css-loader']},
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
