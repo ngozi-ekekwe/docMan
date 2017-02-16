@@ -1,7 +1,7 @@
 /**
  * module dependencies
  */
-const Role = require('../../models').Role;
+const Role = require('../../server/models').Role;
 const helper = require('../test-helper');
 const chai = require('chai');
 

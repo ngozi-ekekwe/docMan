@@ -1,8 +1,8 @@
-const document = require('../models').Document;
+const Document = require('../models').Document;
 
 module.exports = {
   create(req, res) {
-    return document
+    return Document
     .create({
       title: req.body.title,
       content: req.body.content,
@@ -13,9 +13,67 @@ module.exports = {
   },
 
   index(req, res) {
-    return document
+    return Document
       .all()
-      .then(document => res.status(201).res.send(document))
+      .then(documents => res.status(201).res.send(documents))
       .catch(error => res.staus(400).res.send(error))
+  },
+
+  retrieve(req, res) {
+    return Document
+      .findById(req.params.id)
+      .then((document) => {
+        if(!document) {
+          return res.status(404).send({message: 'Document not found'});
+        }
+        res.status(200).send(role);
+      }).catch((error) => {
+          res.status(400).send(error);
+      });
+  },
+  /**
+   * updates a role
+   */
+  update(req,res) {
+    return Document
+      .findById(req.params.id)
+      .then((document) => {
+        if(!document) {
+          return res.status(404).send({message: 'Document not found'});
+        }
+        return document
+          .update(req.body)
+          .then(() => {
+            res.status(200).send(document);
+          })
+          .catch((error) => {
+            res.send(error);
+          })
+      }).catch((error) => {
+        res.send(error);
+      })
+  },
+
+  /**
+   * deletes a note
+   */
+  destroy(req,res) {
+    return Document
+      .findById(req.params.id)
+      .then((document) => {
+        if(!document) {
+          res.status(404).send({message: 'Document not found'});
+        }
+        return role
+          .destroy()
+          .then(() => {
+            res.status(204).send({message: 'Document successfully deleted'});
+          }).catch((error) => {
+            res.send(error);
+          });
+      }).catch((error) => {
+          res.send(error);
+      });
   }
+
 }
