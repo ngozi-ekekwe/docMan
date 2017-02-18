@@ -1,0 +1,38 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: grey;
+$primary-shade: #F5F5F5;
+$primary-light: #FAFAFA;
+$primary-dark: #E0E0E0;
+$primary-accent: #82B1FF;
+
+
+body {
+  background-color: $primary-shade;
+}
+
+.parallax-container {
+  .parallax {
+    img {
+      display: block;
+    }
+  }
+}
+
+.Typist {
+  margin-top: 280px;  
+  .ptag {
+    text-align: center;
+    color: black;
+    font-size: 1.1em;
+  }
+}
+
+.footer {
+  display: flex;
+}
+
+.navbar {
+  a{
+    color: black;
+  }
+}
