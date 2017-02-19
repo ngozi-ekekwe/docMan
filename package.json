@@ -9,7 +9,7 @@
     "start": "babel-node server.js",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
-    "test": "./node_modules/.bin/_mocha ./server/test/**/*.js"
+    "test": "NODE_ENV=test ./node_modules/.bin/_mocha ./test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "cover": "^0.2.9",
     "coveralls": "^2.11.15",
     "css-loader": "^0.26.1",
@@ -39,6 +40,7 @@
     "faker": "^3.1.0",
     "file-loader": "^0.10.0",
     "gulp": "^3.9.1",
+    "isomorphic-fetch": "^2.2.1",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.2.1",
     "materialize-css": "^0.98.0",
@@ -56,6 +58,7 @@
     "sequelize": "^3.30.0",
     "sequelize-authentication": "^0.3.0",
     "style-loader": "^0.13.1",
+    "superagent": "^3.4.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "1.6.1",
@@ -76,6 +79,8 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.4.8",
     "react-router-redux": "^4.0.4",
+    "react-tinymce": "^0.5.1",
+    "react-typist": "^1.0.3",
     "redux": "^3.5.2",
     "sequelize": "^3.30.0",
     "webpack": "^1.14.0"

@@ -1,7 +1,8 @@
 //module dependencies 
 const chai = require('chai');
-const User = require('../../models').User;
-const Role = require('../../models').Role;
+const User = require('../../server/models').User;
+const Role = require('../../server/models').Role;
+const Document = require('../../server/models').Document;
 const helper = require('../test-helper');
 
 const expect = chai.expect;
