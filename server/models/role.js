@@ -9,7 +9,6 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
         Role.hasMany(models.User, {
           foreignKey: 'roleId'
         });
