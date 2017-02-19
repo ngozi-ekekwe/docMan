@@ -1,7 +1,6 @@
 /**
  * module dependencies
  */
-NODE_ENV = 'test'
 const Role = require('../../server/models').Role;
 const helper = require('../test-helper');
 const chai = require('chai');
@@ -15,18 +14,13 @@ describe('<Unit test Role>', () => {
     before(() => {
         //create an instance of the database and save
         role = Role.build(roleParams)
-        return Role.bulkCreate([helper.adminRole, helper.regularRole]);
+        return Role.bulkCreate([helper.adminRole, helper.regularRole])
     });
 
     //clear database after test
     after(() => Role.sequelize.sync({ force: true }));
 
     describe('model Role', () => {
-
-        it('creates a Role instance', () => {
-            expect(role).to.exist
-        });
-
         it('has a title property', () => {
             expect(role.title).to.equal(roleParams.title);
             expect(role.title).to.equal('author');
@@ -39,13 +33,25 @@ describe('<Unit test Role>', () => {
 
         it('has multiple roles', () => {
             return Role.findAll()
-                .then((roleAdded) => {
-                    console.log(roleAdded[1].title)
-                    expect(roleAdded[0].title).to.equal('admin');
-                    expect(roleAdded[1].title).to.equal('regular');
+                .then((allRoles) => {
+                    expect(allRoles[0].title).to.equal('admin');
+                    expect(allRoles[1].title).to.equal('regular');
                 });
         });
 
+        it('creates a Role instance', () => {
+            expect(role).to.exist;
+        });
+
     });
+
+    describe('validations', () => {
+        it('should fail when a title is not passed', () => {
+            Role.create({})
+                .then((newRole) => {
+                    expect (newRole).to.not.exist
+                })
+        });
+    })
 
 });
