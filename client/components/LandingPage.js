@@ -6,11 +6,11 @@ class HomePage extends React.Component {
 		return (
 			<div>
 				<div className="parallax-container">
-					<div className="parallax"><img src={require("../img/7bimechfgfy-ben-white.jpg")} />
+					<div id="parallax">
+						<Typist className="Typist">
+							<h3><p className="ptag"> Create impactful and meaningful documents...</p></h3>
+						</Typist>
 					</div>
-					<Typist className="Typist">
-						<h3><p className="ptag"> Create impactful and meaningful documents...</p></h3>
-					</Typist>
 				</div>
 				<div className="section white">
 					<div className="row container">
@@ -22,7 +22,7 @@ class HomePage extends React.Component {
 
 				</div>
 				<div className="parallax-container">
-					<div class="className"><img src={require("../img/ng-img-1.jpg")} /></div>
+					<div className=""><img src={require("../img/ng-img-1.jpg")} /></div>
 				</div>
 			</div>
 		);

@@ -11,19 +11,23 @@ body {
 }
 
 .parallax-container {
-  .parallax {
-    img {
-      display: block;
-    }
+  #parallax {
+    background: url('../img/bg1.jpg') 50% 50% no-repeat;
+    height: 100%;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
-.Typist {
-  margin-top: 280px;  
+.Typist { 
   .ptag {
     text-align: center;
-    color: black;
-    font-size: 1.1em;
+    color: #FFF;
+    font-weight: 100;
+    font-size: 1.2em;
+    margin: 0 auto;
   }
 }
 
@@ -35,4 +39,15 @@ body {
   a{
     color: black;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+.ptag {
+  margin: 0;
 }

@@ -1,10 +1,10 @@
 /**
  * module dependencies
  */
+NODE_ENV = 'test'
 const Role = require('../../server/models').Role;
 const helper = require('../test-helper');
 const chai = require('chai');
-
 const expect = chai.expect;
 const roleParams = helper.role;
 
@@ -14,15 +14,15 @@ let role;
 describe('<Unit test Role>', () => {
     before(() => {
         //create an instance of the database and save
-        role = Role.build(roleParams);
+        role = Role.build(roleParams)
         return Role.bulkCreate([helper.adminRole, helper.regularRole]);
-
     });
 
     //clear database after test
-    after(() => Role.sequelize.sync({force: true}));
+    after(() => Role.sequelize.sync({ force: true }));
 
     describe('model Role', () => {
+
         it('creates a Role instance', () => {
             expect(role).to.exist
         });
@@ -33,17 +33,19 @@ describe('<Unit test Role>', () => {
         });
 
         it('adds the new role to the Role table', () => {
-            role.save()
+            return role.save()
                 .then((newRole) => expect(newRole.title).to.equal('author'));
         });
 
         it('has multiple roles', () => {
-            Role.findAll()
+            return Role.findAll()
                 .then((roleAdded) => {
+                    console.log(roleAdded[1].title)
                     expect(roleAdded[0].title).to.equal('admin');
                     expect(roleAdded[1].title).to.equal('regular');
                 });
         });
+
     });
 
 });
