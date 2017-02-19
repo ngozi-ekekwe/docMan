@@ -16,7 +16,6 @@ class Role extends React.Component {
     browserHistory.push('/role');
   }
   render() {
-    console.log(this.props)
     const {roles} = this.props;
     return (
       <div>
