@@ -4,27 +4,28 @@ const jwt = require('jsonwebtoken');
 const secret = 'super secret';
 
 module.exports = {
-	/** creates a new user */
+
+	/**
+	 * create users
+	 * 
+	 */
 	create(req, res) {
-		User.findOne({ where: { email: req.body.email } })
+		User.findOne({where: {email: req.body.email}})
 			.then((existingUser) => {
-				if (existingUser) {
-					return res.status(409).send({ message: 'user exits' });
+				if(existingUser) {
+					return res.send({message: `User with ${req.body.email} already exits`})
 				}
-			});
-		User.create(req.body)
-			.then((newUser) => {
-				const token = jwt.sign(newUser, secret, {
-					expiresIn: '24h'
-				});
-				return res.status(200).send({
-					success: true,
-					message: 'Authentication successful. User logged in',
-					token: token
-				});
+				User.create(req.body)
+					.then((newUser) => {
+						const token = jwt.sign({
+							UserId: newUser.id,
+							RoleId: newUser.roleId
+						}, secret, {expiresIn: '2 days'});
+						return res.status(201).send({ newUser, token });
+					})
 			})
 			.catch((error) => {
-				res.status(409).send(error);
+				res.status(500).send(error);
 			})
 	},
 

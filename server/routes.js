@@ -1,6 +1,7 @@
 const documentController = require('../server/controllers/documents');
 const roleController = require('../server/controllers/roles');
 const userController = require('../server/controllers/users');
+const Auth = require('../server/middlewares/auth');
 
 module.exports = (app) => {
     const router = require('express').Router();

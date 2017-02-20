@@ -13,11 +13,14 @@ module.exports = function(sequelize, DataTypes) {
     access: {
       type: DataTypes.STRING,
       defaultValue: 'public'
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     classMethods: {
       associate: (models) => {
-      
         Document.belongsTo(models.User, {
           foreignKey: 'userId',
           onDelete: 'CASCADE',

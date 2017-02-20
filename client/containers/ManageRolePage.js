@@ -3,19 +3,20 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as roleActions from '../actions/roleAction';
 import RoleForm from '../components/RoleForm'
+import toastr from 'toastr';
 
 class ManageRolePage extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
       role: Object.assign({}, this.props.role),
-      errors: {}
+      errors: {},
+      saving: false
     }
     this.updateRoleState = this.updateRoleState.bind(this);
     this.saveRole = this.saveRole.bind(this);
   }
   updateRoleState(event) {
-    console.log(this.props)
     const field = event.target.name;
     let role = this.state.role;
     role[field] = event.target.value;
@@ -26,8 +27,9 @@ class ManageRolePage extends React.Component {
   saveRole(event) {
     event.preventDefault();
     this.props.saveRole(this.state.role);
-    console.log(this.context)
-    this.context.router.push('/createrole');
+    this.context.router.push('/roles');
+    this.setState({saving: true});
+    toastr.success('Role saved')
   }
   render() {
     return (

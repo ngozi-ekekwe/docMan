@@ -27,11 +27,14 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate(models) {
         User.belongsTo(models.Role, {
-          foreignKey: 'id',
+          foreignKey: 'roleId',
           onDelete: 'CASCADE',
         });
 
-        User.hasMany(models.Documents);
+        User.hasMany(models.Documents, {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE'
+        });
       }
     }, 
 
