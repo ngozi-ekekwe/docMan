@@ -4,36 +4,31 @@ const jwt = require('jsonwebtoken');
 const secret = 'super secret';
 
 module.exports = {
-	/** creates a new user */
+
+	/**
+	 * create users
+	 * 
+	 */
 	create(req, res) {
-		User.findOrCreate({
-			where: {
-				email: req.body.email
-			},
-			defaults: {
-				username: req.body.username,
-				password: req.body.password,
-				firstname: req.body.firstname,
-				lastname: req.body.lastname,
-				roleId: req.body.roleId,
-				email: req.body.email
-			}
-		}).spread((newUser, created) => {
-			console.log('New::::::::::::::::::::::::', newUser);
-			if (created) {
-				const token = jwt.sign(newUser, secret, {
-					expiresIn: '24h'
-				});
-				return res.status(200).send({
-					success: true,
-					message: 'Authentication successful. User logged in',
-					token: token
-				});
-			} else {
-				return res.status(409).send({ message: 'User already already' });
-			}
-		})
+		User.findOne({where: {email: req.body.email}})
+			.then((existingUser) => {
+				if(existingUser) {
+					return res.send({message: `User with ${req.body.email} already exits`})
+				}
+				User.create(req.body)
+					.then((newUser) => {
+						const token = jwt.sign({
+							UserId: newUser.id,
+							RoleId: newUser.roleId
+						}, secret, {expiresIn: '2 days'});
+						return res.status(201).send({ newUser, token });
+					})
+			})
+			.catch((error) => {
+				res.status(500).send(error);
+			})
 	},
+
 	/**
 	 * lists all users
 	 */
