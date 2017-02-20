@@ -6,14 +6,21 @@ const secret = 'super secret';
 module.exports = {
 	/** creates a new user */
 	create(req, res) {
-		User.findOne({ where: { email: req.body.email } })
-			.then((existingUser) => {
-				if (existingUser) {
-					return res.status(409).send({ message: 'user exits' });
-				}
-			});
-		User.create(req.body)
-			.then((newUser) => {
+		User.findOrCreate({
+			where: {
+				email: req.body.email
+			},
+			defaults: {
+				username: req.body.username,
+				password: req.body.password,
+				firstname: req.body.firstname,
+				lastname: req.body.lastname,
+				roleId: req.body.roleId,
+				email: req.body.email
+			}
+		}).spread((newUser, created) => {
+			console.log('New::::::::::::::::::::::::', newUser);
+			if (created) {
 				const token = jwt.sign(newUser, secret, {
 					expiresIn: '24h'
 				});
@@ -22,12 +29,11 @@ module.exports = {
 					message: 'Authentication successful. User logged in',
 					token: token
 				});
-			})
-			.catch((error) => {
-				res.status(409).send(error);
-			})
+			} else {
+				return res.status(409).send({ message: 'User already already' });
+			}
+		})
 	},
-
 	/**
 	 * lists all users
 	 */

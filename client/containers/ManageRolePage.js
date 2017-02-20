@@ -27,7 +27,7 @@ class ManageRolePage extends React.Component {
   saveRole(event) {
     event.preventDefault();
     this.props.saveRole(this.state.role);
-    this.context.router.push('/createrole');
+    this.context.router.push('/roles');
     this.setState({saving: true});
     toastr.success('Role saved')
   }

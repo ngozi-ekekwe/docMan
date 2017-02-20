@@ -15,7 +15,7 @@ export default (
         <Route path="home" component={HomePage}  />
         <Route path="login" component={Login} />
         <Route path="signup" component={Register} />
-        <Route path="createrole" component={RolePage} />
+        <Route path="roles" component={RolePage} />
         <Route path="createdoc" component={CreateDocument} />
         <Route path="role" component={ManageRolePage} />
         <Route path="role/:id" component={ManageRolePage} />
