@@ -1,26 +1,26 @@
 const User = require('../models').User;
+const Document = require('../models').Document;
 const jwt = require('jsonwebtoken');
 
 const secret = 'super secret';
 
 module.exports = {
-
 	/**
 	 * create users
 	 * 
 	 */
 	create(req, res) {
-		User.findOne({where: {email: req.body.email}})
+		User.findOne({ where: { email: req.body.email } })
 			.then((existingUser) => {
-				if(existingUser) {
-					return res.send({message: `User with ${req.body.email} already exits`})
+				if (existingUser) {
+					return res.send({ message: `User with ${req.body.email} already exits` })
 				}
 				User.create(req.body)
 					.then((newUser) => {
 						const token = jwt.sign({
 							UserId: newUser.id,
 							RoleId: newUser.roleId
-						}, secret, {expiresIn: '2 days'});
+						}, secret, { expiresIn: '2 days' });
 						return res.status(201).send({ newUser, token });
 					})
 			})
@@ -29,6 +29,31 @@ module.exports = {
 			})
 	},
 
+	getAllUserDocuments(req, res) {
+		return Document
+			.findall({where: {id: req.params.id}})
+			.then((documents) => {
+				res.status(201).send(documents);
+			})
+	},
+
+	login(req, res) {
+		User.findOne({where: {email: req.body.email}})
+			.then((foundUser) => {
+				if(foundUser && foundUser.validPassword(req.body.password)) {
+					const token = jwt.sign({
+						UserId: foundUser.id,
+						RoleId: foundUser.roleId
+					}, secret, {expiresIn: '2 days'});
+					return res.status(201).send({token, expiresIn: '2 days'});
+				}
+				return res.status(401).send({message: 'Login failed'});
+			})
+	},
+
+	logout(req, res) {
+		return res.status(201).send({messaeg: 'Successful Logout'});
+	},
 	/**
 	 * lists all users
 	 */
