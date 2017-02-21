@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userAction from '../actions/userAction';
 import UserList from '../components/UserList';
 import RoleListRow from '../components/RoleListRow';
@@ -25,10 +25,10 @@ class User extends React.Component {
     const {users} = this.props;
     return (
       <div>
-        <RoleList roles={roles} />
+        <UserList users={users} />
         <input
           type="submit"
-          value='Add Role'
+          value='Add new User'
           className=""
           onClick={this.redirectToRolePage} />
       </div>
@@ -42,11 +42,12 @@ User.PropTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (user) => dispatch(userAction.createRole(user))
+    createUser: (user) => dispatch(userAction.createUser(user))
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state, 'user')
   return {
     users: state.users
   };

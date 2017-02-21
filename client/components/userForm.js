@@ -60,4 +60,4 @@ const UserForm = ({user, onSave, onChange, loading, errors}) => {
     )
 }
 
-export default RoleForm
+export default UserForm

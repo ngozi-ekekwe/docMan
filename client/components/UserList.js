@@ -12,11 +12,11 @@ const UserList = ({users}) => {
                     <th>User Name</th>
                     <th>Email</th>
                     <th>Password</th>
-                    <th>Role</th>
+                    <th>Roles</th>
                 </tr>
             </thead>
                 {users.map(user => 
-                    <RoleListRow key = {user.id} role = {users}/>
+                    <UserListRow key = {user.id} user = {user}/>
                 )}
             <tbody>
             </tbody>

@@ -64,15 +64,12 @@ export const fetchAUser = (userId) => {
     })
 }
 
-
-
-
 //thunk
 export const fetchUsers = () => {
   return dispatch => {
     return userApi()
       .then(users => {
-        dispatch(getRoleSuccess(users))
+        dispatch(getUserSuccess(users))
       })
       .catch(error => { throw error; })
   }

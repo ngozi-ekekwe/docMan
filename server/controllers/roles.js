@@ -5,7 +5,6 @@ module.exports = {
    * create a new role
    */
   create(req, res) {
-     console.log(req.body);
     return Role
       .create({
         title: req.body.title,

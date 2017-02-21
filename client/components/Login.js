@@ -1,14 +1,14 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: "",
-        password: ""
+      email: "",
+      password: ""
     };
-    
+
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.onClickSave = this.onClickSave.bind(this);
@@ -21,7 +21,7 @@ class Login extends React.Component {
 
   onPasswordChange(event) {
     this.setState({
-        password: event.target.value
+      password: event.target.value
     });
   }
 
@@ -52,7 +52,7 @@ class Login extends React.Component {
                     <input className='' type='text'
                       name='email' id='email'
                       onChange={this.onEmailChange}
-                       />
+                      />
                   </div>
                 </div>
 
@@ -61,7 +61,7 @@ class Login extends React.Component {
                     <input className='validate' type='password'
                       name='password' id='password'
                       onChange={this.onPasswordChange}
-                    />
+                      />
                   </div>
                   <label>
                     <a className='pink-text' href='#!'><b>Forgot Password?</b></a>
@@ -71,11 +71,11 @@ class Login extends React.Component {
                 <br />
                 <center>
                   <div className='row'>
-                    <button type='submit' name='btn_login' 
-                    className='col s12 btn btn-large waves-effect indigo'
-                    value ="save"
-                    onClick= {this.onClickSave}
-                    >Login</button>
+                    <button type='submit' name='btn_login'
+                      className='col s12 btn btn-large waves-effect indigo'
+                      value="save"
+                      onClick={this.onClickSave}
+                      >Login</button>
                   </div>
                 </center>
               </div>
