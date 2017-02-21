@@ -31,28 +31,28 @@ module.exports = {
 
 	getAllUserDocuments(req, res) {
 		return Document
-			.findall({where: {id: req.params.id}})
+			.findall({ where: { id: req.params.id } })
 			.then((documents) => {
 				res.status(201).send(documents);
 			})
 	},
 
 	login(req, res) {
-		User.findOne({where: {email: req.body.email}})
+		User.findOne({ where: { email: req.body.email } })
 			.then((foundUser) => {
-				if(foundUser && foundUser.validPassword(req.body.password)) {
+				if (foundUser && foundUser.validPassword(req.body.password)) {
 					const token = jwt.sign({
 						UserId: foundUser.id,
 						RoleId: foundUser.roleId
-					}, secret, {expiresIn: '2 days'});
-					return res.status(201).send({token, expiresIn: '2 days'});
+					}, secret, { expiresIn: '2 days' });
+					return res.status(201).send({ token, expiresIn: '2 days' });
 				}
-				return res.status(401).send({message: 'Login failed'});
+				return res.status(401).send({ message: 'Login failed' });
 			})
 	},
 
 	logout(req, res) {
-		return res.status(201).send({messaeg: 'Successful Logout'});
+		return res.status(201).send({ messaeg: 'Successful Logout' });
 	},
 	/**
 	 * lists all users
