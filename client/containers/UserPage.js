@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import * as roleAction from '../actions/roleAction';
-import RoleList from '../components/RoleList';
+import * as userAction from '../actions/userAction';
+import UserList from '../components/UserList';
 import RoleListRow from '../components/RoleListRow';
 import {browserHistory} from 'react-router';
 
@@ -22,29 +22,27 @@ class User extends React.Component {
     browserHistory.push('/user');
   }
   render() {
-    console.log(this.props)
-    const {roles} = this.props;
+    const {users} = this.props;
     return (
       <div>
+        <RoleList roles={roles} />
         <input
           type="submit"
           value='Add Role'
           className=""
           onClick={this.redirectToRolePage} />
-        <RoleList roles={roles} />
-
       </div>
     );
   }
 }
 
-Role.PropTypes = {
-  roles: PropTypes.array.isRequired
+User.PropTypes = {
+  users: PropTypes.array.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createRole: (role) => dispatch(roleAction.createRole(role))
+    createUser: (user) => dispatch(userAction.createRole(user))
   }
 }
 
@@ -54,4 +52,4 @@ const mapStateToProps = (state, ownProps) => {
   };
   ;
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Role);
+export default connect(mapStateToProps, mapDispatchToProps)(User);

@@ -15,7 +15,7 @@ class HomePage extends React.Component {
 				<div className="section white">
 					<div className="row container">
 						<h2 className="header">Get Started</h2>
-						<p className="grey-text text-darken-3 lighten-3">Google Docs brings your documents to life with smart editing and styling tools to help you easily format text and paragraphs. Choose from hundreds of fonts, add links, images, and drawings. All for free.</p>
+						<p className="grey-text text-darken-3 lighten-3">Go Docs brings your documents to life with smart editing and styling tools to help you easily format text and paragraphs. Choose from hundreds of fonts, add links, images, and drawings. All for free.</p>
 						<button> Get Started</button>
 					</div>
 
