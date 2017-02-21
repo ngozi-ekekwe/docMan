@@ -6,12 +6,13 @@ module.exports = {
    */
   create(req, res) {
      console.log(req.body);
+     console.log("got here");
     return Role
       .create({
         title: req.body.title,
       })
       .then(role => res.status(201).send(role))
-      .catch(error => res.status(400).send(error))
+      .catch(error => res.status(400).send({error}))
   }, 
   /**
    * return all roles
