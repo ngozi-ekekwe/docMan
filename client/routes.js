@@ -8,6 +8,8 @@ import Register from './components/SignUp';
 import RolePage from './containers/RolePage';
 import CreateDocument from './components/CreateDocument';
 import ManageRolePage from './containers/ManageRolePage'
+import UserPage from './containers/UserPage'
+import ManageUserPage from './containers/ManageUserPage';
 
 export default (
     <Route path="/" component={App}>
@@ -19,5 +21,7 @@ export default (
         <Route path="createdoc" component={CreateDocument} />
         <Route path="role" component={ManageRolePage} />
         <Route path="role/:id" component={ManageRolePage} />
+        <Route path="register" component={UserPage} />
+        <Route path="user" component={ManageUserPage} />
     </Route>
 )

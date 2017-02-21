@@ -1,36 +1,56 @@
-import React, {propTypes} from 'react';
+import React, { PropTypes } from 'react';
+import {connect} from 'react-redux';
+import * as userAction from '../actions/userAction';
+import UserList from '../components/UserList';
+import RoleListRow from '../components/RoleListRow';
+import {browserHistory} from 'react-router';
 
-class UserPage extends React.Component {
-    constructor(props, context) {
-        super(props)
-        this.state = {
-            user: {
-                firstname: "",
-                lastnaem: "",
-                username: "",
-                email: "",
-                password: "",
-                role: ""
-            }
-        }
-        this.onUserChange = this.onUserChange.bind(this);
-        this.onClickSave = this.onClickSave.bind(this);
+class User extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      firstname: "",
+      lastname: "",
+      username: "",
+      email: "",
+      password: "",
+      role: ""
     }
-    onUserChange(event) {
-        const user = this.state.user;
-        this.setState({user: event.target.value});
-    }
-
-    onClickSave() {
-
-    }
-    render() {
-        return(
-            <div>
-            <h1>User page</h1>
-            </div>
-        )
-    }
+    this.redirectToRolePage = this.redirectToRolePage.bind(this);
+  };
+  redirectToRolePage() {
+    browserHistory.push('/user');
+  }
+  render() {
+    const {users} = this.props;
+    return (
+      <div>
+        <UserList users={users} />
+        <input
+          type="submit"
+          value='Add new User'
+          className=""
+          onClick={this.redirectToRolePage} />
+      </div>
+    );
+  }
 }
 
-export default UserPage;
+User.PropTypes = {
+  users: PropTypes.array.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createUser: (user) => dispatch(userAction.createUser(user))
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  console.log(state, 'user')
+  return {
+    users: state.users
+  };
+  ;
+}
+export default connect(mapStateToProps, mapDispatchToProps)(User);

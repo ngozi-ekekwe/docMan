@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   let role = { id: '', title: '', createdAt: '', updatedAt: '' }
-  return {
+  return {  
     roles: role
   }
 }

@@ -4,6 +4,7 @@ import * as roleAction from '../actions/roleAction';
 import RoleList from '../components/RoleList';
 import RoleListRow from '../components/RoleListRow';
 import {browserHistory} from 'react-router';
+
 class Role extends React.Component {
   constructor(props) {
     super(props)
