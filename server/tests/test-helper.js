@@ -21,6 +21,14 @@ module.exports = {
         password: faker.internet.password(),
     },
 
+    secondUser: {
+        firstname: faker.name.findName(),
+        lastname: faker.name.findName(),
+        username: faker.internet.userName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+    },
+
     adminUser: {
         firstname: faker.name.findName(),
         lastname: faker.name.findName(),

@@ -19,6 +19,7 @@ const Auth = {
 			}
 		})
 	},
+	
 	validateAdmin(req, res, next) {
 		db.Role.findById(req.decoded.RoleId)
 			.then((role) => {

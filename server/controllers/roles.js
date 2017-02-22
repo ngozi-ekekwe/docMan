@@ -1,9 +1,6 @@
 const Role = require('../models').Role;
 
 module.exports = {
-  /**
-   * create a new role
-   */
   create(req, res) {
     return Role
       .create({
@@ -12,9 +9,7 @@ module.exports = {
       .then(role => res.status(200).send(role))
       .catch(error => res.status(400).send({error}))
   }, 
-  /**
-   * return all roles
-   */
+
   index(req, res) {
     return Role
       .all()
@@ -22,9 +17,6 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
 
-  /**
-   * return a particular role
-   */
   retrieve(req, res) {
     return Role
       .findById(req.params.id)
@@ -37,9 +29,7 @@ module.exports = {
           res.status(400).send(error);
       });
   },
-  /**
-   * updates a role
-   */
+
   update(req,res) {
     return Role
       .findById(req.params.id)
@@ -62,17 +52,14 @@ module.exports = {
       })
   },
 
-  /**
-   * deletes a note
-   */
   destroy(req,res) {
     return Role
       .findById(req.params.id)
       .then((role) => {
         if(!role) {
-          res.status(404).send({message: 'Role not found'});
+          return res.status(404).send({message: 'Role not found'});
         }
-        return role
+        role
           .destroy()
           .then(() => {
             res.status(200).send({message: 'Role successfully deleted'});
@@ -82,7 +69,5 @@ module.exports = {
       }).catch((error) => {
           res.send(error);
       });
-  }
-
-  
+  }  
 }

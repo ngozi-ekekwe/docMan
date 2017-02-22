@@ -13,13 +13,14 @@ describe('User API', () => {
   before(() =>
     db.Role.create(roleParams)
       .then((role) => {
-        userParams.RoleId = role.id;
+        userParams.roleId = role.id;
       }));
 
   after(() => db.User.sequelize.sync({ force: true }));
 
   describe('With existing user', () => {
     beforeEach((done) => {
+          console.log("DONE!!!!!!")
       request.post('/users')
         .send(userParams)
         .end((err, res) => {
@@ -88,14 +89,15 @@ describe('User API', () => {
 
     describe('Edit user PUT: /users/:id', () => {
       it('updates the user attributes', (done) => {
-        const newAttributes = { lastName: 'Newman', email: 'newman@mail.com' };
+        const newAttributes = { lastname: 'Newman', email: 'newman@mail.com' };
 
         request.put(`/users/${user.id}`)
           .set({ Authorization: token })
           .send(newAttributes)
           .end((err, res) => {
+            console.log("USER: ", res.body);
             expect(res.status).to.equal(200);
-            expect(res.body.lastName).to.equal(newAttributes.lastName);
+            expect(res.body.lastname).to.equal(newAttributes.lastname);
             expect(res.body.email).to.equal(newAttributes.email);
             done();
           });
@@ -187,7 +189,7 @@ describe('User API', () => {
       });
 
       it('fails for invalid user attributes', (done) => {
-        const invalidParams = { firstName: 'Adam', name: 'King' };
+        const invalidParams = { firstName: 'Adam', name: 'King', email: "s@d.c" };
         request.post('/users')
           .send(invalidParams)
           .end((err, res) => {
