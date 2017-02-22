@@ -5,7 +5,7 @@ const UserForm = ({user, onSave, onChange, loading, errors}) => {
     return (
         <div className="container ">
         <div className="z-depth-1 grey lighten-4">
-        <form>
+        <form method="POST">
             <TextInput
                 name="firstname"
                 label="firstname"
@@ -15,7 +15,7 @@ const UserForm = ({user, onSave, onChange, loading, errors}) => {
 
             
             <TextInput
-                name="Lastname"
+                name="lastname"
                 label="Lastname"
                 defaultvalue={user.lastname}
                 onChange={onChange}
@@ -47,17 +47,16 @@ const UserForm = ({user, onSave, onChange, loading, errors}) => {
 
             
             <TextInput
-                name="role"
+                name="roleId"
                 label="role"
                 defaultvalue={user.roleId}
                 onChange={onChange}
                 error={errors} />
-            <input
-                type="submit"
+            <a
                 disabled={loading}
                 value={loading ? 'saving ...': 'save'}
-                className=""
-                onClick= {onSave} />
+                className="waves-effect waves-light btn"
+                onClick={onSave} > SignUp </a>
         </form>
         </div>
         </div>

@@ -17,6 +17,16 @@ const checkIfLoggedIn = (nextState, replace) => {
  }
 }
 
+const logUserOut = (nextState, replace, done) => {
+  const user = JSON.parse(localStorage.getItem('currentUser'));
+  console.log(user);
+  if (user && user.userId == undefined) {
+    replace({ pathname: '/' });
+  }
+  localStorage.removeItem("currentUser");
+  window.location = '/';
+}
+
 export default (
     <Route path="/" component={App}>
         <IndexRoute component={LandingPage} />
@@ -28,5 +38,6 @@ export default (
         <Route path="role/:id" component={ManageRolePage} />
         <Route path="register" component={UserPage} />
         <Route path="user" component={ManageUserPage} />
+        <Route path="logout" onEnter={logUserOut} />
     </Route>
 )

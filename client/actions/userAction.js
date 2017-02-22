@@ -98,12 +98,38 @@ export const login = (email, password) => {
   }
 }
 
+export const userSaver = (user) => {
+  const newBody = JSON.stringify(user)
+  const {token} = JSON.parse(localStorage.getItem('currentUser'));
+  return fetch('http://localhost:8000/users', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token
+    },
+    body: newBody
+  })
+    .then(response => {
+      if (response.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      return response.json();
+    })
+    .then((user) => {
+      return user
+    })
+    .catch(error => {
+      throw error
+    });
+}
+
 export const saveUser = (userJson) => {
-  return (dispatch, getState) => {
+  return dispatch => {
     return userSaver(userJson)
       .then((savedUser) => {
-        userJson.id ? dispatch(updateUserSuccess(savedUser)) :
-          dispatch(createUserSuccess(savedUser));
+        console.log(savedUser);
+        dispatch(createUserSuccess(savedUser));
       }).catch((error) => {
         throw (error);
       })

@@ -13,19 +13,22 @@ class ManageUserPage extends React.Component {
 			errors: {},
 			saving: false
 		}
+		this.updateUserState = this.updateUserState.bind(this);
+		this.saveUser = this.saveUser.bind(this);
 	}
-	updateUserState(events) {
-		console.log(event.target.name)
+	updateUserState(event) {
+		console.log(event.target.value)
 		const field = event.target.name;
 		let user = this.state.user;
 		user[field] = event.target.value;
-		return this.setState({ user: user })
+		this.setState({ user: user })
 	}
 
-	saveUser(event) {
+	saveUser() {
 		event.preventDefault();
 		this.props.saveUser(this.state.user);
-		this.context.router.push('/user');
+		console.log(this.state.user, 'state user');
+		window.location = '/';
 		this.setState({ saving: true });
 		toastr.success('User saved')
 	}
@@ -55,7 +58,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	let user = { id: '', firstname: '', lastname: '', username: '', email: '', password: '', role: '' }
+	let user = { firstname: '', lastname: '', username: '', email: '', password: '', roleId: '' }
 	return {
 		user: user
 	}

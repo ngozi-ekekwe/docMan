@@ -14,7 +14,7 @@ class User extends React.Component {
       username: "",
       email: "",
       password: "",
-      role: ""
+      roleId: ""
     }
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
   };

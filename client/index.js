@@ -9,10 +9,9 @@ import '../client/styles/custom.scss';
 import store from './store/configureStore';
 import {createRole, fetchRoles, saveRole} from './actions/roleAction';
 import '../node_modules/toastr/build/toastr.min.css';
-import {fetchUsers, createUser, saveUser, login} from './actions/userAction';
+import {fetchUsers, userSaver, createUser, saveUser, login} from './actions/userAction';
 import '../node_modules/toastr/build/toastr.min.css';
 
-// store.dispatch(fetchRoles());
  //store.dispatch(fetchUsers());
 // store.dispatch(login('ng2235@ng.com', 'hello'));
 
