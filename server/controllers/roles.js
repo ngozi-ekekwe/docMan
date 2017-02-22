@@ -9,7 +9,7 @@ module.exports = {
       .create({
         title: req.body.title,
       })
-      .then(role => res.status(201).send(role))
+      .then(role => res.status(200).send(role))
       .catch(error => res.status(400).send({error}))
   }, 
   /**
@@ -18,7 +18,7 @@ module.exports = {
   index(req, res) {
     return Role
       .all()
-      .then(roles => res.status(201).send(roles))
+      .then(roles => res.status(200).send(roles))
       .catch(error => res.status(400).send(error));
   },
 
@@ -75,7 +75,7 @@ module.exports = {
         return role
           .destroy()
           .then(() => {
-            res.status(204).send({message: 'Role successfully deleted'});
+            res.status(200).send({message: 'Role successfully deleted'});
           }).catch((error) => {
             res.send(error);
           });

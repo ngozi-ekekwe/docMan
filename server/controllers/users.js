@@ -13,7 +13,7 @@ module.exports = {
 		User.findOne({ where: { email: req.body.email } })
 			.then((existingUser) => {
 				if (existingUser) {
-					return res.send({ message: `User with ${req.body.email} already exits` })
+					return res.status(409).send({ message: `User with ${req.body.email} already exits` })
 				}
 				User.create(req.body)
 					.then((newUser) => {
@@ -45,7 +45,7 @@ module.exports = {
 						UserId: foundUser.id,
 						RoleId: foundUser.roleId
 					}, secret, { expiresIn: '2 days' });
-					return res.status(201).send({
+					return res.status(200).send({
 						UserId: foundUser.id,
 						token, expiresIn: '2 days',
 						RoleId: foundUser.roleId
@@ -56,7 +56,7 @@ module.exports = {
 	},
 
 	logout(req, res) {
-		return res.status(201).send({ messaeg: 'Successful Logout' });
+		return res.status(200).send({ messaeg: 'Successful Logout' });
 	},
 	/**
 	 * lists all users
@@ -64,7 +64,7 @@ module.exports = {
 	index(req, res) {
 		return User
 			.all()
-			.then((users) => res.status(201).send(users))
+			.then((users) => res.status(200).send(users))
 			.catch((error) => res.status(401).send)
 	},
 
