@@ -4,10 +4,6 @@ import TinyMCE from 'react-tinymce';
 
 
 class CreateDocument extends React.Component {
-	//     handleEditorChange(e) {
-	//     console.log(e.target.getContent());
-	//   },
-
 	render() {
 		return (
 			<div>

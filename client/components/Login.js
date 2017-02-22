@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import * as userActions from '../actions/userAction';
 
 class Login extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class Login extends React.Component {
   }
 
   onClickSave() {
-    console.log(this.state);
+    const { login } = this.props;
+    login(this.state.email, this.state.password);
   }
 
   render() {
@@ -91,4 +93,19 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (email, password) => dispatch(userActions.login(email, password))
+  }
+
+}
+
+const mapStateToProps = (state, ownProps) => {
+  let user = { email: '' }
+  return {
+    users: user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

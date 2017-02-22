@@ -1,17 +1,17 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const db = require('../models');
 
-const secret = 'super dope secret';
+const secret = 'supersecret';
 const Auth = {
 	verifyToken(req, res, next) {
-		const token = req.body.token || req.query.token || req.headers['x-access-token'];
+		const token = req.body.token || req.query.token || req.headers['authorization'];
 		if (!token) {
 			return res.status(403).send({ message: 'Unauthorized Access' })
 		}
 		//verify jwt token
-		jwt.verify(token, secret, (error, decode) => {
+		jwt.verify(token, secret, (error, decoded) => {
 			if (error) {
-				return res.json({ success: false, message: 'Failed to authenticate token.' });
+				return res.status(403).json({ success: false, message: 'Failed to authenticate token.' });
 			}
 			else {
 				req.decoded = decoded;
@@ -20,7 +20,7 @@ const Auth = {
 		})
 	},
 	validateAdmin(req, res, next) {
-		db.Role.findById(req.body.id)
+		db.Role.findById(req.decoded.RoleId)
 			.then((role) => {
 				if (role.title === 'admin') {
 					next();

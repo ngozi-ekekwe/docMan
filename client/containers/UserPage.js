@@ -47,7 +47,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state, 'user')
   return {
     users: state.users
   };

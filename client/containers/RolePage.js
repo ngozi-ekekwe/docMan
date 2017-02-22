@@ -13,13 +13,16 @@ class Role extends React.Component {
     }
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
   };
+  componentWillMount() {
+    this.props.loadRoles();
+  }
   redirectToRolePage() {
     browserHistory.push('/role');
   }
   render() {
     const {roles} = this.props;
     return (
-      <div>
+      <div className="page-wrapper">
         <input
           type="submit"
           value='Add Role'
@@ -38,7 +41,8 @@ Role.PropTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createRole: (role) => dispatch(roleAction.createRole(role))
+    createRole: (role) => dispatch(roleAction.createRole(role)),
+    loadRoles: () => dispatch(roleAction.fetchRoles())
   }
 }
 

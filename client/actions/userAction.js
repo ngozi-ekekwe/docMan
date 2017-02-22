@@ -24,16 +24,28 @@ export const updateUserSuccess = (user) => {
   }
 }
 
-
 export const createUserSuccess = (role) => {
   return {
     type: types.CREATE_USER_SUCCESS,
     role
   }
 }
+
+export const currentUser = (user) => {
+  return {
+    type: types.CURRENT_USER,
+    user
+  }
+}
 //get roles
 export const userApi = () => {
-  return fetch('http://localhost:8000/users')
+  const {token} = JSON.parse(localStorage.getItem('currentUser'));
+  return fetch('http://localhost:8000/users', {
+    method: 'GET',
+    headers: {
+      Authorization: token
+    }
+  })
     .then(response => {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
@@ -48,77 +60,42 @@ export const userApi = () => {
     })
 };
 
-<<<<<<< HEAD
 
-
-export const login = (username, password) => {
-  return fetch('http://localhost:8000/users/login', {
-=======
-export const fetchAUser = (userId) => {
-  return fetch(`http://localhost:8000/users/${userId}`)
-    .then(response => {
-      if (response.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      return response.json();
-    })
-    .then((user) => {
-      return user
-    })
-    .catch(error => {
-      throw error
-    })
-}
-
-//thunk
 export const fetchUsers = () => {
   return dispatch => {
     return userApi()
-      .then(users => {
-        dispatch(getUserSuccess(users))
+      .then(roles => {
+        dispatch(getUserSuccess(roles))
       })
       .catch(error => { throw error; })
   }
 }
-
-
-export const userSaver = (user) => {
-  const newBody = JSON.stringify(user)
-  return fetch('http://localhost:8000/users', {
->>>>>>> b8e37518ada28e571e469b3f4974134b9209a5e9
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-<<<<<<< HEAD
-    body: {
-      username,
-      password
-    }
-=======
-    body: newBody
->>>>>>> b8e37518ada28e571e469b3f4974134b9209a5e9
-  })
-    .then(response => {
-      if (response.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      return response.json();
+export const login = (email, password) => {
+  return dispatch => {
+    return fetch('http://localhost:8000/users/login', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
     })
-    .then((user) => {
-<<<<<<< HEAD
-      return user.token
-=======
-      return user
->>>>>>> b8e37518ada28e571e469b3f4974134b9209a5e9
-    })
-    .catch(error => {
-      throw error
-    });
-<<<<<<< HEAD
-}
-
+      .then(response => {
+        if (response.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+        return response.json();
+      })
+      .then((user) => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        dispatch(currentUser(user));
+      })
+      .catch(error => {
+        throw error
+      });
+  }
 }
 
 export const saveUser = (userJson) => {

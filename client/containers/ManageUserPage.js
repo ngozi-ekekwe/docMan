@@ -34,7 +34,7 @@ class ManageUserPage extends React.Component {
 			<div>
 				<h2>Manage Users</h2>
 				<UserForm
-					user={this.state.user}
+					user={this.state.users}
 					onChange={this.updateUserState}
 					onSave={this.saveUser}
 					error={this.state.error} />/>
@@ -51,7 +51,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	console.log(state, 'state')
 	let user = { id: '', firstname: '', lastname: '', username: '', email: '', password: '', role: '' }
 	return {
 		users: user

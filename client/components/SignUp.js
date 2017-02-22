@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import * as userActions from '../actions/userAction';
 
 class Register extends React.Component {
+  constructor(props, context) {
+    super(props, context)
+    this.state = {
+      firstname: "",
+      lastname: "",
+      username: "",
+      password: "",
+      email: "",
+      roleId: ""
+    }
+  }
   render() {
     return (
       <main>
         <center>
           <div className="section"></div>
 
-          <h5 className="indigo-text">Please, login into your account</h5>
+          <h5 className="indigo-text">Create account</h5>
           <div className="section"></div>
 
           <div className="container">
@@ -79,4 +92,17 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveUser: (user) => dispatch(userActions.saveUser(user))
+  }
+
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    users: user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

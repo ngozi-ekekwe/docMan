@@ -10,6 +10,12 @@ body {
   background-color: $primary-shade;
 }
 
+.page-wrapper:after {
+  content: "";
+  display: block;
+  margin-bottom: 520px;
+}
+
 .parallax-container {
   #parallax {
     background: url('../img/bg1.jpg') 50% 50% no-repeat;

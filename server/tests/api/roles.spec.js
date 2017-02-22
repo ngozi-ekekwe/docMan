@@ -30,7 +30,6 @@ describe('Role', () => {
     request.post('/users')
       .send(adminUser)
       .end((err, res) => {
-          console.log(err, res.body)
         adminToken = res.body.token;
             request.post('/users')
       .send(regularUser)

@@ -15,13 +15,14 @@ module.exports = (app) => {
     router.delete('/roles/:id',Auth.verifyToken, Auth.validateAdmin, roleController.destroy);
 
     //User Routes
-    router.post('/users',Auth.verifyToken,Auth.validateAdmin, userController.create);
+    router.post('/users', userController.create);
     router.get('/users/:id',Auth.verifyToken, Auth.validateAdmin, userController.retrieve);
     router.get('/users', Auth.verifyToken,Auth.validateAdmin, userController.index);
     router.put('/users/:id',Auth.verifyToken, Auth.validateAdmin, userController.update);
     router.delete('/users/:id',Auth.verifyToken, Auth.validateAdmin, userController.destroy);
 
     router.post('/users/login', userController.login);
+    router.post('/users/logout', userController.logout);
    
 
     //document routes

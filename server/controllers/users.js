@@ -2,7 +2,7 @@ const User = require('../models').User;
 const Document = require('../models').Document;
 const jwt = require('jsonwebtoken');
 
-const secret = 'super secret';
+const secret = 'supersecret';
 
 module.exports = {
 	/**
@@ -45,7 +45,11 @@ module.exports = {
 						UserId: foundUser.id,
 						RoleId: foundUser.roleId
 					}, secret, { expiresIn: '2 days' });
-					return res.status(201).send({ token, expiresIn: '2 days' });
+					return res.status(201).send({
+						UserId: foundUser.id,
+						token, expiresIn: '2 days',
+						RoleId: foundUser.roleId
+					});
 				}
 				return res.status(401).send({ message: 'Login failed' });
 			})
