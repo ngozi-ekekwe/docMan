@@ -9,12 +9,13 @@ class ManageUserPage extends React.Component {
 	constructor(props, context) {
 		super(props, context)
 		this.state = {
-			users: Object.assign({}, this.props.user),
+			user: Object.assign({}, this.props.user),
 			errors: {},
 			saving: false
 		}
 	}
 	updateUserState(events) {
+		console.log(event.target.name)
 		const field = event.target.name;
 		let user = this.state.user;
 		user[field] = event.target.value;
@@ -32,20 +33,23 @@ class ManageUserPage extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2>Manage Users</h2>
+				<center>
+					<h5 className="indigo-text">Create account</h5>
+				</center>
 				<UserForm
-					user={this.state.users}
+					user={this.state.user}
 					onChange={this.updateUserState}
 					onSave={this.saveUser}
-					error={this.state.error} />/>
-            </div>
+					error={this.state.error} />
+			</div>
 		)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		saveUser: (user) => dispatch(userAction.saveUser(user))
+		saveUser: (user) => dispatch(userAction.saveUser(user)),
+		fetchUsers: () => dispatch(userAction.fetchUsers())
 	}
 
 }
@@ -53,7 +57,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state, ownProps) => {
 	let user = { id: '', firstname: '', lastname: '', username: '', email: '', password: '', role: '' }
 	return {
-		users: user
+		user: user
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUserPage);
