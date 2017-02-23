@@ -35,7 +35,19 @@ module.exports = {
         username: faker.internet.userName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
-    }, 
+    },
 
-    
+    publicDocument: {
+        title: faker.company.catchPhrase(),
+        content: faker.lorem.paragraph(),
+        access: 'public'
+    },
+
+    privateDocument: {
+        title: faker.company.catchPhrase(),
+        content: faker.lorem.paragraph(),
+        access: 'private'
+    }
+
+
 }
