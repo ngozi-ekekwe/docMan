@@ -9,6 +9,7 @@ import CreateDocument from './components/CreateDocument';
 import ManageRolePage from './containers/ManageRolePage'
 import UserPage from './containers/UserPage'
 import ManageUserPage from './containers/ManageUserPage';
+import DocumentForm from '../client/components/DocumentForm';
 
 const checkIfLoggedIn = (nextState, replace) => {
  const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -33,7 +34,7 @@ export default (
         <Route path="login" component={Login} onEnter={checkIfLoggedIn}/>
         <Route path="signup" component={Register} />
         <Route path="roles" component={RolePage} />
-        <Route path="createdoc" component={CreateDocument} />
+        <Route path="createdoc" component={DocumentForm} />
         <Route path="role" component={ManageRolePage} />
         <Route path="role/:id" component={ManageRolePage} />
         <Route path="register" component={UserPage} />

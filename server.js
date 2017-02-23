@@ -32,13 +32,14 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './client/index.html'));
 });
 
-// app.listen(port, function(err) {
-//   if (err) {
-//   } else {
-//     open(`http://localhost:${port}`);
-//   }
-// });
-
+if(process.env.NODE_ENV = 'test'){
+app.listen(port, function(err) {
+  if (err) {
+  } else {
+    open(`http://localhost:${port}`);
+  }
+});
+}
 
 
 module.exports = app;

@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'CASCADE',
         });
 
-        User.hasMany(models.Documents, {
+        User.hasMany(models.Document, {
           foreignKey: 'userId',
           onDelete: 'CASCADE'
         });
