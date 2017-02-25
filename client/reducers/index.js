@@ -5,7 +5,8 @@ import documents from './documentReducer';
 
 const rootReducer = combineReducers({
     roles,
-    users
+    users,
+    documents
 });
 
 export default rootReducer;

@@ -2,7 +2,6 @@ import React, { propTypes } from 'react';
 import UserListRow from './UserListRow';
 
 const UserList = ({users}) => {
-    console.log(users)
     return (
         <table className="table bordered">
             <thead>

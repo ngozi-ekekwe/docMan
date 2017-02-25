@@ -3,7 +3,7 @@ import TextInput from '../components/TextInput';
 
 const RoleForm = ({role, onSave, onChange, loading, errors}) => {
     return (
-        <form>
+        <form method="POST">
             <TextInput
                 name="title"
                 label="Title"
@@ -14,9 +14,9 @@ const RoleForm = ({role, onSave, onChange, loading, errors}) => {
             <input
                 type="submit"
                 disabled={loading}
-                value={loading ? 'saving ...': 'save'}
+                value={loading ? 'saving ...' : 'save'}
                 className=""
-                onClick= {onSave} />
+                onClick={onSave} />
         </form>
     )
 }

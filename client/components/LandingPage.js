@@ -18,11 +18,6 @@ class HomePage extends React.Component {
 						<p className="grey-text text-darken-3 lighten-3">Go Docs brings your documents to life with smart editing and styling tools to help you easily format text and paragraphs. Choose from hundreds of fonts, add links, images, and drawings. All for free.</p>
 						<button> Get Started</button>
 					</div>
-
-
-				</div>
-				<div className="parallax-container">
-					<div className=""><img src={require("../img/ng-img-1.jpg")} /></div>
 				</div>
 			</div>
 		);

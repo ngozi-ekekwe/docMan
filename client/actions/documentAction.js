@@ -32,7 +32,13 @@ export const createDocumentSuccess = (document) => {
 }
 //get roles
 export const documentApi = () => {
-  return fetch('http://localhost:8000/documents')
+  const {token} = JSON.parse(localStorage.getItem('currentUser'));
+  return fetch('http://localhost:8000/documents', {
+    method: 'GET',
+    headers: {
+      Authorization: token
+    }
+  })
     .then(response => {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
@@ -48,7 +54,13 @@ export const documentApi = () => {
 };
 
 export const fetchADocument = (documentId) => {
-  return fetch(`http://localhost:8000/roles/${documentId}`)
+  const {token} = JSON.parse(localStorage.getItem('currentUser'));
+  return fetch(`http://localhost:8000/roles/${documentId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: token
+    }
+  })
     .then(response => {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
@@ -63,9 +75,6 @@ export const fetchADocument = (documentId) => {
     })
 }
 
-
-
-
 //thunk
 export const fetchDocuments = () => {
   return dispatch => {
@@ -77,14 +86,15 @@ export const fetchDocuments = () => {
   }
 }
 
-
 export const documentSaver = (document) => {
+  const {token} = JSON.parse(localStorage.getItem('currentUser'));
   const newBody = JSON.stringify(document)
-  return fetch('http://localhost:8000/document', {
-    method: 'post',
+  return fetch('http://localhost:8000/documents', {
+    method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': token
     },
     body: newBody
   })

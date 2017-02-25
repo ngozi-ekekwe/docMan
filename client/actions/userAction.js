@@ -91,6 +91,7 @@ export const login = (email, password) => {
       .then((user) => {
         localStorage.setItem('currentUser', JSON.stringify(user));
         dispatch(currentUser(user));
+        window.location = '/';
       })
       .catch(error => {
         throw error
@@ -128,7 +129,6 @@ export const saveUser = (userJson) => {
   return dispatch => {
     return userSaver(userJson)
       .then((savedUser) => {
-        console.log(savedUser);
         dispatch(createUserSuccess(savedUser));
       }).catch((error) => {
         throw (error);

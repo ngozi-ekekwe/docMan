@@ -41,7 +41,7 @@ class Login extends React.Component {
           <div className="section"></div>
 
           <div className="container">
-            <div className="z-depth-1 grey lighten-4 row">
+            <div className="z-depth-1 grey lighten-4 row customWidth">
 
               <div className="col s12">
                 <div className='row'>

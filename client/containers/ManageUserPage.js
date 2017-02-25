@@ -17,17 +17,14 @@ class ManageUserPage extends React.Component {
 		this.saveUser = this.saveUser.bind(this);
 	}
 	updateUserState(event) {
-		console.log(event.target.value)
 		const field = event.target.name;
 		let user = this.state.user;
 		user[field] = event.target.value;
 		this.setState({ user: user })
 	}
-
 	saveUser() {
 		event.preventDefault();
 		this.props.saveUser(this.state.user);
-		console.log(this.state.user, 'state user');
 		window.location = '/';
 		this.setState({ saving: true });
 		toastr.success('User saved')

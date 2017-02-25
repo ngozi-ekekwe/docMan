@@ -5,11 +5,10 @@ import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import Register from './components/SignUp';
 import RolePage from './containers/RolePage';
-import CreateDocument from './components/CreateDocument';
 import ManageRolePage from './containers/ManageRolePage'
 import UserPage from './containers/UserPage'
 import ManageUserPage from './containers/ManageUserPage';
-import DocumentForm from '../client/components/DocumentForm';
+import DocumentContainer from '../client/containers/DocumentContainer';
 
 const checkIfLoggedIn = (nextState, replace) => {
  const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -20,7 +19,6 @@ const checkIfLoggedIn = (nextState, replace) => {
 
 const logUserOut = (nextState, replace, done) => {
   const user = JSON.parse(localStorage.getItem('currentUser'));
-  console.log(user);
   if (user && user.userId == undefined) {
     replace({ pathname: '/' });
   }
@@ -34,7 +32,7 @@ export default (
         <Route path="login" component={Login} onEnter={checkIfLoggedIn}/>
         <Route path="signup" component={Register} />
         <Route path="roles" component={RolePage} />
-        <Route path="createdoc" component={DocumentForm} />
+        <Route path="createdoc" component={DocumentContainer} />
         <Route path="role" component={ManageRolePage} />
         <Route path="role/:id" component={ManageRolePage} />
         <Route path="register" component={UserPage} />

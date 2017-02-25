@@ -7,7 +7,6 @@ const Register = ({user, onSave, onChange, loading, errors}) => {
       <main>
         <center>
           <div className="section"></div>
-
           <h5 className="indigo-text">Create account</h5>
           <div className="section"></div>
 

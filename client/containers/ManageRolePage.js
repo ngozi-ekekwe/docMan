@@ -31,6 +31,7 @@ class ManageRolePage extends React.Component {
     this.setState({saving: true});
     toastr.success('Role saved')
   }
+  
   render() {
     return (
       <div>

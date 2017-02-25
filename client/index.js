@@ -10,10 +10,8 @@ import store from './store/configureStore';
 import {createRole, fetchRoles, saveRole} from './actions/roleAction';
 import '../node_modules/toastr/build/toastr.min.css';
 import {fetchUsers, userSaver, createUser, saveUser, login} from './actions/userAction';
+import {fetchDocument, documentSaver, createDocument, saveDocument} from './actions/documentAction';
 import '../node_modules/toastr/build/toastr.min.css';
-
- //store.dispatch(fetchUsers());
-// store.dispatch(login('ng2235@ng.com', 'hello'));
 
 render(
     <Provider store={store}>
