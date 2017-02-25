@@ -61,7 +61,7 @@ module.exports = {
 	 * lists all users
 	 */
   index(req, res) {
-    User
+    return User
       .all()
       .then((users) => res.status(200).send(users))
       .catch((error) => res.status(401).send)
@@ -90,7 +90,7 @@ module.exports = {
         }
         return user
           .update(req.body)
-          .then((updateduser) => res.status(200).send(updateduser))
+          .then(() => res.status(200).send(user))
           .catch((error) => res.send(error))
       }).catch((error) => res.send(error));
   },

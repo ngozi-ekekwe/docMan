@@ -26,7 +26,7 @@ module.exports = (app) => {
    
 
     //document routes
-    router.post('/documents',Auth.verifyToken, Auth.validateAdmin, documentController.create);
+    router.post('/documents', Auth.verifyToken, Auth.validateAdmin, documentController.create);
     router.get('/documents/:id', Auth.verifyToken, Auth.validateAdmin, documentController.retrieve);
     router.get('/documents',Auth.verifyToken, Auth.validateAdmin, documentController.index);
     router.put('/documents/:id', Auth.verifyToken, Auth.validateAdmin, documentController.update);

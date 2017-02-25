@@ -9,22 +9,23 @@ class ManageUserPage extends React.Component {
 	constructor(props, context) {
 		super(props, context)
 		this.state = {
-			users: Object.assign({}, this.props.user),
+			user: Object.assign({}, this.props.user),
 			errors: {},
 			saving: false
 		}
+		this.updateUserState = this.updateUserState.bind(this);
+		this.saveUser = this.saveUser.bind(this);
 	}
-	updateUserState(events) {
+	updateUserState(event) {
 		const field = event.target.name;
 		let user = this.state.user;
 		user[field] = event.target.value;
-		return this.setState({ user: user })
+		this.setState({ user: user })
 	}
-
-	saveUser(event) {
+	saveUser() {
 		event.preventDefault();
 		this.props.saveUser(this.state.user);
-		this.context.router.push('/user');
+		window.location = '/';
 		this.setState({ saving: true });
 		toastr.success('User saved')
 	}
@@ -32,28 +33,31 @@ class ManageUserPage extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2>Manage Users</h2>
+				<center>
+					<h5 className="indigo-text">Create account</h5>
+				</center>
 				<UserForm
-					user={this.state.users}
+					user={this.state.user}
 					onChange={this.updateUserState}
 					onSave={this.saveUser}
-					error={this.state.error} />/>
-            </div>
+					error={this.state.error} />
+			</div>
 		)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		saveUser: (user) => dispatch(userAction.saveUser(user))
+		saveUser: (user) => dispatch(userAction.saveUser(user)),
+		fetchUsers: () => dispatch(userAction.fetchUsers())
 	}
 
 }
 
 const mapStateToProps = (state, ownProps) => {
-	let user = { id: '', firstname: '', lastname: '', username: '', email: '', password: '', role: '' }
+	let user = { firstname: '', lastname: '', username: '', email: '', password: '', roleId: '' }
 	return {
-		users: user
+		user: user
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUserPage);

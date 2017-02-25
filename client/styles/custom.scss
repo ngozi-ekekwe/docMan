@@ -26,7 +26,9 @@ body {
     justify-content: center;
   }
 }
-
+.customWidth {
+  width: 500;
+}
 .Typist { 
   .ptag {
     text-align: center;
@@ -56,4 +58,13 @@ h6,
 p,
 .ptag {
   margin: 0;
+}
+
+#row-padding {
+  padding-bottom: 0px;
+  padding-top: 3px;
+}
+
+h2 {
+  font-weight: 100
 }

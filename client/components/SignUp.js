@@ -2,24 +2,11 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as userActions from '../actions/userAction';
 
-class Register extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      firstname: "",
-      lastname: "",
-      username: "",
-      password: "",
-      email: "",
-      roleId: ""
-    }
-  }
-  render() {
+const Register = ({user, onSave, onChange, loading, errors}) => {
     return (
       <main>
         <center>
           <div className="section"></div>
-
           <h5 className="indigo-text">Create account</h5>
           <div className="section"></div>
 
@@ -89,7 +76,6 @@ class Register extends React.Component {
         <div className="section"></div>
       </main>
     );
-  }
 }
 
 const mapDispatchToProps = (dispatch) => {

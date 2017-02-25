@@ -14,15 +14,19 @@ class User extends React.Component {
       username: "",
       email: "",
       password: "",
-      role: ""
+      roleId: ""
     }
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
   };
   redirectToRolePage() {
     browserHistory.push('/user');
   }
+
+	componentWillMount() {
+		this.props.fetchUsers();
+	}
   render() {
-    const {users} = this.props;
+    const {users} = this.props
     return (
       <div>
         <UserList users={users} />
@@ -42,7 +46,8 @@ User.PropTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (user) => dispatch(userAction.createUser(user))
+    createUser: (user) => dispatch(userAction.createUser(user)),
+    fetchUsers: () => dispatch(userAction.fetchUsers())
   }
 }
 

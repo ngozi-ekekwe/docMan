@@ -6,7 +6,8 @@ module.exports = {
     .create({
       title: req.body.title,
       content: req.body.content,
-      access: req.body.access
+      access: req.body.access,
+      userId: req.body.userId
     })
     .then(document => res.status(200).send(document))
     .catch(error =>res.status(400).send(error));
@@ -15,8 +16,8 @@ module.exports = {
   index(req, res) {
     return Document
       .all()
-      .then(documents => res.status(201).res.send(documents))
-      .catch(error => res.staus(400).res.send(error))
+      .then(documents => res.status(201).send(documents))
+      .catch(error => res.status(400).send(error))
   },
 
   retrieve(req, res) {

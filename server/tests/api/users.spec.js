@@ -70,7 +70,6 @@ describe('User API', () => {
 
     describe('Get User GET: /users/:id', () => {
       it('should get correct user', (done) => {
-				console.log('========================>', user.id)
         request.get(`/users/${user.id}`)
           .set({ Authorization: token })
           .end((err, res) => {
