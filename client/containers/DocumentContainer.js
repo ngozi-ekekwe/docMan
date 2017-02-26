@@ -81,3 +81,4 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentContainer);
+export { DocumentContainer as PureMyComponent}

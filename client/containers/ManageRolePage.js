@@ -69,3 +69,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageRolePage)
+export {ManageRolePage as PureMyComponent}

@@ -10,20 +10,22 @@ const roleParams = helper.adminRole;
 
 let token;
 
-describe('Authorisation middleware', () => {
-  before(() =>
+describe('Authentication middleware', () => {
+  before((done) => {
     db.Role.create(roleParams)
       .then((role) => {
         params.roleId = role.id;
-        return db.User.create(params);
-      })
-      .then(() => {
-        request.post('/users/login')
+        
+        request.post('/users')
           .send(params)
           .end((err, res) => {
             token = res.body.token;
+            console.log("LOGIN!!!!", res.body);
+            done();
           });
-      }));
+      })
+  });
+
 
   // clear DB after each test
   after(() => db.User.sequelize.sync({ force: true }));

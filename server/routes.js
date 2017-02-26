@@ -21,8 +21,8 @@ module.exports = (app) => {
     router.put('/users/:id',Auth.verifyToken, Auth.validateAdmin, userController.update);
     router.delete('/users/:id',Auth.verifyToken, Auth.validateAdmin, userController.destroy);
 
-    router.post('/users/login', userController.login);
-    router.post('/users/logout', userController.logout);
+    router.post('/users/login',Auth.verifyToken, Auth.validateAdmin, userController.login);
+    router.post('/users/logout',Auth.verifyToken, Auth.validateAdmin,  userController.logout);
    
 
     //document routes

@@ -20,7 +20,6 @@ describe('User API', () => {
 
   describe('With existing user', () => {
     beforeEach((done) => {
-          console.log("DONE!!!!!!")
       request.post('/users')
         .send(userParams)
         .end((err, res) => {

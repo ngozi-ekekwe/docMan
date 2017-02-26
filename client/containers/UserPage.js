@@ -23,6 +23,7 @@ class User extends React.Component {
   }
 
 	componentWillMount() {
+    console.log(this.props)
 		this.props.fetchUsers();
 	}
   render() {
@@ -58,3 +59,4 @@ const mapStateToProps = (state, ownProps) => {
   ;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(User);
+export { User as PureMyComponent}

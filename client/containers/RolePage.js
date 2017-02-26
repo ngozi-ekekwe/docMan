@@ -53,3 +53,4 @@ const mapStateToProps = (state, ownProps) => {
   ;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Role);
+export { Role as PureMyComponent}

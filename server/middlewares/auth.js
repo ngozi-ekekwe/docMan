@@ -8,18 +8,15 @@ const Auth = {
 		if (!token) {
 			return res.status(401).send({ message: 'Unauthorized Access' })
 		}
-		//verify jwt token
 		jwt.verify(token, secret, (error, decoded) => {
 			if (error) {
 				return res.status(401).json({ success: false, message: 'Failed to authenticate token.' });
 			}
-			else {
-				req.decoded = decoded;
-				next();
-			}
+			req.decoded = decoded;
+			next();
 		})
 	},
-	
+
 	validateAdmin(req, res, next) {
 		db.Role.findById(req.decoded.RoleId)
 			.then((role) => {
