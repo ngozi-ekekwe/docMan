@@ -27,7 +27,7 @@ describe('Document Form Test via React Test Utils', () => {
 	});
 
 	it('renders a div', () => {
-		expect(output.props.children.props.children[0].type).toBe('div');
+		expect(output.props.children.type).toBe('div');
 	});
 
 	it('renders a row', () => {
