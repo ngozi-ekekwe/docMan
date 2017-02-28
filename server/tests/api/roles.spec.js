@@ -10,7 +10,7 @@ const regularRole = helper.regularRole;
 
 let role, token
 
-describe('Roles API', () => {
+describe('ROLE SPEC', () => {
   before((done) => {
     db.Role.create(roleParams)
       .then((newRole) => {

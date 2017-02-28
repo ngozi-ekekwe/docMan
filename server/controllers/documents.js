@@ -27,7 +27,7 @@ module.exports = {
         if(!document) {
           return res.status(404).send({message: 'Document not found'});
         }
-        res.status(200).send(role);
+        res.status(200).send(document);
       }).catch((error) => {
           res.status(400).send(error);
       });

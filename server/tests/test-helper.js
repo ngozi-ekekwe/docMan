@@ -9,6 +9,11 @@ module.exports = {
         title: 'admin'
     },
 
+
+    documentRole: {
+        title: 'admin'
+    },
+
     regularRole: {
         title: 'regular'
     },
@@ -37,9 +42,17 @@ module.exports = {
         password: faker.internet.password(),
     },
 
+    documentUser: {
+        firstname: 'Rose',
+        lastname: 'Mary',
+        username: 'rosebae',
+        email: 'rosebae@yahoo.com',
+        password: faker.internet.password(), 
+    },
+
     publicDocument: {
-        title: faker.company.catchPhrase(),
-        content: faker.lorem.paragraph(),
+        title: 'hello world',
+        content: 'hello world, I love to program',
         access: 'public'
     },
 
