@@ -10,7 +10,7 @@ const roleParams = helper.adminRole;
 
 let token;
 
-describe('JWT middleware', () => {
+describe('MIDDLEWARE TEST', () => {
 	before((done) => {
 		db.Role.create(roleParams)
 			.then((newRole) => {

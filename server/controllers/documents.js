@@ -63,12 +63,12 @@ module.exports = {
       .findById(req.params.id)
       .then((document) => {
         if(!document) {
-          res.status(404).send({message: 'Document not found'});
+          return res.status(404).send({message: 'Document not found'});
         }
-        return role
+         document
           .destroy()
           .then(() => {
-            res.status(204).send({message: 'Document successfully deleted'});
+            res.status(200).send({message: 'Document successfully deleted'});
           }).catch((error) => {
             res.send(error);
           });

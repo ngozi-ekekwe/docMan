@@ -9,8 +9,8 @@ describe('Role container Test via Enzyme', () => {
         const wrapper = shallow(<PureMyComponent />)
         let childProps = wrapper.node.props.children[0].props.children[0];
 
-        it('should have a container element', () => {
-            expect(wrapper.node.props.children[0].type).toBe('center');
+        it('should have a h5 element', () => {
+            expect(wrapper.node.props.children[0].type).toBe('h5');
         });
 
         it('should have a RoleForm componet', () => {

@@ -18,7 +18,7 @@ function setup() {
 		renderer,
 		output
 	}
-}
+};
 
 describe('Document Form Test via React Test Utils', () => {
 	const {output} = setup();

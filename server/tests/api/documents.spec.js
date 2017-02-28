@@ -61,18 +61,18 @@ describe('DOCUMENT SPEC', () => {
             });
 
             it('should return NOT FOUND for invalid id', (done) => {
-                request.get('documents/200')
+                request.get('/documents/200')
                     .set({ Authorization: token })
                     .send(document)
                     .end((err, res) => {
                         if (err) return err
-                        expect(res.status).to.equal(401);
+                        expect(res.status).to.equal(404);
                         done();
                     });
             });
 
             it('should get a particular document', (done) => {
-                request.get(`documents/${document.id}`)
+                request.get(`/documents/${document.id}`)
                     .set({ Authorization: token })
                     .send(document)
                     .end((err, res) => {
@@ -82,6 +82,56 @@ describe('DOCUMENT SPEC', () => {
                     });
             });
 
-        })
-    })
-})
+        });
+
+        describe('Edit /documents/:id', () => {
+          const newAttributes = {title: 'testTitle', content: 'hello world'};
+          it('updates attributes in the documents', (done) => {
+            request.put(`/documents/${document.id}`)
+              .set({ Authorization: token })
+              .send(newAttributes)
+              .end((err, res) => {
+                if (err) return err
+                expect(res.status).to.equal(200);
+                done();
+              });
+          });
+
+          it('should return Document NOT FOUND', (done) => {
+            request.put('/documents/200')
+              .set({ Authorization: token })
+              .send(newAttributes)
+              .end((err, res) => {
+                if (err) return err
+                expect(res.status).to.equal(404);
+                done();
+              });
+          });
+        });
+
+        describe('Delete /docuements/:id', () => {
+          it('deletes a record of a document when an id is passed', (done) => {
+            request.delete(`/documents/${document.id}`)
+              .set({ Authorization: token })
+              .end((err, res) => {
+                if (err) return err
+                expect(res.status).to.equal(200);
+                db.Document.count().then((count) => {
+                  expect(count).to.equal(0);
+                  done();
+                });
+              });
+          });
+
+          it('should return Not Found', (done) => {
+            request.delete('/documents/200')
+              .set({ Authorization: token })
+              .end((err, res) => {
+                if (err) return err
+                expect(res.status).to.equal(404);
+                done();
+              });
+          })
+        });
+    });
+});

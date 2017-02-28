@@ -1,8 +1,6 @@
 //module dependencies 
 const chai = require('chai');
-const User = require('../../server/models').User;
-const Role = require('../../server/models').Role;
-const Document = require('../../server/models').Document;
+const db = require('../../models');
 const helper = require('../test-helper');
 
 const expect = chai.expect;
@@ -12,23 +10,22 @@ let user;
 
 describe('<Unit test>', () => {
     before(() => {
-        Role.create(helper.regularRole)
+        db.Role.create(helper.regularRole)
             .then((role) => {
                 helper.regularUser.roleId = role.id;
             });
     });
 
     beforeEach(() => {
-        user = User.build(helper.regularUser);
+        user = db.User.build(helper.regularUser);
     });
 
     after(() => {
-        User.sequelize.sync({force: true});
-        Role.sequelize.sync({ force: true })
+        db.sequelize.sync({force: true});
     });
 
     afterEach(() => {
-        User.destroy({where: {}})
+        db.User.destroy({where: {}})
 
     });
 
