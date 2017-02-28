@@ -12,7 +12,7 @@ module.exports = {
 
   index(req, res) {
     return Role
-      .all()
+      .findAll()
       .then(roles => res.status(200).send(roles))
       .catch(error => res.status(400).send(error));
   },
@@ -37,7 +37,7 @@ module.exports = {
         if(!role) {
           return res.status(404).send({message: 'Role not found'});
         }
-        return role
+         role
           .update({
             title: req.body.title || role.title
           })

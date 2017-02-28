@@ -14,26 +14,26 @@ module.exports = {
     },
 
     regularUser: {
-        firstname: faker.name.findName(),
-        lastname: faker.name.findName(),
-        username: faker.internet.userName(),
-        email: faker.internet.email(),
+        firstname: 'Ngozi',
+        lastname: 'Ekekwe',
+        username: 'Ngee',
+        email: 'ngozi.ekekwe@yahoo.com',
         password: faker.internet.password(),
     },
 
     secondUser: {
-        firstname: faker.name.findName(),
-        lastname: faker.name.findName(),
-        username: faker.internet.userName(),
-        email: faker.internet.email(),
+        firstname: 'Shalom',
+        lastname: 'Ayidu',
+        username: 'sayidu',
+        email: 'sayidu@yahoo.com',
         password: faker.internet.password(),
     },
 
     adminUser: {
-        firstname: faker.name.findName(),
-        lastname: faker.name.findName(),
-        username: faker.internet.userName(),
-        email: faker.internet.email(),
+        firstname: 'Tobi',
+        lastname: 'Adeniji',
+        username: 'teebee',
+        email: 'tadeniji@yahoo.com',
         password: faker.internet.password(),
     },
 

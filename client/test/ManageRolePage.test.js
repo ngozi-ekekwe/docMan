@@ -20,7 +20,6 @@ describe('Role container Test via Enzyme', () => {
 
     describe('mount', () => {
         const wrapper = mount(<PureMyComponent />);
-        console.log(wrapper.find('RoleForm'))
     })
 
 }) 

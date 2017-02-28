@@ -10,30 +10,42 @@ const roleParams = helper.adminRole;
 
 let token;
 
-describe('Authentication middleware', () => {
-  before(() => {
-    db.Role.create(roleParams)
-      .then((role) => {
-        params.roleId = role.id;
-         return db.User.create(params);
-      }).then(() => {
-        request.post('/users/login')
-          .send(params)
-          .end((err, res) => {
-            token = res.body.token;
-            return;
-          });
-      });
-  });
+describe('JWT middleware', () => {
+	before((done) => {
+		db.Role.create(roleParams)
+			.then((newRole) => {
+				params.roleId = newRole.id
+				request.post('/users')
+					.send(params)
+					.end((err, res) => {
+						token = res.body.token
+						done();
+					});
+			});
+	});
 
-  after(() => db.User.sequelize.sync({ force: true }));
+	after(() => db.sequelize.sync({ force: true }));
 
-  it('Unauthorized access', (done) => {
-    request.get('/users')
-      .end((err, res) => {
-          
-        expect(res.status).to.equal(401);
-        done();
-      })
-  });
+	it('should return `unauthorized` without a token', () => {
+		request.get('/users')
+			.end((err, res) => {
+				expect(res.status).to.equal(401);
+			})
+	});
+
+	it('should return `invalid` for unauthorized token', () => {
+		request.get('/users')
+			.set({ Authorization: 'invalid token' })
+			.end((err, res) => {
+				expect(res.status).to.equal(401);
+			});
+	});
+
+	it('should return all users for valid token', () => {
+		request.get('/users')
+			.set({ Authorization: token })
+			.end((err, res) => {
+				expect(res.status)
+			})
+	})
 });

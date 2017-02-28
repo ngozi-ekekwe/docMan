@@ -34,7 +34,7 @@ export const createRoleSuccess = (role) => {
 //get roles
 export const roleApi = () => {
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('http://localhost:8000/roles', {
+  return fetch('/roles', {
     method: 'GET',
     headers: {
       Authorization: token
@@ -55,7 +55,7 @@ export const roleApi = () => {
 };
 
 export const fetchARole = (roleId) => {
-  return fetch(`http://localhost:8000/roles/${roleId}`)
+  return fetch(`/roles/${roleId}`)
     .then(response => {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
@@ -85,7 +85,7 @@ export const fetchRoles = () => {
 export const roleSaver = (role) => {
   const newBody = JSON.stringify(role)
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('http://localhost:8000/roles', {
+  return fetch('/roles', {
     method: 'post',
     headers: {
       'Accept': 'application/json',

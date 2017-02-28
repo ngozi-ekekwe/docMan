@@ -55,7 +55,7 @@ export const documentApi = () => {
 
 export const fetchADocument = (documentId) => {
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch(`http://localhost:8000/roles/${documentId}`, {
+  return fetch(`/roles/${documentId}`, {
     method: 'GET',
     headers: {
       Authorization: token
@@ -89,7 +89,7 @@ export const fetchDocuments = () => {
 export const documentSaver = (document) => {
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
   const newBody = JSON.stringify(document)
-  return fetch('http://localhost:8000/documents', {
+  return fetch('/documents', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

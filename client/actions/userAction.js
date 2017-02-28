@@ -40,7 +40,7 @@ export const currentUser = (user) => {
 //get roles
 export const userApi = () => {
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('http://localhost:8000/users', {
+  return fetch('/users', {
     method: 'GET',
     headers: {
       Authorization: token
@@ -72,7 +72,7 @@ export const fetchUsers = () => {
 }
 export const login = (email, password) => {
   return dispatch => {
-    return fetch('http://localhost:8000/users/login', {
+    return fetch('/users/login', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -102,9 +102,9 @@ export const login = (email, password) => {
 export const userSaver = (user) => {
   const newBody = JSON.stringify(user)
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('http://localhost:8000/users', {
+  return fetch('/users', {
     method: 'POST',
-    headers: {
+    headers: {    
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': token

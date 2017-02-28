@@ -23,7 +23,6 @@ class User extends React.Component {
   }
 
 	componentWillMount() {
-    console.log(this.props)
 		this.props.fetchUsers();
 	}
   render() {
