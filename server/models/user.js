@@ -23,9 +23,9 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     classMethods: {
@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'CASCADE',
         });
 
-        User.hasMany(models.Documents, {
+        User.hasMany(models.Document, {
           foreignKey: 'userId',
           onDelete: 'CASCADE'
         });

@@ -24,10 +24,12 @@ describe('<Unit test>', () => {
 
     after(() => {
         User.sequelize.sync({force: true});
+        Role.sequelize.sync({ force: true })
     });
 
     afterEach(() => {
         User.destroy({where: {}})
+
     });
 
     describe('model User', () => {
