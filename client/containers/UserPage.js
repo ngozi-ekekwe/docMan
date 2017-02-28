@@ -46,7 +46,6 @@ User.PropTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (user) => dispatch(userAction.createUser(user)),
     fetchUsers: () => dispatch(userAction.fetchUsers())
   }
 }

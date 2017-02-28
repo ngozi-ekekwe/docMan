@@ -26,7 +26,7 @@ class Role extends React.Component {
         <input
           type="submit"
           value='Add Role'
-          className=""
+          className='col s12 btn btn-large waves-effect indigo'
           onClick={this.redirectToRolePage} />
         <RoleList roles={roles} />
 

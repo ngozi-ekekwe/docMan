@@ -24,10 +24,10 @@ export const updateUserSuccess = (user) => {
   }
 }
 
-export const createUserSuccess = (role) => {
+export const createUserSuccess = (users) => {
   return {
     type: types.CREATE_USER_SUCCESS,
-    role
+    users
   }
 }
 
@@ -52,8 +52,8 @@ export const userApi = () => {
       }
       return response.json();
     })
-    .then((roles) => {
-      return roles
+    .then((users) => {
+      return users
     })
     .catch(error => {
       throw error
@@ -64,8 +64,8 @@ export const userApi = () => {
 export const fetchUsers = () => {
   return dispatch => {
     return userApi()
-      .then(roles => {
-        dispatch(getUserSuccess(roles))
+      .then(users => {
+        dispatch(getUserSuccess(users))
       })
       .catch(error => { throw error; })
   }

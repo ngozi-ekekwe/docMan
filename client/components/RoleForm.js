@@ -15,7 +15,7 @@ const RoleForm = ({role, onSave, onChange, loading, errors}) => {
                 type="submit"
                 disabled={loading}
                 value={loading ? 'saving ...' : 'save'}
-                className=""
+                className='col s12 btn btn-large waves-effect indigo'
                 onClick={onSave} />
         </form>
     )

@@ -3,9 +3,9 @@ import TextInput from '../components/TextInput';
 
 const UserForm = ({user, onSave, onChange, loading, errors}) => {
     return (
-        <div className="container ">
+        <div className="container">
         <div className="z-depth-1 grey lighten-4">
-        <form method="POST">
+        <form method="POST" className="col s12">
             <TextInput
                 name="firstname"
                 label="firstname"
