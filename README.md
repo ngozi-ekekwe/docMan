@@ -1,6 +1,5 @@
-[![Build Status](https://travis-ci.org/andela-nekekwe/docMan.svg?branch=master)](https://travis-ci.org/andela-nekekwe/docMan)
-[![Coverage Status](https://coveralls.io/repos/github/andela-nekekwe/docMan/badge.svg?branch=master)](https://coveralls.io/github/andela-nekekwe/docMan?branch=master)
-[![Code Climate](https://codeclimate.com/github/andela-nekekwe/docMan/badges/gpa.svg)](https://codeclimate.com/github/andela-nekekwe/docMan)
+[![Build Status](https://travis-ci.org/andela-nekekwe/docMan.svg?branch=develop)](https://travis-ci.org/andela-nekekwe/docMan)
+[![Coverage Status](https://coveralls.io/repos/github/andela-nekekwe/docMan/badge.svg?branch=develop)](https://coveralls.io/github/andela-nekekwe/docMan?branch=develop)
 [![Code Climate](https://codeclimate.com/github/andela-nekekwe/docMan/badges/gpa.svg)](https://codeclimate.com/github/andela-nekekwe/docMan)
 # Document Management system
 
