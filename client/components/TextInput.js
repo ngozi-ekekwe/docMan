@@ -16,7 +16,7 @@ const TextInput = ({name, label, onChange, error}) => {
 								<input
 									type="text"
 									name={name}
-									className=""
+									className=''
 									onChange={onChange} />
 
 							</div>

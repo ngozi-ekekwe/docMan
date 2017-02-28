@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import TinyMCE from 'react-tinymce';
 
 const DocumentMarkdown = ({document, onChange}) => {
-	console.log(document, 'tmc')
 	return (
 		<div>
 			<TinyMCE

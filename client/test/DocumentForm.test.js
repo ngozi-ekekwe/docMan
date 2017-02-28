@@ -24,6 +24,5 @@ describe('Document Form via React Test Utils', () => {
     it('renders a div', () => {
         const {output} = setup();
         expect(output.type).toBe('form');
-        console.log(output.props.children)
     })
 })

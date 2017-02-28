@@ -35,9 +35,7 @@ class ManageRolePage extends React.Component {
   render() {
     return (
       <div>
-        <center>
-        <h5 className="indigo-text">Create account</h5>
-        </center>
+        <h5 className="z-depth-1 grey lighten-4 row">Add Role</h5>
         <RoleForm
           role={this.state.role}
           onChange={this.updateRoleState}

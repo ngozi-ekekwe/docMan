@@ -36,6 +36,7 @@ export default (
         <Route path="role" component={ManageRolePage} />
         <Route path="role/:id" component={ManageRolePage} />
         <Route path="register" component={UserPage} />
+        <Route path="signups" component={ManageUserPage} />
         <Route path="user" component={ManageUserPage} />
         <Route path="logout" onEnter={logUserOut} />
     </Route>
