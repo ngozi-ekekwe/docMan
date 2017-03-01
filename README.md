@@ -42,6 +42,8 @@ $ Run test npm test.
 Postman Collection
 --------------
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2bbeeaa6b317239f5cdd)
+
 
 
 
