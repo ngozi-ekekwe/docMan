@@ -1,0 +1,22 @@
+{
+  "development": {
+    "username": null,
+    "password": null,
+    "database": "docMan-dev",
+    "host": "127.0.0.1",
+    "port": 5439,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": null,
+    "database": "docMan-test",
+    "host": "127.0.0.1",
+    "port": 5439,
+    "dialect": "postgres",
+    "logging": false
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}

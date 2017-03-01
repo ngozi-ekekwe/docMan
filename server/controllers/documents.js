@@ -6,7 +6,8 @@ module.exports = {
     .create({
       title: req.body.title,
       content: req.body.content,
-      access: req.body.access
+      access: req.body.access,
+      userId: req.body.userId
     })
     .then(document => res.status(200).send(document))
     .catch(error =>res.status(400).send(error));
@@ -15,8 +16,8 @@ module.exports = {
   index(req, res) {
     return Document
       .all()
-      .then(documents => res.status(201).res.send(documents))
-      .catch(error => res.staus(400).res.send(error))
+      .then(documents => res.status(201).send(documents))
+      .catch(error => res.status(400).send(error))
   },
 
   retrieve(req, res) {
@@ -26,7 +27,7 @@ module.exports = {
         if(!document) {
           return res.status(404).send({message: 'Document not found'});
         }
-        res.status(200).send(role);
+        res.status(200).send(document);
       }).catch((error) => {
           res.status(400).send(error);
       });
@@ -62,12 +63,12 @@ module.exports = {
       .findById(req.params.id)
       .then((document) => {
         if(!document) {
-          res.status(404).send({message: 'Document not found'});
+          return res.status(404).send({message: 'Document not found'});
         }
-        return role
+         document
           .destroy()
           .then(() => {
-            res.status(204).send({message: 'Document successfully deleted'});
+            res.status(200).send({message: 'Document successfully deleted'});
           }).catch((error) => {
             res.send(error);
           });
