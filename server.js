@@ -1,15 +1,15 @@
 import Express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
-import webpack from 'webpack';
-import config from './webpack.config';
+// import webpack from 'webpack';
+// import config from './webpack.config';
 import open from 'open';
 import path from 'path';
 import routes from './server/routes';
 
 const app = Express();
 const port = 8000;
-const compiler = webpack(config);
+// const compiler = webpack(config);
 
 app.set('port', port);
 

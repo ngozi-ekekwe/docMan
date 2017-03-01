@@ -37,7 +37,7 @@ class Login extends React.Component {
         <center>
           <div className="section"></div>
 
-          <h5 className="indigo-text">Please, login into your account</h5>
+          <h5 className="indigo-text">Login</h5>
           <div className="section"></div>
 
           <div className="container">
@@ -83,7 +83,6 @@ class Login extends React.Component {
               </div>
             </div>
           </div>
-          <a href="#!">Create account</a>
         </center>
 
         <div className="section"></div>

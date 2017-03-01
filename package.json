@@ -10,7 +10,7 @@
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "NODE_ENV=test  mocha --compilers js:babel-core/register ./server/tests/**/*.js ./client/test/**/*.js",
-    "coverage": "istanbul cover _mocha -- -R spec",
+    "coverage": "iNODE_ENV=test istanbul cover  _mocha -- ./server/tests/**/*.js --compilers js:babel-core/register ",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "repository": {
@@ -44,7 +44,7 @@
     "file-loader": "^0.10.0",
     "gulp": "^3.9.1",
     "isomorphic-fetch": "^2.2.1",
-    "istanbul": "^0.4.5",
+    "istanbul": "^1.0.0-alpha.2",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.2.1",
     "materialize-css": "^0.98.0",
@@ -77,6 +77,7 @@
     "babel-preset-react": "^6.22.0",
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
+    "istanbul": "^1.0.0-alpha.2",
     "morgan": "^1.7.0",
     "nodemon": "^1.11.0",
     "pg": "^6.1.2",

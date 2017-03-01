@@ -1,59 +1,77 @@
-// //module dependencies 
-// const chai = require('chai');
-// const db = require('../../models');
-// const helper = require('../test-helper');
+const chai = require('chai');
+const db = require('../../models');
+const helper = require('../test-helper');
 
-// const expect = chai.expect;
+const expect = chai.expect;
 
-// //global
-// let user;
+const userParams = helper.regularUser;
+const roleParams = helper.regularRole;
 
-// describe('<Unit test>', () => {
-//     before(() => {
-//         db.Role.create(helper.regularRole)
-//             .then((role) => {
-//                 helper.regularUser.roleId = role.id;
-//             });
-//     });
+const notNullAttrs = ['firstname', 'lastname', 'username', 'email', 'password', 'roleId'];
+const uniqueAttrs = ['username', 'email'];
 
-//     beforeEach(() => {
-//         user = db.User.build(helper.regularUser);
-//     });
 
-//     after(() => {
-//         db.sequelize.sync({force: true});
-//     });
+let user
 
-//     afterEach(() => {
-//         db.User.destroy({where: {}})
+describe('<Unit Test>', () => {
+  before((done) => {
+    db.Role.create(roleParams)
+      .then((newRole) => {
+        userParams.roleId = newRole.id;
+        db.User.create(userParams)
+          .then((newUser) => {
+            user = newUser;
+            done();
+          });
+      });
+  });
 
-//     });
+  after(() => db.sequelize.sync({ force: true }));
 
-//     describe('model User', () => {
-//         it('creates a User instance', () => {
-//             expect(user).to.exist
-//         });
+  describe('Create User', () => {
+    it('has valid properties', () => {
+      expect(user.firstname).to.equal(userParams.firstname);
+      expect(user.lastname).to.equal(userParams.lastname);
+      expect(user.username).to.equal(userParams.username);
+      expect(user.email).to.equal(userParams.email);
+    });
 
-//         it('has valid attributes', () => {
-//             expect(user.firstname).to.equal(helper.regularUser.firstname);
-//             expect(user.lastname).to.equal(helper.regularUser.lastname);
-//             expect(user.username).to.equal(helper.regularUser.username);
-//             expect(user.email).to.equal(helper.regularUser.email);
-//             expect(user.roleId).to.equal(helper.regularUser.roleId);
-//         });
-//     });
+    it('saves user with valid attributes', () => {
+      user.save().then((savedUser) => {
+        expect(savedUser.firstname).to.equal(user.firstname);
+        expect(savedUser.lastname).to.equal(user.lastname);
+        expect(savedUser.username).to.equal(user.username);
+      });
+    });
 
-//     describe('Method save', () => {
-//         it('should save to the database', () => {
-//             user.save()
-//             .then((newUser) => {
-//                 expect(newUser.firstname).to.equal(helper.regularUser.firstname);
-//             });
-//         });
+    it('creates password and encrypts it', () => {
+      user.save().then((savedUser) => {
+        expect(savedUser.password).to.not.equal(userParams.password);
+      });
+    });
+  });
 
-//         it('should save without errors', () => {
+  describe('Update User', () => {
+    it('hashes updated passwords', () => {
+      user.save().then((newUser) => newUser.update({ password: 'validpassword' }))
+        .then((updatedUser) => {
+          expect(updatedUser.password).to.not.equal('validpassword');
+        })
+    })
+  });
 
-//         });
-//     });
+  describe('Validations', () => {
+    describe('NOT NULL attributes', () => {
+      notNullAttrs.forEach((attr) => {
+        it(`fails without ${attr}`, () => {
+          user[attr] = null;
+          return user.save()
+            .then((newUser) => expect(newUser).to.not.exist)
+            .catch(err =>
+              expect(/notNull/.test(err.message)).to.be.true);
+        });
+      });
+    });
+  });
 
-// });
+  });

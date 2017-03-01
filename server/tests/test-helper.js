@@ -47,12 +47,12 @@ module.exports = {
         lastname: 'Mary',
         username: 'rosebae',
         email: 'rosebae@yahoo.com',
-        password: faker.internet.password(), 
+        password: faker.internet.password(),
     },
 
     publicDocument: {
         title: 'hello world',
-        content: 'hello world, I love to program',
+        content: 'hello world, I love to program ',
         access: 'public'
     },
 

@@ -10,7 +10,7 @@ const roleParams = helper.adminRole;
 
 let token;
 
-describe('MIDDLEWARE TEST', () => {
+describe('MIDDLEWARE AUTH TEST', () => {
 	before((done) => {
 		db.Role.create(roleParams)
 			.then((newRole) => {
