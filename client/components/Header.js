@@ -24,6 +24,9 @@ const renderIfLoggedIn = () => {
 				<li>
 					<Link to="/register" activeClassName="active" className="right">Users</Link>
 				</li>
+        <li>
+					<Link to="/documents" activeClassName="active" className="right">Documents</Link>
+				</li>
 			</ul>
 		);
 	}

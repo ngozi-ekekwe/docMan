@@ -1,17 +1,16 @@
-const User = require('../models').User;
-const Document = require('../models').Document;
-const jwt = require('jsonwebtoken');
+import db from '../models';
+import jwt from 'jsonwebtoken';
 
 const secret = 'supersecret';
 
 module.exports = {
   create(req, res) {
-    User.findOne({ where: { email: req.body.email } })
+    db.User.findOne({ where: { email: req.body.email } })
       .then((existingUser) => {
         if (existingUser) {
           return res.status(409).send({ message: `User with ${req.body.email} already exits` })
         }
-        User.create(req.body)
+        db.User.create(req.body)
           .then((newUser) => {
             const token = jwt.sign({
               UserId: newUser.id,
@@ -29,7 +28,7 @@ module.exports = {
   },
 
   getAllUserDocuments(req, res) {
-    return Document
+    return db.Document
       .findall({ where: { id: req.params.id } })
       .then((documents) => {
         res.status(201).send(documents);
@@ -37,7 +36,7 @@ module.exports = {
   },
 
   login(req, res) {
-    User.findOne({ where: { email: req.body.email } })
+    db.User.findOne({ where: { email: req.body.email } })
       .then((foundUser) => {
         if (foundUser && foundUser.validPassword(req.body.password)) {
           const token = jwt.sign({
@@ -61,7 +60,7 @@ module.exports = {
 	 * lists all users
 	 */
   index(req, res) {
-    return User
+    return db.User
       .all()
       .then((users) => res.status(200).send(users))
       .catch((error) => res.status(401).send)
@@ -71,7 +70,7 @@ module.exports = {
 	 * retrieve a particular user
 	 */
   retrieve(req, res) {
-    return User
+    return db.User
       .findById(req.params.id)
       .then((user) => {
         if (!user) {
@@ -82,7 +81,7 @@ module.exports = {
   },
 
   update(req, res) {
-    return User
+    return db.User
       .findById(req.params.id)
       .then((user) => {
         if (!user) {
@@ -96,7 +95,7 @@ module.exports = {
   },
 
   destroy(req, res) {
-    return User
+    return db.User
       .findById(req.params.id)
       .then((user) => {
         if (!user) {

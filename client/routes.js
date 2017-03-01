@@ -9,6 +9,7 @@ import ManageRolePage from './containers/ManageRolePage'
 import UserPage from './containers/UserPage'
 import ManageUserPage from './containers/ManageUserPage';
 import DocumentContainer from '../client/containers/DocumentContainer';
+import DocumentPage from '../client/containers/DocumentPage';
 
 const checkIfLoggedIn = (nextState, replace) => {
  const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -39,5 +40,6 @@ export default (
         <Route path="signups" component={ManageUserPage} />
         <Route path="user" component={ManageUserPage} />
         <Route path="logout" onEnter={logUserOut} />
+        <Route path="documents" component={DocumentPage} />
     </Route>
 )

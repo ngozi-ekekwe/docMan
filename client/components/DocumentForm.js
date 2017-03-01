@@ -4,6 +4,7 @@ import TextInput from '../components/TextInput';
 import DocumentMarkdown from '../components/DocumentMarkdown';
 import TinyMCE from 'react-tinymce';
 
+
 const DocumentForm = ({document, onChange, onSave, errors}) => {
 	return (
 			<form>

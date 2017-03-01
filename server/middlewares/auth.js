@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const db = require('../models');
+import jwt from 'jsonwebtoken';
+import db from '../models';
 
 const secret = 'supersecret';
 const Auth = {

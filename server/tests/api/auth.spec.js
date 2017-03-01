@@ -1,16 +1,17 @@
-const app = require('../../../server');
-const expect = require('chai').expect;
-const request = require('supertest')(app);
-const db = require('../../models');
-const helper = require('../test-helper');
+import  app from '../../../server';
+import chai from 'chai';
+import supertest from 'supertest';
+import db from '../../models';
+import  helper from  '../test-helper';
 
-
+const expect = chai.expect;
+const request = supertest(app);
 const params = helper.regularUser;
 const roleParams = helper.adminRole;
 
 let token;
 
-describe('MIDDLEWARE TEST', () => {
+describe('MIDDLEWARE AUTH TEST', () => {
 	before((done) => {
 		db.Role.create(roleParams)
 			.then((newRole) => {
@@ -46,6 +47,8 @@ describe('MIDDLEWARE TEST', () => {
 			.set({ Authorization: token })
 			.end((err, res) => {
 				expect(res.status)
-			})
-	})
+			}).catch((err)=>{
+        return err;
+      });
+	});
 });

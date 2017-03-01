@@ -1,24 +1,24 @@
-const Role = require('../models').Role;
+import  db from  '../models';
 
 module.exports = {
   create(req, res) {
-    return Role
+    return db.Role
       .create({
         title: req.body.title,
       })
       .then(role => res.status(200).send(role))
       .catch(error => res.status(400).send({error}))
-  }, 
+  },
 
   index(req, res) {
-    return Role
+    return db.Role
       .findAll()
       .then(roles => res.status(200).send(roles))
       .catch(error => res.status(400).send(error));
   },
 
   retrieve(req, res) {
-    return Role
+    return db.Role
       .findById(req.params.id)
       .then((role) => {
         if(!role) {
@@ -31,7 +31,7 @@ module.exports = {
   },
 
   update(req,res) {
-    return Role
+    return db.Role
       .findById(req.params.id)
       .then((role) => {
         if(!role) {
@@ -53,7 +53,7 @@ module.exports = {
   },
 
   destroy(req,res) {
-    return Role
+    return db.Role
       .findById(req.params.id)
       .then((role) => {
         if(!role) {
@@ -69,5 +69,5 @@ module.exports = {
       }).catch((error) => {
           res.send(error);
       });
-  }  
+  }
 }

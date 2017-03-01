@@ -1,12 +1,12 @@
 import  * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
-export default function roleReducer(state = initialState.documents, action) {
+export default function documentReducer(state = initialState.documents, action) {
   switch(action.type) {
     case types.CREATE_DOCUMENT:
-      return [...state, Object.assign({}, action.document)];
+      return [...state, Object.assign({}, action.documents)];
     case types.LOAD_DOCUMENT_SUCCESS:
-      return action.document
+      return action.documents
 
     case types.CREATE_DOCUMENT_SUCCESS:
       return [...state, Object.assign({},action.document)]

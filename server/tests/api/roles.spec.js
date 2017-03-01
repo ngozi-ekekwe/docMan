@@ -1,9 +1,11 @@
-const app = require('../../../server');
-const expect = require('chai').expect;
-const request = require('supertest')(app);
-const db = require('../../models');
-const helper = require('../test-helper');
+import  app from '../../../server';
+import chai from 'chai';
+import supertest from 'supertest';
+import db from '../../models';
+import  helper from  '../test-helper';
 
+const expect = chai.expect;
+const request = supertest(app);
 const userParams = helper.adminUser;
 const roleParams = helper.adminRole;
 const regularRole = helper.regularRole;

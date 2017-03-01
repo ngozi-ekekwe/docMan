@@ -1,8 +1,8 @@
-const Document = require('../models').Document;
+import  db from '../models'
 
 module.exports = {
   create(req, res) {
-    return Document
+    return db.Document
     .create({
       title: req.body.title,
       content: req.body.content,
@@ -14,14 +14,14 @@ module.exports = {
   },
 
   index(req, res) {
-    return Document
+    return db.Document
       .all()
       .then(documents => res.status(201).send(documents))
       .catch(error => res.status(400).send(error))
   },
 
   retrieve(req, res) {
-    return Document
+    return db.Document
       .findById(req.params.id)
       .then((document) => {
         if(!document) {
@@ -36,7 +36,7 @@ module.exports = {
    * updates a role
    */
   update(req,res) {
-    return Document
+    return db.Document
       .findById(req.params.id)
       .then((document) => {
         if(!document) {
@@ -59,7 +59,7 @@ module.exports = {
    * deletes a note
    */
   destroy(req,res) {
-    return Document
+    return db.Document
       .findById(req.params.id)
       .then((document) => {
         if(!document) {
@@ -77,4 +77,4 @@ module.exports = {
       });
   }
 
-}
+};

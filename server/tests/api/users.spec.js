@@ -1,9 +1,11 @@
-const app = require('../../../server');
-const expect = require('chai').expect;
-const db = require('../../models/');
-const request = require('supertest')(app);
-const helper = require('../test-helper');
+import app from '../../../server';
+import chai from 'chai';
+import db from '../../models';
+import helper from '../test-helper';
+import supertest from 'supertest';
 
+const expect = chai.expect;
+const request = supertest(app);
 const userParams = helper.secondUser;
 const roleParams = helper.adminRole;
 
@@ -27,7 +29,7 @@ describe('User API', () => {
 
   after(() => db.sequelize.sync({ force: true }));
 
-  
+
     it('should return unauthorised for no token', (done) => {
       request.get('/users')
         .end((err, res) => {
@@ -85,7 +87,7 @@ describe('User API', () => {
           done();
         });
     });
-    
+
     it('should get correct user', (done) => {
       request.get(`/users/${user.id}`)
         .set({ Authorization: token })
@@ -101,7 +103,7 @@ describe('User API', () => {
         .set({ Authorization: token })
         .expect(404, done);
     });
-  
+
 
     it('updates the user attributes', (done) => {
       const newAttributes = { lastname: 'Newman', email: 'newman@mail.com' };
@@ -121,7 +123,7 @@ describe('User API', () => {
         .set({ Authorization: token })
         .expect(404, done);
     });
-  
+
     it('deletes the user', (done) => {
       request.delete(`/users/${user.id}`)
         .set({ Authorization: token })
@@ -132,7 +134,7 @@ describe('User API', () => {
             done();
           });
         });
-    
+
       it('should return NOT FOUND for invalid id', (done) => {
         request.delete('/users/100')
           .set({ Authorization: token })
@@ -149,7 +151,7 @@ describe('User API', () => {
           done();
         });
     });
-  
+
     it('logs out successfully', (done) => {
       request.post('/users/logout')
         .expect(200, done);

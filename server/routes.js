@@ -1,12 +1,12 @@
-const documentController = require('../server/controllers/documents');
-const roleController = require('../server/controllers/roles');
-const userController = require('../server/controllers/users');
-const Auth = require('../server/middlewares/auth');
+import  documentController from '../server/controllers/documents';
+import  roleController from '../server/controllers/roles';
+import userController from '../server/controllers/users';
+import Auth  from '../server/middlewares/auth';
 
 module.exports = (app) => {
     const router = require('express').Router();
     app.use('/', router);
-    
+
     //role Routes
     router.post('/roles', Auth.verifyToken, Auth.validateAdmin, roleController.create);
     router.get('/roles/:id',Auth.verifyToken, Auth.validateAdmin, roleController.retrieve);
@@ -23,7 +23,7 @@ module.exports = (app) => {
 
     router.post('/users/login', userController.login);
     router.post('/users/logout',userController.logout);
-   
+
 
     //document routes
     router.post('/documents', Auth.verifyToken, Auth.validateAdmin, documentController.create);

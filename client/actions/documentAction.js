@@ -10,10 +10,10 @@ export const createDocument = (document) => {
 }
 
 //action creators
-export const getDocumentSuccess = (document) => {
+export const getDocumentSuccess = (documents) => {
   return {
     type: types.LOAD_DOCUMENT_SUCCESS,
-    document
+    documents
   }
 }
 
@@ -33,20 +33,19 @@ export const createDocumentSuccess = (document) => {
 //get roles
 export const documentApi = () => {
   const {token} = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('http://localhost:8000/documents', {
+  return fetch('/documents', {
     method: 'GET',
     headers: {
       Authorization: token
     }
-  })
-    .then(response => {
+  }).then(response => {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
       }
       return response.json();
     })
     .then((documents) => {
-      return document
+      return documents
     })
     .catch(error => {
       throw error
