@@ -43,12 +43,22 @@ Postman Collection
 --------------
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2bbeeaa6b317239f5cdd)
+Create a Postman environment and set url and token variables or download and import a production environment from this 
 
 
 
 
 API Documentation
---------------
+-----------------
+The API has predictable, resource-oriented URLs, and uses HTTP response codes to indicate API status and errors.
+
+## Authentication
+
+Users are assigned a token when their accounts are created or they login to the system.This token is needed for subsequent HTTP requests to the API for authentication. API requests made without authentication will fail with the status code 401: Unauthorized.
+
+The following are some sample request and response form the API.
+
+
 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
