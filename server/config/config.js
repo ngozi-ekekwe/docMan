@@ -8,7 +8,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": null,
+    "username": "postgres",
     "password": null,
     "database": "docMan-test",
     "host": "127.0.0.1",
