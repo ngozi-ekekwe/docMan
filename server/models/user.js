@@ -4,28 +4,29 @@ const bcrypt = require('bcrypt');
 module.exports = function(sequelize, DataTypes) {
   const User = sequelize.define('User', {
     firstname: {
-      type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      type: DataTypes.STRING
+
     },
     lastname: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
     },
     username: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
     },
     email: {
+      allowNull: false,
       type: DataTypes.STRING,
-       allowNull: false
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    role: {
-      type: DataTypes.STRING,
       allowNull: false,
+      type: DataTypes.STRING,
+    },
+    roleId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
     }
   }, {
     classMethods: {
@@ -35,12 +36,12 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'CASCADE',
         });
 
-        User.hasMany(models.Documents, {
+        User.hasMany(models.Document, {
           foreignKey: 'userId',
           onDelete: 'CASCADE'
         });
       }
-    }, 
+    },
 
     instanceMethods: {
       validPassword(password) {

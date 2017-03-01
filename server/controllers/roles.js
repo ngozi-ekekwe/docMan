@@ -1,31 +1,22 @@
 const Role = require('../models').Role;
 
 module.exports = {
-  /**
-   * create a new role
-   */
   create(req, res) {
-     console.log(req);
     return Role
       .create({
         title: req.body.title,
       })
-      .then(role => res.status(201).send(role))
-      .catch(error => res.status(400).send(error))
+      .then(role => res.status(200).send(role))
+      .catch(error => res.status(400).send({error}))
   }, 
-  /**
-   * return all roles
-   */
+
   index(req, res) {
     return Role
-      .all()
-      .then(roles => res.status(201).send(roles))
+      .findAll()
+      .then(roles => res.status(200).send(roles))
       .catch(error => res.status(400).send(error));
   },
 
-  /**
-   * return a particular role
-   */
   retrieve(req, res) {
     return Role
       .findById(req.params.id)
@@ -38,9 +29,7 @@ module.exports = {
           res.status(400).send(error);
       });
   },
-  /**
-   * updates a role
-   */
+
   update(req,res) {
     return Role
       .findById(req.params.id)
@@ -48,7 +37,7 @@ module.exports = {
         if(!role) {
           return res.status(404).send({message: 'Role not found'});
         }
-        return role
+         role
           .update({
             title: req.body.title || role.title
           })
@@ -63,27 +52,22 @@ module.exports = {
       })
   },
 
-  /**
-   * deletes a note
-   */
   destroy(req,res) {
     return Role
       .findById(req.params.id)
       .then((role) => {
         if(!role) {
-          res.status(404).send({message: 'Role not found'});
+          return res.status(404).send({message: 'Role not found'});
         }
-        return role
+        role
           .destroy()
           .then(() => {
-            res.status(204).send({message: 'Role successfully deleted'});
+            res.status(200).send({message: 'Role successfully deleted'});
           }).catch((error) => {
             res.send(error);
           });
       }).catch((error) => {
           res.send(error);
       });
-  }
-
-  
+  }  
 }
