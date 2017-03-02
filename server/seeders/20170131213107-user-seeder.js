@@ -3,7 +3,6 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Users', [
       {
-        id: 1,
         firstname: 'Ngozi',
         lastname: 'Ekekwe',
         username: 'Ngee',
@@ -14,7 +13,6 @@ module.exports = {
         roleId: 1
       },
        {
-        id: 2,
         firstname: 'Ngozii',
         lastname: 'Ekekwei',
         username: 'Ngeei',

@@ -12,7 +12,7 @@ const RoleList = ({roles}) => {
                     <th>Updated At</th>
                 </tr>
             </thead>
-                {roles.map(role => 
+                {roles.map(role =>
                     <RoleListRow key = {role.id} role = {role}/>
                 )}
             <tbody>

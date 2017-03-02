@@ -7,6 +7,15 @@ const User = db.User;
 
 class UserController {
 
+  static resData(code, success, message,response) {
+    return (
+      response.status(code).send({
+        success,
+        message
+      })
+    )
+  }
+
   static verifyRequest(request) {
     if (
       request.body &&
@@ -21,6 +30,7 @@ class UserController {
     } else false;
 
   }
+
 
   static create(request, response) {
     if (UserController.verifyRequest(request)) {
@@ -51,16 +61,11 @@ class UserController {
         if(foundUser) {
           foundUser.destroy()
             .then(() => {
-              response.status(200).send({
-                success: true,
-                message: 'User has been successfully deleted'
-              })
+              UserController
+                .resData(200, true,'User has been successfully deleted', response);
             });
         } else {
-          response.status(404).send({
-            success: false,
-            message: 'User Not Found'
-          });
+          UserController.resData(404, false, 'User Not Found', response);
         }
       })
   }
@@ -76,6 +81,7 @@ class UserController {
     User.findById(request.params.id)
       .then((user) => {
         if (user) {
+
           response.status(200).send(user);
         } else {
           response.status(404).send({

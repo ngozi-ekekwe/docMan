@@ -4,9 +4,11 @@ import DocumentContent from '../components/DocumentContent';
 
 
 const DocumentList = ({documents}) => {
+  console.log(documents, 'here')
+  const dd = documents.documents;
   return (
     <div>
-    {documents.map(document =>
+    {dd.map(document =>
     <div className="row" key={document.id}>
         <div className="col s6">
           <div className="card white darken-1">

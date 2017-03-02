@@ -5,7 +5,6 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Documents', [
       {
-        id: 1,
         title: 'hello',
         content: 'hello',
         access: 'private',
@@ -15,7 +14,6 @@ module.exports = {
       },
 
       {
-        id: 2,
         title: 'hiya',
         content: 'hello',
         access: 'public',

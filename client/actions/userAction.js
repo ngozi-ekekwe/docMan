@@ -101,13 +101,11 @@ export const login = (email, password) => {
 
 export const userSaver = (user) => {
   const newBody = JSON.stringify(user)
-  const {token} = JSON.parse(localStorage.getItem('currentUser'));
   return fetch('/users', {
     method: 'POST',
-    headers: {    
+    headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': token
     },
     body: newBody
   })

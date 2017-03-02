@@ -10,7 +10,7 @@ class DocumentController {
 
   static verifyRequest(request) {
     if (request.body.title && request.body.content) {
-      true
+      return true
     } else {
       return false
     }
@@ -48,12 +48,19 @@ class DocumentController {
         userId: request.decoded.UserId
       })
       .then((document) => {
-        DocumentController.resData(201, true, 'Document Created', document, response)
+        response.status(201).send({
+          success: true,
+          message: 'Document Created',
+          document
+        })
       }).catch((error) => {
         response.status(400).send(error);
       })
     } else {
-      DocumentController.resData(500, false, 'Missing fields')
+      response.status(500).send({
+        success: false,
+        message: 'Missing fields'
+      })
     }
   }
 
@@ -71,7 +78,10 @@ class DocumentController {
 
       Document.findAll(query)
         .then((documents) => {
-          DocumentController.resData(201, true, 'success', documents, response);
+          response.status(201).send({
+            success: true,
+            documents
+          })
         });
     });
   }
