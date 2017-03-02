@@ -172,8 +172,10 @@ describe('User API', () => {
       request.post('/users')
         .send(userParams)
         .end((err, res) => {
-          expect(res.status).to.equal(500);
+          console.log(res.body.errors[0].message, '==============================')
+          expect(res.status).to.equal(400);
           expect(res.body.token).to.not.exist;
+          expect(res.body.errors[0].message.includes('email must be unique'))
           done();
         });
     });

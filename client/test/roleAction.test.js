@@ -17,30 +17,4 @@ describe('ROLE ACTION', () => {
             expect(action).toEqual(expectedAction);
         });
     });
-
 });
-
-const middleware =  [thunk];
-const mockStore = configureMockStore(middleware);
-
-describe('Async Action', () => {
-    afterEach(() => {
-        nock.cleanAll();
-    });
-
-    it('should create ajax call and load roles when loading roles', (done) => {
-        nock('http://localhost:8000/')
-            .get('/roles')
-            .reply(200, {body: {role: [{title: 'admin'}  ] } });
-
-        const expectedActions = [
-            {type: types.LOAD_ROLE_SUCCESS, body: [{roles: {title: 'admin'}}]}
-        ]
-        const store = mockStore({roles: [], expectedActions});
-        store.dispatch(roleActions.fetchRoles()).then(() => {
-            const actions = store.getActions();
-            expect(actions[0].type).toEqual(types.LOAD_ROLE_SUCCESS);
-            done();
-        })
-    });
-})

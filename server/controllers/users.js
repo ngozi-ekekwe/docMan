@@ -24,14 +24,7 @@ class UserController {
 
   static create(request, response) {
     if (UserController.verifyRequest(request)) {
-      return User.create({
-        firstname: request.body.firstname,
-        lastname: request.body.lastname,
-        username: request.body.username,
-        email: request.body.email,
-        password: request.body.password,
-        roleId: request.body.roleId
-      })
+      return User.create(request.body)
       .then((newUser) => {
         response.status(201).send({
           success: true,
