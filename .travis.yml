@@ -12,8 +12,8 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'drop database if exists document_test;' -U postgres
-  - psql -c 'create database document_test;' -U postgres
+  - psql -c 'drop database if exists docMan-test;' -U postgres
+  - psql -c 'create database docMan-test;' -U postgres
   - NODE_ENV=test npm run migration
 
 after_success:

@@ -12,7 +12,7 @@
     "password": null,
     "database": "docMan-test",
     "host": "127.0.0.1",
-    "port": 5439,
+    "port": 5432,
     "dialect": "postgres",
     "logging": false
   },
