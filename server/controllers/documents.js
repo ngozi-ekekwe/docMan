@@ -1,80 +1,84 @@
 import  db from '../models'
 
-module.exports = {
-  create(req, res) {
-    return db.Document
+const Document = db.Document;
+
+class DocumentController {
+   static create(request, response) {
+    return Document
     .create({
-      title: req.body.title,
-      content: req.body.content,
-      access: req.body.access,
-      userId: req.body.userId
+      title: request.body.title,
+      content: request.body.content,
+      access: request.body.access,
+      userId: request.decoded.userId
     })
-    .then(document => res.status(200).send(document))
-    .catch(error =>res.status(400).send(error));
-  },
+    .then(document => response.status(200).send(document))
+    .catch(error =>response.status(400).send(error));
+  }
 
-  index(req, res) {
-    return db.Document
+   static index(request, response) {
+    return Document
       .all()
-      .then(documents => res.status(201).send(documents))
-      .catch(error => res.status(400).send(error))
-  },
+      .then(documents => response.status(201).send(documents))
+      .catch(error => response.status(400).send(error))
+  }
 
-  retrieve(req, res) {
-    return db.Document
-      .findById(req.params.id)
+  static retrieve(request, response) {
+    return Document
+      .findById(request.params.id)
       .then((document) => {
         if(!document) {
-          return res.status(404).send({message: 'Document not found'});
+          return response.status(404).send({message: 'Document not found'});
         }
-        res.status(200).send(document);
+        response.status(200).send(document);
       }).catch((error) => {
-          res.status(400).send(error);
+          response.status(400).send(error);
       });
-  },
+  }
   /**
    * updates a role
    */
-  update(req,res) {
-    return db.Document
-      .findById(req.params.id)
+  static update(request,response) {
+    return Document
+      .findById(request.params.id)
       .then((document) => {
         if(!document) {
-          return res.status(404).send({message: 'Document not found'});
+          return response.status(404).send({message: 'Document not found'});
         }
         return document
-          .update(req.body)
+          .update(request.body)
           .then(() => {
-            res.status(200).send(document);
+            response.status(200).send(document);
           })
           .catch((error) => {
-            res.send(error);
+            response.send(error);
           })
       }).catch((error) => {
-        res.send(error);
+        response.send(error);
       })
-  },
+  }
 
   /**
    * deletes a note
    */
-  destroy(req,res) {
-    return db.Document
-      .findById(req.params.id)
+  static destroy(request,response) {
+    return Document
+      .findById(request.params.id)
       .then((document) => {
         if(!document) {
-          return res.status(404).send({message: 'Document not found'});
+          return response.status(404).send({message: 'Document not found'});
         }
          document
           .destroy()
           .then(() => {
-            res.status(200).send({message: 'Document successfully deleted'});
+            response.status(200).send({message: 'Document successfully deleted'});
           }).catch((error) => {
-            res.send(error);
+            response.send(error);
           });
       }).catch((error) => {
-          res.send(error);
+          response.send(error);
       });
   }
 
 };
+
+export default DocumentController;

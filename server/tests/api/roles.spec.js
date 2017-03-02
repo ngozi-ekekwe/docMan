@@ -28,7 +28,7 @@ describe('ROLE SPEC', () => {
 
   after(() => db.sequelize.sync({ force: true }));
 
-  describe('Existing Role', () => {
+  describe('Create new Role', () => {
     beforeEach(() => {
         db.Role.create(regularRole)
             .then((newRole) => {
@@ -54,25 +54,6 @@ describe('ROLE SPEC', () => {
         .end((err, res) => {
           if (err) return err;
           expect(res.status).to.equal(200);
-          done();
-        })
-    });
-
-    it('should get a particular role when an id is passed', (done) => {
-      request.get(`/roles/${role.id}`)
-        .set({ Authorization: token })
-        .end((err, res) => {
-          if (err) return err;
-          expect(res.status).to.equal(200);
-          done();
-        });
-    });
-
-    it('should return `Role not found`', () => {
-      request.get('/roles/200')
-        .end((err, res) => {
-          if (err) return err
-          expect(res.status).to.equal(404)
           done();
         })
     });

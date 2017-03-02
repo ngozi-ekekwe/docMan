@@ -121,7 +121,8 @@ describe('User API', () => {
     it('should return NOT FOUND for invalid id', (done) => {
       request.put('/users/100')
         .set({ Authorization: token })
-        .expect(404, done);
+        .expect(404);
+        done();
     });
 
     it('deletes the user', (done) => {
@@ -171,7 +172,7 @@ describe('User API', () => {
       request.post('/users')
         .send(userParams)
         .end((err, res) => {
-          expect(res.status).to.equal(409);
+          expect(res.status).to.equal(500);
           expect(res.body.token).to.not.exist;
           done();
         });
@@ -182,7 +183,7 @@ describe('User API', () => {
         request.post('/users')
           .send(invalidParams)
           .end((err, res) => {
-            expect(res.status).to.equal(400);
+            expect(res.status).to.equal(500);
             expect(res.body.token).to.not.exist;
             done();
           });

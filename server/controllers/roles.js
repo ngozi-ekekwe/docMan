@@ -1,73 +1,63 @@
-import  db from  '../models';
+import db from '../models';
 
-module.exports = {
-  create(req, res) {
-    return db.Role
-      .create({
-        title: req.body.title,
-      })
-      .then(role => res.status(200).send(role))
-      .catch(error => res.status(400).send({error}))
-  },
+const Role = db.Role;
 
-  index(req, res) {
-    return db.Role
-      .findAll()
-      .then(roles => res.status(200).send(roles))
-      .catch(error => res.status(400).send(error));
-  },
+class RoleController {
 
-  retrieve(req, res) {
-    return db.Role
-      .findById(req.params.id)
-      .then((role) => {
-        if(!role) {
-          return res.status(404).send({message: 'Role not found'});
-        }
-        res.status(200).send(role);
-      }).catch((error) => {
-          res.status(400).send(error);
-      });
-  },
+  static verifyRequest(request) {
+    if (
+      request.body &&
+      request.body.title
+    ) { return true}
+    else { false}
+  }
 
-  update(req,res) {
-    return db.Role
-      .findById(req.params.id)
-      .then((role) => {
-        if(!role) {
-          return res.status(404).send({message: 'Role not found'});
-        }
-         role
-          .update({
-            title: req.body.title || role.title
-          })
-          .then(() => {
-            res.status(200).send(role);
-          })
-          .catch((error) => {
-            res.send(error);
-          })
-      }).catch((error) => {
-        res.send(error);
-      })
-  },
+  static create(request, response) {
+    console.log((RoleController.verifyRequest(request)), '=================================>')
+    if (RoleController.verifyRequest(request)) {
+      return Role
+        .create({
+          title: request.body.title
+        })
+        .then((newRole) => {
+          response.status(200).send(newRole)
+        });
+    }
+    response.status(404).send({
+      success: false,
+      message: 'Error'
+    });
+  }
 
-  destroy(req,res) {
-    return db.Role
-      .findById(req.params.id)
-      .then((role) => {
-        if(!role) {
-          return res.status(404).send({message: 'Role not found'});
-        }
-        role
-          .destroy()
-          .then(() => {
-            res.status(200).send({message: 'Role successfully deleted'});
-          }).catch((error) => {
-            res.send(error);
-          });
-      }).catch((error) => {
-          res.send(error);
+  static fetchRole(request, response) {
+    Role.findAll()
+      .then((roles) => {
+        response.status(200).send(roles);
       });
   }
+
+  static deleteRole(request, response) {
+    Role.findOne({where: {id: request.body.id}})
+      .then((role) => {
+        if (role) {
+          role.destroy()
+            .then(() => {
+              response.status(200).send({
+                success: true,
+                message: 'Role was successfully deleted'
+              });
+            })
+        } else {
+          response.status(404).send({
+            success: false,
+            message: 'Role not found'
+          })
+        }
+      }).catch((error) => {
+      response.status(401).send(error);
+      });
+  }
+
 }
+
+export default RoleController
