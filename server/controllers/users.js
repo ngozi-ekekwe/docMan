@@ -1,88 +1,144 @@
-const User = require('../models').User;
-const jwt = require('jsonwebtoken');
+import db from '../models';
+import jwt from 'jsonwebtoken';
+import Authentication from '../middlewares/auth';
 
-const secret = 'super secret';
+const secret = 'supersecret';
+const User = db.User;
 
-module.exports = {
-	/** creates a new user */
-	create(req, res) {
-		User.findOne({ where: { email: req.body.email } })
-			.then((existingUser) => {
-				if (existingUser) {
-					return res.status(409).send({ message: 'user exits' });
-				}
-			});
-		User.create(req.body)
-			.then((newUser) => {
-				const token = jwt.sign(newUser, secret, {
-					expiresIn: '24h'
-				});
-				return res.status(200).send({
-					success: true,
-					message: 'Authentication successful. User logged in',
-					token: token
-				});
-			})
-			.catch((error) => {
-				res.status(409).send(error);
-			})
-	},
+class UserController {
 
-	/**
-	 * lists all users
-	 */
-	index(req, res) {
-		return User
-			.all()
-			.then((users) => res.status(201).send(users))
-			.catch((error) => res.status(401).send)
-	},
+  static resData(code, success, message,response) {
+    return (
+      response.status(code).send({
+        success,
+        message
+      })
+    )
+  }
 
-	/**
-	 * retrieve a particular user
-	 */
-	retrieve(req, res) {
-		return User
-			.findById(req.params.id)
-			.then((user) => {
-				if (!user) {
-					return res.status(404).send({ message: 'user not found' });
-				}
-				res.send(user);
-			})
-	},
+  static verifyRequest(request) {
+    if (
+      request.body &&
+      request.body.firstname &&
+      request.body.lastname &&
+      request.body.username &&
+      request.body.email &&
+      request.body.password &&
+      request.body.roleId
+    ) {
+      return true;
+    } else false;
 
-	update(req, res) {
-		return User
-			.findById(req.params.id)
-			.then((user) => {
-				if (!user) {
-					return res.status(404).send({ message: 'User not found' });
-				}
-				return user
-					.update(req.body)
-					.then(() => res.status(200).send(user))
-					.catch((error) => res.send(error))
-			}).catch((error) => res.send(error));
-	},
+  }
 
-	destroy(req, res) {
-		return User
-			.findById(req.params.id)
-			.then((user) => {
-				if (!user) {
-					res.status(404).send({ message: 'User not found' });
-				}
-				return user
-					.destroy()
-					.then(() => {
-						res.status(204).send({ message: 'User successfully deleted' });
-					}).catch((error) => {
-						res.send(error);
-					});
-			}).catch((error) => {
-				res.send(error);
-			});
-	}
+
+  static create(request, response) {
+    if (UserController.verifyRequest(request)) {
+      return User.create(request.body)
+      .then((newUser) => {
+        response.status(201).send({
+          success: true,
+          message: 'User created successfully',
+          RoleId: newUser.roleId,
+          UserId: newUser.id,
+          user: newUser,
+          token: Authentication.generateToken(newUser)
+        })
+      }).catch((error) => {
+        response.status(400).send(error);
+      })
+    } else {
+      response.status(500).send({
+        success: false,
+        message: 'Missing fields'
+      });
+    }
+  }
+
+  static delete(request, response) {
+    User.findById(request.params.id)
+      .then((foundUser) => {
+        if(foundUser) {
+          foundUser.destroy()
+            .then(() => {
+              UserController
+                .resData(200, true,'User has been successfully deleted', response);
+            });
+        } else {
+          UserController.resData(404, false, 'User Not Found', response);
+        }
+      })
+  }
+
+  static index(request,response) {
+    User.findAll({})
+      .then(users => {
+        response.status(200).send(users)
+      });
+  }
+
+  static retrieve(request, response) {
+    User.findById(request.params.id)
+      .then((user) => {
+        if (user) {
+
+          response.status(200).send(user);
+        } else {
+          response.status(404).send({
+            success: false,
+            message: 'User not found'
+          });
+        }
+      });
+  }
+
+  static update(request, response) {
+    User.findById(request.params.id)
+      .then((user) => {
+        if (user) {
+          user.update(request.body)
+            .then((updatedUser) => {
+              response.status(200).send(updatedUser);
+            })
+        } else {
+          response.status(401).send({
+            message: 'Unauthorized'
+          });
+        }
+      }).catch((error) => {
+          response.status(404)
+            .send(error.message);
+      })
+  }
+
+  static login(request, response) {
+    User.findOne({where: {email: request.body.email}})
+      .then((user) => {
+        if (user && user.validPassword(request.body.password)) {
+          const token = jwt.sign({
+            UserId: user.id,
+            RoleId: user.roleId
+          }, secret, { expiresIn: '2 days' })
+          response.status(200).send({
+            UserId: user.id,
+            token, expiresIn: '2 days',
+            RoleId: user.roleId
+          });
+        } else {
+          response.status(401).send({
+            success: false,
+            message: 'failed to authenticate user'
+          });
+        }
+      })
+  }
+
+  static logout(request, response) {
+    response.status(200).send({
+      success: true,
+      message: 'User successfully logged out'
+    })
+  }
 
 }
+ export default UserController;

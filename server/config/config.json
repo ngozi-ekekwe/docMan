@@ -8,12 +8,13 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "postgres",
     "password": null,
-    "database": "docMan-test",
+    "database": "docMan_test",
     "host": "127.0.0.1",
-    "port": 5439,
-    "dialect": "postgres"
+    "port": 5432,
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "use_env_variable": "DATABASE_URL"

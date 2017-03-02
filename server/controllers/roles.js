@@ -1,89 +1,63 @@
-const Role = require('../models').Role;
+import db from '../models';
 
-module.exports = {
-  /**
-   * create a new role
-   */
-  create(req, res) {
-     console.log(req);
-    return Role
-      .create({
-        title: req.body.title,
-      })
-      .then(role => res.status(201).send(role))
-      .catch(error => res.status(400).send(error))
-  }, 
-  /**
-   * return all roles
-   */
-  index(req, res) {
-    return Role
-      .all()
-      .then(roles => res.status(201).send(roles))
-      .catch(error => res.status(400).send(error));
-  },
+const Role = db.Role;
 
-  /**
-   * return a particular role
-   */
-  retrieve(req, res) {
-    return Role
-      .findById(req.params.id)
-      .then((role) => {
-        if(!role) {
-          return res.status(404).send({message: 'Role not found'});
-        }
-        res.status(200).send(role);
-      }).catch((error) => {
-          res.status(400).send(error);
-      });
-  },
-  /**
-   * updates a role
-   */
-  update(req,res) {
-    return Role
-      .findById(req.params.id)
-      .then((role) => {
-        if(!role) {
-          return res.status(404).send({message: 'Role not found'});
-        }
-        return role
-          .update({
-            title: req.body.title || role.title
-          })
-          .then(() => {
-            res.status(200).send(role);
-          })
-          .catch((error) => {
-            res.send(error);
-          })
-      }).catch((error) => {
-        res.send(error);
-      })
-  },
+class RoleController {
 
-  /**
-   * deletes a note
-   */
-  destroy(req,res) {
-    return Role
-      .findById(req.params.id)
-      .then((role) => {
-        if(!role) {
-          res.status(404).send({message: 'Role not found'});
-        }
-        return role
-          .destroy()
-          .then(() => {
-            res.status(204).send({message: 'Role successfully deleted'});
-          }).catch((error) => {
-            res.send(error);
-          });
-      }).catch((error) => {
-          res.send(error);
+  static verifyRequest(request) {
+    if (
+      request.body &&
+      request.body.title
+    ) { return true}
+    else { false}
+  }
+
+  static create(request, response) {
+    console.log((RoleController.verifyRequest(request)), '=================================>')
+    if (RoleController.verifyRequest(request)) {
+      return Role
+        .create({
+          title: request.body.title
+        })
+        .then((newRole) => {
+          response.status(200).send(newRole)
+        });
+    }
+    response.status(404).send({
+      success: false,
+      message: 'Error'
+    });
+  }
+
+  static fetchRole(request, response) {
+    Role.findAll()
+      .then((roles) => {
+        response.status(200).send(roles);
       });
   }
 
-  
+  static deleteRole(request, response) {
+    Role.findOne({where: {id: request.body.id}})
+      .then((role) => {
+        if (role) {
+          role.destroy()
+            .then(() => {
+              response.status(200).send({
+                success: true,
+                message: 'Role was successfully deleted'
+              });
+            })
+        } else {
+          response.status(404).send({
+            success: false,
+            message: 'Role not found'
+          })
+        }
+      }).catch((error) => {
+      response.status(401).send(error);
+      });
+  }
+
 }
+
+export default RoleController
