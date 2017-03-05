@@ -1,32 +1,38 @@
-import  DocumentController from '../server/controllers/documents';
-import  RoleController from '../server/controllers/roles';
-import UserController from '../server/controllers/users';
-import Authentication  from '../server/middlewares/auth';
+import  DocumentController from '../server/controllers/DocumentController';
+import  RoleController from '../server/controllers/RoleController';
+import UserController from '../server/controllers/UserController';
+import Authentication  from '../server/middlewares/Authentication';
+
+let roleController = new RoleController();
+let userController = new UserController();
+let documentController = new DocumentController();
+let authentication = new Authentication();
+
 
 module.exports = (app) => {
     const router = require('express').Router();
     app.use('/', router);
 
-    //role Routes
-    router.post('/roles', Authentication.verifyToken, Authentication.validateAdmin, RoleController.create);
-    router.get('/roles', Authentication.verifyToken, Authentication.validateAdmin, RoleController.fetchRole);
-    router.delete('/roles/:id',Authentication.verifyToken, Authentication.validateAdmin, RoleController.deleteRole);
+    // //role Routes
+    router.post('/roles', authentication.verifyToken, authentication.validateAdmin, roleController.create);
+    router.get('/roles', authentication.verifyToken, authentication.validateAdmin, roleController.fetchRole);
+    router.put('/roles/:id',authentication.verifyToken, authentication.validateAdmin, roleController.updateRole);
+    router.delete('/roles/:id',authentication.verifyToken, authentication.validateAdmin, roleController.deleteRole);
 
     //User Routes
-    router.post('/users', UserController.create);
-    router.get('/users/:id',Authentication.verifyToken, Authentication.validateAdmin, UserController.retrieve);
-    router.get('/users', Authentication.verifyToken,Authentication.validateAdmin, UserController.index);
-    router.put('/users/:id',Authentication.verifyToken, Authentication.validateAdmin, UserController.update);
-    router.delete('/users/:id',Authentication.verifyToken, Authentication.validateAdmin, UserController.delete);
-
-    router.post('/users/login', UserController.login);
-    router.post('/users/logout',UserController.logout);
+    router.post('/users', userController.create);
+    router.get('/users/:id',authentication.verifyToken, userController.retrieve);
+    router.get('/users', authentication.verifyToken, authentication.validateAdmin, userController.index);
+    router.put('/users/:id',authentication.verifyToken, userController.update);
+    router.delete('/users/:id',authentication.verifyToken, userController.delete);
+    router.post('/users/login', userController.login);
+    router.post('/users/logout',userController.logout);
 
 
     //document routes
-    router.post('/documents', Authentication.verifyToken, Authentication.validateAdmin, DocumentController.create);
-    router.get('/documents/:id', Authentication.verifyToken, Authentication.validateAdmin, DocumentController.retrieve);
-    router.get('/documents',Authentication.verifyToken, Authentication.validateAdmin, DocumentController.index);
-    router.put('/documents/:id', Authentication.verifyToken, Authentication.validateAdmin, DocumentController.update);
-    router.delete('/documents/:id', Authentication.verifyToken,Authentication.validateAdmin, DocumentController.destroy);
+    router.post('/documents', authentication.verifyToken, documentController.create);
+    router.get('/documents/:id', authentication.verifyToken, documentController.retrieve);
+    router.get('/documents', documentController.index);
+    router.put('/documents/:id', authentication.verifyToken, documentController.update);
+    router.delete('/documents/:id', authentication.verifyToken, documentController.delete);
 }

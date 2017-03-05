@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       defaultValue: 'public'
     },
-    userId: {
+    ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
@@ -22,8 +22,8 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: (models) => {
         Document.belongsTo(models.User, {
-          foreignKey: 'userId',
-          onDelete: 'CASCADE',
+          foreignKey: 'ownerId',
+          onDelete: 'CASCADE'
         });
       }
     }

@@ -28,6 +28,7 @@ module.exports = function(sequelize, DataTypes) {
     roleId: {
       allowNull: false,
       type: DataTypes.INTEGER,
+      defaultValue: 2,
     }
   }, {
     classMethods: {
@@ -38,7 +39,7 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         User.hasMany(models.Document, {
-          foreignKey: 'userId',
+          foreignKey: 'ownerId',
           onDelete: 'CASCADE'
         });
       }

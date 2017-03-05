@@ -6,7 +6,7 @@ const Role = db.Role
 
 class Authentication {
 
-  static verifyToken(request, response, next) {
+  verifyToken(request, response, next) {
     const token = request.body.token ||
       request.headers['authorization'] ||
       request.headers['x-access-token']
@@ -20,6 +20,7 @@ class Authentication {
           } else {
             request.decoded = decoded
             next();
+  
           }
         })
       } else {
@@ -31,14 +32,14 @@ class Authentication {
 
   }
 
-  static generateToken(user) {
+  generateToken(user) {
     return jwt.sign({
       UserId: user.id,
-      RoleId: user.roleId
+      RoleId: user.roleId,
     }, SECRET_KEY, {expiresIn: '2 days'})
   }
 
-  static validateAdmin(request, response, next) {
+  validateAdmin(request, response, next) {
     Role.findById(request.decoded.RoleId)
       .then((role) => {
         if (role.title === 'admin') {

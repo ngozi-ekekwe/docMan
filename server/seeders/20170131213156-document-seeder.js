@@ -8,7 +8,7 @@ module.exports = {
         title: 'hello',
         content: 'hello',
         access: 'private',
-        userId: 1,
+        ownerId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -17,7 +17,7 @@ module.exports = {
         title: 'hiya',
         content: 'hello',
         access: 'public',
-        userId: 2,
+        ownerId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }

@@ -22,14 +22,15 @@ module.exports = {
         defaultValue: 'public',
         type: Sequelize.STRING
       },
-      userId: {
+      ownerId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
-          key: 'id',
-          as: 'userId',
+          key: 'id'
         },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       createdAt: {
         allowNull: false,
