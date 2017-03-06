@@ -6,7 +6,6 @@ module.exports = function(sequelize, DataTypes) {
     firstname: {
       allowNull: false,
       type: DataTypes.STRING
-
     },
     lastname: {
       allowNull: false,

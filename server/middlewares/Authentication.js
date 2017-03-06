@@ -46,7 +46,6 @@ class Authentication {
           next();
         } else {
           response.status(401).send({
-            success: false,
             message: 'You are not permitted to perform this action'
           });
         }

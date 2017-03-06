@@ -6,27 +6,25 @@ const requiredParameters = ['ownerId', 'title', 'content', 'access'];
 let found;
 
 const validate  = (request) => {
-        if (utils.validateParameters(request, requiredParameters)) {
-            Document.findOne({
-                where: {title: request.body.title}
-            })
-            .then((foundDocument) => {
-							if(foundDocument) {
-								found  = true;
-							}
-            })
-						if (found) {
-							return true
-						}
-
-						else {
-							return false
-						}
-					
-        } else {
-					return 'Fields Missing';
-				}
-
+	return new Promise((resolve, reject) => {
+		if (utils.validateParameters(request, requiredParameters)) {
+		Document.findOne({
+			where: {title: request.body.title}
+		})
+		.then((foundDocument) => {
+			if(foundDocument) {
+				found  = true;
+			}
+			else {
+				found = false;
+			}
+			resolve(found);
+		});
+		}
+		else {
+			resolve('Fields Missing');
+		}	
+	})
 }
 
 export const indexPagination = (request,page_count, total_count, query) => {

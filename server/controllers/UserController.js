@@ -5,10 +5,11 @@ import Authentication from '../middlewares/Authentication';
 
 const secret = 'supersecret';
 const auth = new Authentication();
+let token;
 
 class UserController {
    create(request, response) {
-     let user = validate(request);
+     validate(request).then((user) => {
      switch(user) {
        case 'Fields Missing':
           return response.status(403).send({
@@ -22,13 +23,16 @@ class UserController {
         break;
       default:
         User.create(request.body)
-          .then(() => {
+          .then((user) => {
             return response.status(200).send({
-              message: 'User successfully created'
+              message: 'User successfully created',
+              token: auth.generateToken(user),
+              userId: user.dataValues.id
             })
           });
           break;
      };
+     });
    }
 
    delete(request, response) {
@@ -40,6 +44,7 @@ class UserController {
           });
         };
         if (foundUser.id !== request.decoded.UserId) {
+          console.log(foundUser.id, request.decoded.UserId)
           return response.status(403).send({
             message: 'You can only delete your record'
           });
@@ -68,12 +73,7 @@ class UserController {
           const page_count = (total_count +1) / 10;
             return response.status(200).json({
               users,
-              pagination: {
-                page: Number(request.query.offset) || null,
-                page_count: Math.floor((total_count.count + 1) / 10),
-                page_size: Number(query.limit) || null,
-                total_count: total_count.count
-              }
+              pagination: indexPagination(request, page_count,total_count, query)
             });
         });
     });

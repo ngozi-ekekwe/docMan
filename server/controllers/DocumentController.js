@@ -4,9 +4,9 @@ import validate, {indexPagination} from './ControllerUtils/DocumentUtils';
 
 class DocumentController {
    create(request, response) {
-     let doc = validate(request);
-     switch(doc) {
-       case 'Fields Missing':
+    validate(request).then((doc) => {
+      switch(doc) {
+        case 'Fields Missing':
           return response.status(403).send({
             message: 'Some Fields are missing'
           });
@@ -24,8 +24,9 @@ class DocumentController {
             })
           });
           break;
-     };
-   }
+      };
+    });
+  }
 
   index(request,response) {
     let query = {}

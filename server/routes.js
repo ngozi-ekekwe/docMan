@@ -30,9 +30,9 @@ module.exports = (app) => {
 
 
     //document routes
-    router.post('/documents', authentication.verifyToken, documentController.create);
+    router.post('/documents', authentication.verifyToken,  documentController.create);
     router.get('/documents/:id', authentication.verifyToken, documentController.retrieve);
-    router.get('/documents', documentController.index);
+    router.get('/documents', authentication.verifyToken, authentication.validateAdmin,documentController.index);
     router.put('/documents/:id', authentication.verifyToken, documentController.update);
     router.delete('/documents/:id', authentication.verifyToken, documentController.delete);
 }

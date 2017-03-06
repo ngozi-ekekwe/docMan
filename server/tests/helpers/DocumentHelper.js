@@ -13,7 +13,8 @@ module.exports = {
     existingDocument: {
         title: 'Ngozi',
         content: 'hello world',
-        access: 'private'
+        access: 'private',
+        ownerId: 1
     },
 
     documentOwner: {
@@ -24,11 +25,29 @@ module.exports = {
         password: 'password',
     },
 
+    privateDocument: {
+        title: 'Private doc',
+        content: 'I am a private doc',
+        access: 'private',
+    },
+
     documentAdmin: {
         title: 'admin'
     },
 
     documentRegular: {
         title: 'regular'
+    },
+
+    privateUser: {
+        firstname: 'Rose',
+        lastname: 'ekekwe',
+        username: 'therealng',
+        password: 'hello',
+        email: 'ngmodel@.com'
+    },
+
+    updateDocument: {
+        title: 'update'
     }
 }
