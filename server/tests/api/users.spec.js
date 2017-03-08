@@ -12,73 +12,33 @@
 // let token;
 
 // describe('User Spec', () => {
-//     before(() => {
-//         db.Role.create(helper.regularRole)
+//     before((done) => {
+//         db.Role.create(helper.adminRole)
+//             .then((newRole) => {
+//                 goodUser.roleId = newRole.roleId;
+//                 done();
+//             });
+
 //     });
 
-//     after(() => db.sequelize.sync({ force: true }));
+//     after(() => db.sequelize.sync({force: true}));
 
+//     describe('New User', () => {
 
-//     describe('POST: creates a new user', () => {
-//         it ('should create a new user', (done) => {
-//             request.post('/users')
-//                 .send(goodUser)
-//                 .end((err, response) => {
-//                     expect(response.status).to.equal(200);
-// 										expect(response.body.message).to.eqaul('User successfully created');
-// 										done();
-//                 });
-//         });
+// 			afterEach(() => db.User.destroy({where: {}}));
 
-// 				it('does not create a bad document', (done) => {
+// 			it('creates a new User', (done) => {
 // 					request.post('/users')
-// 						.send(helper.badUser)
+// 						.send(goodUser)
 // 						.end((err, response) => {
-// 							expect(response.status).to.equal(403);
-// 							expect(response.body.message).to.equal('Some Fields are missing');
+// 							if (err) return err;
+// 							expect(response.status).to.equal(200);
 // 							done();
-// 						})
-// 				});
-
-// 				// it ('does not create a user that already exists', () => {
-// 				// 	request.post('/users')
-// 				// 		.send(helper.duplicateUser)
-// 				// 		.end((err, response) => {
-// 				// 			expect(response.status).to.equal(409);
-// 				// 			expect(response.body.message).to.equal('User already exists');
-// 				// 		})
-// 				// })
-//     });
-
-// 		describe('GET: all users',  () => {
-// 			beforeEach((done) => {
-// 				db.Role.create(helper.adminRole)
-// 					.then((newRole) => {
-// 						adminUser.roleId = newRole.id;
-// 						db.User.create(adminUser)
-// 							.then((newUser) => {
-// 								request.post('users/login')
-// 									.send(adminUser)
-// 									.end((err, response) => {
-// 										if (err) return err;
-// 										token = response.body.token
-// 										done();
-// 									})
-
-// 							});
 // 					});
 // 			});
+// 	});
 
-// 			afterEach(() => db.User.destroy({where: {id: 2}}));
 
-// 			it('get all users if admin', (done) => {
-// 				request.get('/users')
-// 					.end((err, response) => {
-// 						if (err) return err;
-// 						expect(response.status).to.equal(401);
-// 					done();
-// 					})
-// 			})
 
-// 		})
+
 // })

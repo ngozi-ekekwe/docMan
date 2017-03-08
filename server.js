@@ -5,7 +5,7 @@ import webpack from 'webpack';
 import config from './webpack.config';
 import open from 'open';
 import path from 'path';
-import routes from './server/routes';
+import routes from './server/routes/index';
 
 const app = Express();
 const port = process.env.PORT || 8000;
@@ -17,17 +17,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use(require('webpack-dev-middleware')(compiler, {
-//   noInfo: true,
-//   publicPath: config.output.publicPath
-// }));
 routes(app);
-
-  // app.use(require('webpack-hot-middleware')(compiler));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, './client/index.html'));
-});
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, function () {

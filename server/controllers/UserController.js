@@ -1,62 +1,82 @@
 import  { Document , User, Role } from '../models';
-import validate, {indexPagination} from './ControllerUtils/UserUtils';
+import userUtils from '../ControllerUtils/UserUtils';
+import authentication from '../middlewares/Authentication';
 import jwt from 'jsonwebtoken';
-import Authentication from '../middlewares/Authentication';
 
 const secret = 'supersecret';
-const auth = new Authentication();
 let token;
 
-class UserController {
+const userController = {
+
+  /**
+   * creates a document
+   * @params  {Object} request object
+   * @params  {Object} response object
+   * @returns {Object} response object
+   */
    create(request, response) {
-     validate(request).then((user) => {
-     switch(user) {
-       case 'Fields Missing':
-          return response.status(403).send({
-            message: 'Some Fields are missing'
-          });
-          break;
-      case true: 
-        return response.status(409).send({
-          message: 'User already exists'
-        });
-        break;
-      default:
+     userUtils.validate(request).then((user) => {
         User.create(request.body)
           .then((user) => {
             return response.status(200).send({
               message: 'User successfully created',
-              token: auth.generateToken(user),
+              token: authentication.generateToken(user),
               userId: user.dataValues.id
             })
-          });
-          break;
-     };
-     });
-   }
+          }).catch(error => {
+            response.status(409).send({message: error.message})
+          });   
+     }).catch(error => {
+       response.status(403).send({message: error.message})
+     })
+   },
+	  
+		/**
+		 * deletes a user
+		 * @params {Object} request object
+		 * @params {Object} request object
+		 */
+   deleteUser(request, response) {
+		 userUtils.ifUserExists(request).then((foundUser) => {
+			 foundUser.destroy()
+			 	.then(() => {
+					 return response.status(200).send({
+						 message: 'User successfully deleted'
+					 })
+				 })
+		 }).catch(error => {
+			 response.status(error.status).send({message: error.message})
+		 });
+  },
 
-   delete(request, response) {
-     User.findById(request.params.id)
-      .then((foundUser) => {
-        if (!foundUser) {
-          return response.status(404).send({
-            message: 'User not Found'
-          });
-        };
-        if (foundUser.id !== request.decoded.UserId) {
-          console.log(foundUser.id, request.decoded.UserId)
-          return response.status(403).send({
-            message: 'You can only delete your record'
-          });
-        };
-        foundUser.destroy()
-          .then(() => {
-            return response.status(200).send({
-              message: 'User successfully deleted'
-            })
-          });
-      });
-  }
+		/**update
+		 * updates a user
+		 * @params {Object} request object
+		 * @params {Object} request object
+		 */
+  update(request, response) {
+		 userUtils.ifUserExists(request).then((foundUser) => {
+			 foundUser.update(request.body)
+			 	.then(() => {
+					 return response.status(200).send({
+						 message: 'User successfully Updated'
+					 })
+				 })
+		 }).catch(error => {
+			 response.status(error.status).send({message: error.message})
+		 });
+  },
+
+			/**logout
+		 * logs a user out
+		 * @params {Object} request object
+		 * @params {Object} request object
+		 */
+	logout(request, response) {
+    response.status(200).send({
+      message: 'User successfully logged out'
+    })
+  },
 
   index(request,response) {
     let query = {}
@@ -73,56 +93,21 @@ class UserController {
           const page_count = (total_count +1) / 10;
             return response.status(200).json({
               users,
-              pagination: indexPagination(request, page_count,total_count, query)
+              pagination: userUtils.indexPagination(request, page_count,total_count, query)
             });
         });
     });
-
-  };
+  },
 
   retrieve(request, response) {
-    User.findById(request.params.id)
-      .then((foundUser) => {
-        if (!foundUser) {
-          return response.status(404).send({
-            message: 'User Not Found'
-          });
-        };
-        if (request.decoded.RoleId === 1) {
-          return response.status(200).send({
-            foundUser
-          });
-        } 
-        return response.status(200).send({
-          firstname: foundUser.firstname,
-          lastname: foundUser.lastname,
-          username: foundUser.username,
-          email: foundUser.email
-        });
-      });
-  }
-
-  update(request, response) {
-    User.findById(request.params.id)
-      .then((foundUser) => {
-        if (!foundUser) {
-          return response.status(404).send({
-            message: 'User Not Found'
-          });
-        }
-        if (foundUser.id !== request.decoded.UserId) {
-          return response.status(403).send({
-            message: 'You can only update your Record'
-          });
-        }
-        foundUser.update(request.body)
-          .then((updatedUser) => {
-            return response.status(200).send({
-              message: 'User successfully updated'
-            });
-          });
-      });
-  }
+		userUtils.ifUserExists(request, true).then((foundUser) => {
+			return response.status(200).send(
+				userDetails(foundUser)
+			)
+		}).catch((error) => {
+			return response.status(error.status).send({message: error.message})
+		})
+  },
 
   login(request, response) {
     User.findOne({where: {email: request.body.email}})
@@ -132,23 +117,16 @@ class UserController {
             UserId: user.id,
             RoleId: user.roleId
           }, secret, { expiresIn: '2 days' })
-          response.status(200).send({
+          return response.status(200).send({
             UserId: user.id,
             token, expiresIn: '2 days',
           });
-        } else {
-          response.status(401).send({
-            message: 'failed to authenticate user'
-          });
         }
-      })
-  }
-
-  logout(request, response) {
-    response.status(200).send({
-      message: 'User successfully logged out'
-    })
-  }
-
+        return response.status(401).send({
+          message: 'failed to authenticate user'
+        });
+      });
+  },
 }
- export default UserController;
+
+export default userController;

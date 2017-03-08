@@ -39,6 +39,7 @@ describe('ROLE SPEC', () => {
     });
 
     after(() => db.Role.destroy({where: {id: role.id}}))
+
     it('should return `unauthorized` when a token is not passed', (done) => {
       request.get('/roles')
         .end((err, res) => {
@@ -57,5 +58,79 @@ describe('ROLE SPEC', () => {
           done();
         })
     });
-  })
+
+    it('should return if fields are missing', () => {
+      request.post('/roles')
+        .set({Authorization: token})
+        .send({})
+        .end((err, response) => {
+          if (err) return err;
+          expect(response.status).to.equal(403);
+        });
+    });
+
+    it ('should return if role already exits', () => {
+      const dup = {title: 'admin'}
+      request.post('/roles')
+        .set({Authorization: token})
+        .send(dup)
+        .end((err, response) => {
+          if (err) return err;
+          expect(response.status).to.equal(409);
+        });
+    });
+
+    it ('should create a role with a unique title', (done) => {
+      request.post('/roles')
+        .send({title: 'author'})
+        .set({Authorization: token})
+        .end((err, response) => {
+          if (err) return err;
+          expect(response.status).to.equal(200);
+          done();
+        })
+    });
+
+    it ('fails for invalid attributes', () => {
+      request.post('/roles')
+        .send({name: 'hello'})
+        .set({Authorization: token})
+        .end((err, response) => {
+          if (err) return err;
+          expect(response.status).to.equal(403);
+        })
+    });
+
+    it ('should get the correct role', (done) => {
+      request.get(`/roles/${role.id}`)
+        .set({Authorization: token})
+        .end((err, response) => {
+          if (err) return err
+          expect(response.status).to.equal(200);
+          done();
+        });
+    });
+
+    it ('should update an existing role', (done) => {
+      request.put(`/roles/${role.id}`)
+        .send({title: 'role'})
+        .set({Authorization: token})
+        .end((err, response) => {
+          if (err) return err
+          expect(response.status).to.equal(201)
+          done();
+        })
+    });
+
+    it ('deletes the rols', (done) => {
+      request.delete(`/roles/${role.id}`)
+        .set({Authorization: token})
+        .end((err, response) => {
+          if (err) return err;
+          expect(response.status).to.equal(200);
+          done();
+        })
+    });
+
+  });
 });

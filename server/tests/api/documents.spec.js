@@ -37,8 +37,8 @@ describe('Document SPEC', () => {
 
     after(() => db.sequelize.sync({ force: true }));
 
-    describe('POST: New Document', () => {
-			it ('creates a new document successfully', (done) => {
+    describe('POST: :/documents', () => {
+			it ('creates a new document when a user has a token', (done) => {
 				request.post('/documents')
 						.send(goodDocument)
 						.set({Authorization: token})
@@ -50,7 +50,7 @@ describe('Document SPEC', () => {
 						});
 			});
 
-			it ('does not create a document with missing fields', (done) => {
+			it ('should not create a document with missing fields', (done) => {
 				request.post('/documents')
 					.send(DocumentHelper.badDocument)
 					.set({Authorization: token})
@@ -62,21 +62,21 @@ describe('Document SPEC', () => {
 					});
 			});
 
-			it ('does not create if the document already exists', (done) => {
+			it ('should not create if the document already exists', (done) => {
 				request.post('/documents')
-					.send(DocumentHelper.existingDocument)
+					.send(goodDocument)
 					.set({Authorization: token})
 					.end((err, response) => {
 						if (err) return err;
 						expect(response.status).to.equal(409);
-						expect(response.body.message).to.equal('Document already exists');
+						expect(response.body.message).to.equal('Document with title already exists');
 						done();
 					})
 			})
     })
 
 		describe('GET: /documents', () => {
-			it ('ensures a regular user can  not views all documents', (done) => {
+			it ('ensures a regular user can  not view all documents', (done) => {
 				request.get('/documents')
 					.end((err, response) => {
 						if (err) return err;
@@ -185,7 +185,7 @@ describe('Document SPEC', () => {
 			});
 
 			describe('Delete', () => {
-				it('should only allow a user delete his own record', (done) => {
+				it('should only allow a user delete his own document', (done) => {
 					request.delete(`/documents/${doc.id}`)
 						.set({Authorization: token})
 						.end((err, response) => {
@@ -195,7 +195,7 @@ describe('Document SPEC', () => {
 						});
 				});
 
-				it('should only allow a user delete his own record', (done) => {
+				it('should only allow a user delete his own document', (done) => {
 					request.delete(`/documents/${doc.id}`)
 						.set({Authorization: privateToken})
 						.end((err, response) => {

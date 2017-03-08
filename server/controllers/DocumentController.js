@@ -1,34 +1,35 @@
 import  { Document , User, Role } from '../models';
-import validate, {indexPagination} from './ControllerUtils/DocumentUtils';
+import documentUtils from '../ControllerUtils/DocumentUtils';
 
+const documentController = {
 
-class DocumentController {
+/**
+   * creates a new Document
+   * @params {Object} Request object
+   * @params {Object} Response object
+   * @returns {Object} Response object
+   */
    create(request, response) {
-    validate(request).then((doc) => {
-      switch(doc) {
-        case 'Fields Missing':
-          return response.status(403).send({
-            message: 'Some Fields are missing'
-          });
-          break;
-      case true: 
-        return response.status(409).send({
-          message: 'Document already exists'
-        });
-        break;
-      default:
+     documentUtils.validate(request).then((document) => {
         Document.create(request.body)
-          .then(() => {
+          .then((document) => {
             return response.status(200).send({
-              message: 'Document successfully created'
+              message: 'Document successfully created',
             })
-          });
-          break;
-      };
-    });
-  }
+          }).catch(error => {
+            response.status(error.status).send({message: error.message})
+          });   
+     }).catch(error => {
+       response.status(error.status).send({message: error.message})
+     })
+   },
 
-  index(request,response) {
+  /**
+   * Lists all Documents
+   * @params {Object} request -Request object
+   * @Params {Object} response - Response Object
+   */
+   index(request,response) {
     let query = {}
     query.order = [
       ['createdAt', 'DESC']
@@ -43,93 +44,68 @@ class DocumentController {
           const page_count = (total_count +1) / 10;
             return response.status(200).json({
               documents,
-              pagination: indexPagination(request, page_count,total_count, query)
+              pagination: documentUtils.indexPagination(request, page_count,total_count, query)
             });
         });
     });
-  };
+  },
 
-
+  /**
+   * returns a particular document
+   * @params {Object} request - Request Object
+   * @params {Object} response - Response Object
+   */
   retrieve(request, response) {
-    Document.findById(request.params.id)
-      .then((foundDocument) => {
-        if (!foundDocument) {
-          return response.status(404).send({
-            message: 'Document Not Found'
-          })
-        }
-        const body = request.body 
-        if (foundDocument.access === 'public' 
-          || foundDocument.access === 'private' && 
-          foundDocument.ownerId === request.decoded.UserId
-          ) {
-          return response.status(200).send({
-            Title: foundDocument.title,
-            Content: foundDocument.content,
-            Published: foundDocument.createdAt
-          })
-        }
-        if (foundDocument.access === 'private' && foundDocument.owner !== request.decoded.UserId) {
-          return response.status(403).send({
-            message: 'This Document is Private'
-          });
-        };
+		documentUtils.ifDocumentExists(request, true).then((foundDocument) => {
+			return response.status(200).send(
+				documentUtils.formatDocumentList(foundDocument)
+			)
+		}).catch((error) => {
+			return response.status(error.status).send({message: error.message})
+		})
+  },
 
-        if (request.decoded.RoleId === 1) {
-          Document.findById(request.params.id)
-            .then(foundDocument => {
-              return response.status(200).send({
-                foundDocument
-              });
-            })
-        };
-      });
-  }
+  /**
+   * deletes a particular document
+   * @params {Object} request -Request Object
+   * @params {Object} response -Response Object
+   */
+   delete(request, response) {
+		 documentUtils.ifDocumentExists(request).then((foundDocument) => {
+			 foundDocument.destroy()
+			 	.then(() => {
+					 return response.status(200).send({
+						 message: 'Document successfully deleted'
+					 })
+				 })
+		 }).catch(error => {
+			 response.status(error.status).send({message: error.message})
+		 });
+  },
 
-  delete(request, response) {
-    Document.findById(request.params.id)
-      .then((foundDocument) => {
-        if (!foundDocument) {
-          return response.status(404).send({
-            message: 'Document Not Found'
-          });
-        };
-        if (foundDocument.ownerId !== request.decoded.UserId) {
-          return response.status(403).send({
-            message: 'You can only delete your document'
-          })
-        }
-        foundDocument.destroy()
-          .then(() => {
-            return response.status(200).send({
-              message: 'Document successfully deleted'
-            });
-          })
-      });
-  }
-
+  /** updates a particular document
+   * @params {Object} request -Request Object
+   * @params {Object} response -Response Object
+   */
   update(request, response) {
-    Document.findById(request.params.id)
-    .then((foundDocument) => {
-      if (!foundDocument) {
-        return response.status(404).send({
-          message: 'Document not found'
-        })
-      }
-      if (foundDocument.owner !== request.decoded.UserId) {
-        return response.status(403).send({
-          message: 'You can only update your document'
-        })
-      }
-      foundDocument.update(request.body)
-        .then((updatedDocument) => {
-          return response.status(200).send({
-            message: 'Document successfully updated'
-          })
-        })
-    })
-}
+		 documentUtils.ifDocumentExists(request).then((foundDocument) => {
+			 foundDocument.update(request.body)
+			 	.then(() => {
+					 return response.status(200).send({
+						 message: 'Document successfully Updated'
+					 })
+				 })
+		 }).catch(error => {
+			 response.status(error.status).send({message: error.message})
+		 });
+  },
 
+
+  search(request, response) {
+  },
+
+  listMyDocuments(request, response) {   
   }
-
-export default DocumentController;
+}
+  
+export default documentController;

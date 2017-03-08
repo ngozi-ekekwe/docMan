@@ -1,18 +1,17 @@
-import Utils from '../Utils';
-import { Document } from '../../models'
+import validateParameters from '../ControllerUtils/Utils';
+import { Role } from '../models'
 
-const utils = new Utils();
-const requiredParameters = ['ownerId', 'title', 'content', 'access'];
+const requiredParameters = ['title'];
 let found;
 
 const validate  = (request) => {
 	return new Promise((resolve, reject) => {
-		if (utils.validateParameters(request, requiredParameters)) {
-		Document.findOne({
+		if (validateParameters(request, requiredParameters)) {
+		Role.findOne({
 			where: {title: request.body.title}
 		})
-		.then((foundDocument) => {
-			if(foundDocument) {
+		.then((foundRole) => {
+			if(foundRole) {
 				found  = true;
 			}
 			else {
