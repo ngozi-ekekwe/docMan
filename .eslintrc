@@ -1,38 +1,75 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings"
-  ],
+  "root": true,
+  "extends": "airbnb-base",
   "plugins": [
     "react"
   ],
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
   "env": {
-    "es6": true,
-    "browser": true,
     "node": true,
-    "jquery": true,
-    "mocha": true
+    "es6": true,
+    "mocha": true,
+    "jquery": true
+  },
+  "parserOptions": {
+     "ecmaVersion": 6,
+     "sourceType": "module",
+     "allowImportExportEverywhere": true,
+     "ecmaFeatures": {
+        "jsx": true
+     }
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "destructuring": true,
+    "forOf": true,
+    "generators": false,
+    "modules": true,
+    "objectLiteralComputedProperties": true,
+    "objectLiteralDuplicateProperties": false,
+    "objectLiteralShorthandMethods": true,
+    "objectLiteralShorthandProperties": true,
+    "spread": true,
+    "superInFunctions": true,
+    "templateStrings": true
   },
   "rules": {
-    "quotes": 0,
-    "no-console": 1,
-    "no-debugger": 1,
-    "no-var": 1,
-    "semi": [1, "always"],
-    "no-trailing-spaces": 0,
-    "eol-last": 0,
-    "no-unused-vars": 0,
-    "no-underscore-dangle": 0,
-    "no-alert": 0,
-    "no-lone-blocks": 0,
+   "import/no-unresolved": 0,
+    "one-var": 0,
+    "one-var-declaration-per-line": 0,
+    "new-cap": 0,
+    "consistent-return": 0,
+    "no-param-reassign": 0,
+    "no-restricted-syntax": [2, "WithStatement"],
+    "comma-dangle": 0,
+    "curly": [1, "multi-line"],
+    "no-multi-spaces": [2, {"exceptions": {"ImportDeclaration": true}}],
+    "no-multi-str": 0,
+    "import/no-extraneous-dependencies": [
+      2, 
+      {
+        "devDependencies": true, 
+        "optionalDependencies": false, 
+        "peerDependencies": false
+      }
+    ],
+    "max-len": [2, 80, 2],
+    "no-shadow": [1, { "allow": ["req", "res", "err"] }],
+    "require-jsdoc": [1, {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true
+      }
+    }],
+    "valid-jsdoc": [1, {
+      "requireReturn": true,
+      "requireReturnType": true,
+      "requireParamDescription": true,
+      "requireReturnDescription": true
+    }],
     "jsx-quotes": 1,
     "react/display-name": [ 1, {"ignoreTranspilerName": false }],
     "react/forbid-prop-types": [1, {"forbid": ["any"]}],
