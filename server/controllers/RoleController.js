@@ -3,12 +3,13 @@ import validate from '../ControllerUtils/RoleUtils';
 const Role = db.Role;
  
 const roleController = {
+
 /**
- * creates new Role
- * @params  {Object} request
- * @params  {Object} response
+ * create - create a new Role
+ * @params  {Object} req Request object
+ * @params  {Object} res Response object
  */
-	create(request, response) {
+	create(req, res) {
 	validate(request).then((role) => {
 		switch(role) {
 			case 'Fields Missing':
@@ -34,9 +35,10 @@ const roleController = {
 },
 
 /**
- * returns al roles
- * @params {Object} request
- * @params {Object} response
+ * fetchRoles - return all roles
+ * @params {Object} req Request object 
+ * @params {Object} res Response object
+ * @returns {Object} res Response object
  */
 	fetchRoles(request, response)  {
 		let query = {};
@@ -66,9 +68,9 @@ const roleController = {
 	},
 
 /**
- * updates a role
- * @params {Object} request
- * @params {Object} response
+ * updateRole - update a role
+ * @param {Object} req request object
+ * @param {Object} res response object
  */
 	updateRole(request, response) {
 		Role.findById(request.params.id)
@@ -94,9 +96,9 @@ const roleController = {
 	},
 
 /**
- * deletes a role
- * @params {Object} request
- * @params {Object} response
+ * deleteRole -  delete a role
+ * @param {Object}  req request object
+ * @param {Object}  res response object
  */
 	deleteRole(request, response) {
 		Role.findById(request.params.id)
@@ -123,6 +125,11 @@ const roleController = {
 			});
 	},
 
+/**
+ * retrieve -  return a role
+ * @param {Object}  req request object
+ * @param {Object}  res response object
+ */
 	retrieve(request, response) {
 		Role.findById(request.params.id)
 			.then((role) => {

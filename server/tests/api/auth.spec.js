@@ -51,4 +51,15 @@ describe('MIDDLEWARE AUTH TEST', () => {
 				done();
 			});
 	});
+
+	it('should successfully login a user', (done) => {
+		request.post('/api/users/login')
+			.send({email: 'ngozi.ekekwe@yahoo.com', password: 'hello'})
+			.end((err, res) => {
+				if (err) return err;
+				expect(res.status).to.equal(200);
+				expect(res.token).to.be.defined;
+				done();
+			})
+	})
 });

@@ -23,7 +23,7 @@ module.exports = {
         lastname: 'Ekekwe',
         username: 'Ngee',
         email: 'ngozi.ekekwe@yahoo.com',
-        password: faker.internet.password(),
+        password: 'hello',
     },
 
     secondUser: {

@@ -56,14 +56,14 @@ ifDocumentExists(request, allowAdmin) {
 				if (!foundDocument) return reject({message: 'Document Not Found', status: 404});
 
 				if (foundDocument.access === 'public' 
-          || foundDocument.access === 'private' && 
-          foundDocument.ownerId === request.decoded.UserId
-          ) {
+		  || foundDocument.access === 'private' && 
+		  foundDocument.ownerId === request.decoded.UserId
+		  ) {
 					return resolve(foundDocument);
 				}
 				if (foundDocument.access === 'private' && foundDocument.owner !== request.decoded.UserId) {
-          return reject({message: 'This Document is Private', status: 403});
-        }
+		  return reject({message: 'This Document is Private', status: 403});
+		}
 				return resolve (foundUser);
 			});
 	});
