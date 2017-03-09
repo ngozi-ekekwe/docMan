@@ -9,18 +9,19 @@ const documentController = {
    * @params {Object} Response object
    * @returns {Object} Response object
    */
-   create(request, response) {
-     documentUtils.validate(request).then((document) => {
-        Document.create(request.body)
+   create(req, res) {
+     documentUtils.validate(req).then((document) => {
+        Document.create(req.body)
           .then((document) => {
-            return response.status(200).send({
+            return res.status(200).send({
               message: 'Document successfully created',
+              document: documentUtils.formatDocumentList(document)
             })
-          }).catch(error => {
-            response.status(error.status).send({message: error.message})
+          }).catch(err => {
+            res.status(err.status).send({message: err.message})
           });   
-     }).catch(error => {
-       response.status(error.status).send({message: error.message})
+     }).catch(err => {
+       res.status(err.status).send({message: err.message})
      })
    },
 
@@ -29,22 +30,22 @@ const documentController = {
    * @params {Object} request -Request object
    * @Params {Object} response - Response Object
    */
-   index(request,response) {
+   index(req,res) {
     let query = {}
     query.order = [
       ['createdAt', 'DESC']
     ];
-    if(Number(request.query.limit) >= 0) query.limit = request.query.limit;
-    if(Number(request.query.offset >=0)) query.offset = request.query.offset;
+    if(Number(req.query.limit) >= 0) query.limit = req.query.limit;
+    if(Number(req.query.offset >=0)) query.offset = req.query.offset;
     Document.findAndCountAll().then((documents) => {
       let total_count;
       total_count = documents;
       Document.findAll(query)
         .then((documents) => {
           const page_count = (total_count +1) / 10;
-            return response.status(200).json({
+            return res.status(200).send({
               documents,
-              pagination: documentUtils.indexPagination(request, page_count,total_count, query)
+              pagination: documentUtils.indexPagination(req, page_count,total_count, query)
             });
         });
     });
@@ -55,13 +56,13 @@ const documentController = {
    * @params {Object} request - Request Object
    * @params {Object} response - Response Object
    */
-  retrieve(request, response) {
-		documentUtils.ifDocumentExists(request, true).then((foundDocument) => {
-			return response.status(200).send(
+  retrieve(req, res) {
+		documentUtils.ifDocumentExists(req, true).then((foundDocument) => {
+			return res.status(200).send(
 				documentUtils.formatDocumentList(foundDocument)
 			)
-		}).catch((error) => {
-			return response.status(error.status).send({message: error.message})
+		}).catch((err) => {
+			return res.status(err.status).send({message: err.message})
 		})
   },
 
@@ -70,16 +71,16 @@ const documentController = {
    * @params {Object} request -Request Object
    * @params {Object} response -Response Object
    */
-   delete(request, response) {
-		 documentUtils.ifDocumentExists(request).then((foundDocument) => {
+   delete(req, res) {
+		 documentUtils.ifDocumentExists(req).then((foundDocument) => {
 			 foundDocument.destroy()
 			 	.then(() => {
-					 return response.status(200).send({
+					 return res.status(200).send({
 						 message: 'Document successfully deleted'
 					 })
 				 })
-		 }).catch(error => {
-			 response.status(error.status).send({message: error.message})
+		 }).catch(err => {
+			 res.status(err.status).send({message: err.message})
 		 });
   },
 
@@ -87,16 +88,16 @@ const documentController = {
    * @params {Object} request -Request Object
    * @params {Object} response -Response Object
    */
-  update(request, response) {
-		 documentUtils.ifDocumentExists(request).then((foundDocument) => {
-			 foundDocument.update(request.body)
+  update(req, res) {
+		 documentUtils.ifDocumentExists(req).then((foundDocument) => {
+			 foundDocument.update(req.body)
 			 	.then(() => {
-					 return response.status(200).send({
+					 return res.status(200).send({
 						 message: 'Document successfully Updated'
 					 })
 				 })
-		 }).catch(error => {
-			 response.status(error.status).send({message: error.message})
+		 }).catch(err => {
+			 res.status(err.status).send({message: err.message})
 		 });
   },
 

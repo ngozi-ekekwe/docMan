@@ -4,7 +4,8 @@ module.exports = {
         lastname: 'ekekwe',
         username: 'rose',
         password: 'hello',
-        email: 'therealng.com'
+        email: 'therealng.com',
+        roleId: 2
     },
 
     adminUser: {
@@ -29,11 +30,24 @@ module.exports = {
         title: 'regular'
     },
 
-        duplicateUser: {
+    duplicateUser: {
         firstname: 'ngozi',
         lastname: 'ekekwe',
         username: 'rose',
         password: 'hello',
-        email: 'therealng.com'
+        email: 'sax@sax.com'
+    },
+
+    noRoleUser: {
+        firstname: 'Alice',
+        lastname: 'wonderland',
+        email: 'ngng@.com',
+        password: 'hello',
+        username: 'rhoda'
+    }, 
+
+    loginParams: {
+        email: 'sax@sax.com',
+        password: 'sax'
     }
 }

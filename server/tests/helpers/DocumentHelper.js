@@ -5,6 +5,13 @@ module.exports = {
         access: 'public',
     },
 
+    goodDocument2: {
+        title: 'NgoziRose',
+        content: 'Hello Africa',
+        access: 'public',
+        ownerId: 1
+    },
+
     badDocument: {
         content: 'hello',
         access: 'public'
@@ -49,5 +56,7 @@ module.exports = {
 
     updateDocument: {
         title: 'update'
-    }
+    },
+
+
 }

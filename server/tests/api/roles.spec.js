@@ -17,7 +17,7 @@ describe('ROLE SPEC', () => {
     db.Role.create(roleParams)
       .then((newRole) => {
         userParams.roleId = newRole.id;
-        request.post('/users')
+        request.post('/api/users')
           .send(userParams)
           .end((err, res) => {
             token = res.body.token;
@@ -41,16 +41,17 @@ describe('ROLE SPEC', () => {
     after(() => db.Role.destroy({where: {id: role.id}}))
 
     it('should return `unauthorized` when a token is not passed', (done) => {
-      request.get('/roles')
+      request.get('/api/roles')
         .end((err, res) => {
           if (err) return err;
           expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('Token required to access this route');
           done();
         })
     });
 
-    it('should return all roles when a token is set', (done) => {
-      request.get('/roles')
+    it('should return all roles to an admin user', (done) => {
+      request.get('/api/roles')
         .set({ Authorization: token })
         .end((err, res) => {
           if (err) return err;
@@ -59,8 +60,8 @@ describe('ROLE SPEC', () => {
         })
     });
 
-    it('should return if fields are missing', () => {
-      request.post('/roles')
+    it('should not create a new role if title fields is missing', () => {
+      request.post('/api/roles')
         .set({Authorization: token})
         .send({})
         .end((err, response) => {
@@ -69,9 +70,9 @@ describe('ROLE SPEC', () => {
         });
     });
 
-    it ('should return if role already exits', () => {
+    it ('should not create a role that already', () => {
       const dup = {title: 'admin'}
-      request.post('/roles')
+      request.post('/api/roles')
         .set({Authorization: token})
         .send(dup)
         .end((err, response) => {
@@ -81,7 +82,7 @@ describe('ROLE SPEC', () => {
     });
 
     it ('should create a role with a unique title', (done) => {
-      request.post('/roles')
+      request.post('/api/roles')
         .send({title: 'author'})
         .set({Authorization: token})
         .end((err, response) => {
@@ -91,8 +92,8 @@ describe('ROLE SPEC', () => {
         })
     });
 
-    it ('fails for invalid attributes', () => {
-      request.post('/roles')
+    it ('should fail for invalid attributes', () => {
+      request.post('/api/roles')
         .send({name: 'hello'})
         .set({Authorization: token})
         .end((err, response) => {
@@ -101,8 +102,8 @@ describe('ROLE SPEC', () => {
         })
     });
 
-    it ('should get the correct role', (done) => {
-      request.get(`/roles/${role.id}`)
+    it ('should return the correct role when an id is passed', (done) => {
+      request.get(`/api/roles/${role.id}`)
         .set({Authorization: token})
         .end((err, response) => {
           if (err) return err
@@ -112,7 +113,7 @@ describe('ROLE SPEC', () => {
     });
 
     it ('should update an existing role', (done) => {
-      request.put(`/roles/${role.id}`)
+      request.put(`/api/roles/${role.id}`)
         .send({title: 'role'})
         .set({Authorization: token})
         .end((err, response) => {
@@ -122,8 +123,8 @@ describe('ROLE SPEC', () => {
         })
     });
 
-    it ('deletes the rols', (done) => {
-      request.delete(`/roles/${role.id}`)
+    it ('should delete a role', (done) => {
+      request.delete(`/api/roles/${role.id}`)
         .set({Authorization: token})
         .end((err, response) => {
           if (err) return err;

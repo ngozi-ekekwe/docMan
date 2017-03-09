@@ -8,6 +8,7 @@
   },
   "test": {
     "use_env_variable": "TEST_DB_URL",
+    "database": "docMan-test",
     "host": "127.0.0.1",
     "port": 5439,
     "dialect": "postgres",

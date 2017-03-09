@@ -7,7 +7,7 @@ module.exports = (app) => {
         res.send({message: 'Document Management System'})
     });
 
-    app.use('/documents', documents);
-    app.use('/roles',roles);
-    app.use('/users', users);
+    app.use('/api/documents', documents);
+    app.use('/api/roles',roles);
+    app.use('/api/users', users);
 }

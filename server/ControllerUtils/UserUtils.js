@@ -19,13 +19,13 @@ validate(request) {
 		})
 		.then((foundUser) => {
 			if(foundUser) {
-				reject({message: 'User with emial already exists'})
+				return reject({message: 'User with email already exists', status: 409})
 			}
 			resolve(foundUser);
 		});
 		}
 		else {
-			reject({message: 'Some Fields are missing'});
+			reject({message: 'Some Fields are missing', status: 403});
 		}	
 	});
 },
@@ -76,7 +76,7 @@ ifUserExists(request, allowAdmin) {
 	return new Promise((resolve, reject) => {
 		User.findById(request.params.id)
 			.then((foundUser) => {
-				if (!foundUser) reject({message: 'User Not Found', status: 404});
+				if (!foundUser) return reject({message: 'User Not Found', status: 404});
 
 				if (allowAdmin && request.decoded.RoleId === 1 || foundUser.id === request.decoded.UserId) {
 					return resolve(foundUser);

@@ -40,6 +40,7 @@ module.exports = {
       roleId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 2,
         onDelete: 'CASCADE',
         references: {
           model: 'Roles',
@@ -50,6 +51,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    // return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('Users');
   }
 };

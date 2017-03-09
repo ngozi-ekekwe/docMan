@@ -16,7 +16,7 @@ describe('MIDDLEWARE AUTH TEST', () => {
 		db.Role.create(roleParams)
 			.then((newRole) => {
 				params.roleId = newRole.id
-				request.post('/users')
+				request.post('/api/users')
 					.send(params)
 					.end((err, res) => {
 						token = res.body.token
@@ -28,26 +28,27 @@ describe('MIDDLEWARE AUTH TEST', () => {
 	after(() => db.sequelize.sync({ force: true }));
 
 	it('should return `unauthorized` without a token', () => {
-		request.get('/users')
+		request.get('/api/users')
 			.end((err, res) => {
 				expect(res.status).to.equal(401);
 			})
 	});
 
 	it('should return `invalid` for unauthorized token', () => {
-		request.get('/users')
+		request.get('/api/users')
 			.set({ Authorization: 'invalid token' })
 			.end((err, res) => {
 				expect(res.status).to.equal(401);
 			});
 	});
 
-	it('should return all users for valid token', () => {
-		request.get('/users')
+	it('should return all users for valid token', (done) => {
+		request.get('/api/users')
 			.set({ Authorization: token })
 			.end((err, res) => {
 				if (err) return err;
 				expect(res.status).to.equal(200);
-			})
+				done();
+			});
 	});
 });
