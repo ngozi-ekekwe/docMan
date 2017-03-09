@@ -143,6 +143,7 @@ const documentController = {
 					);
 			});
 	},
+	
 	listMyDocuments(request, response) {  
 		Document.findAll({
 			where: {

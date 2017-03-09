@@ -19,6 +19,7 @@ const userController = {
 	 */
 	create(request, response) {
 		userUtils.validate(request).then((user) => {
+			// req.body.roleId = 1; 
 			User.create(request.body)
 				.then((user) => {
 					return response.status(200).send({
@@ -90,6 +91,11 @@ const userController = {
 		})
 	},
 
+	/**index
+	 * returns all users
+	 * @params {Object} request object
+	 * @params {Object} request object
+	 */
 	index(request, response) {
 		let query = {}
 		query.order = [
@@ -111,10 +117,15 @@ const userController = {
 		});
 	},
 
+	/**retrieve
+	 * returns a particular user
+	 * @params {Object} request object
+	 * @params {Object} request object
+	 */
 	retrieve(request, response) {
 		userUtils.ifUserExists(request, true).then((foundUser) => {
 			return response.status(200).send(
-				userDetails(foundUser)
+				userUtils.userDetails(foundUser)
 			)
 		}).catch((error) => {
 			return response.status(error.status).send({
@@ -123,6 +134,11 @@ const userController = {
 		})
 	},
 
+/**login
+	 * logs a user into the application
+	 * @params {Object} request object
+	 * @params {Object} request object
+	 */
 	login(request, response) {
 		User.findOne({
 				where: {

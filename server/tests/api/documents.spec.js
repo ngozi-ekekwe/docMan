@@ -157,7 +157,7 @@ describe('Document SPEC', () => {
 				request.get('/api/documents')
 					.set({Authorization: token})
 					.end((err, response) => {
-						expect(response.body.pagination.page).to.equal(null);
+						expect(response.body.pagination.page).to.equal(1);
 						done();
 					});
 			});

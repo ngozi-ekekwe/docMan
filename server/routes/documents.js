@@ -7,6 +7,8 @@ const router = express.Router();
 router.route('/')
     .get(authentication.verifyToken, authentication.validateAdmin,documentController.index)
     .post(authentication.verifyToken, documentController.create)
+
+router.route('/search')    
     .get(authentication.verifyToken, documentController.search);
 
 router.route('/:id/documents')

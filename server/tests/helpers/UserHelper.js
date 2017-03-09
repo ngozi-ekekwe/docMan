@@ -49,5 +49,13 @@ module.exports = {
     loginParams: {
         email: 'sax@sax.com',
         password: 'sax'
-    }
+    }, 
+
+    regularUser: {
+        firstname: 'ngozi',
+        lastname: 'ekekwe',
+        username: 'rose',
+        password: 'hello',
+        email: 'therealng.com',
+    },
 }

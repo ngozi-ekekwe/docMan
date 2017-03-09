@@ -28,9 +28,9 @@ const validate  = (request) => {
 
 export const indexPagination = (request,page_count, total_count, query) => {
 	return({
-	page: Number(request.query.offset) || null,
+	page: Number(request.query.offset) || 1,
 	page_count: Math.floor((total_count.count + 1) / 10),
-	page_size: Number(query.limit) || null,
+	page_size: Number(query.limit) || 1,
 	total_count: total_count.count
 	})
 }
