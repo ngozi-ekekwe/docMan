@@ -14,36 +14,31 @@ const expect = chai.expect;
 const request = supertest(app);
 const userParams = helper.documentOwner;
 const adminRole = helper.documentAdmin;
-const regularRole = helper. documentRegular;
-const goodDocument = helper.goodDocument;
-const privateUser = helper.privateUser;
-
 const next = () => true;
 const createResponse = () => httpMocks
-.createResponse({ eventEmitter: events.EventEmitter });
-let token
+  .createResponse({ eventEmitter: events.EventEmitter });
+let token;
 
 describe('Middleware Test', () => {
- 	before((done) => {
-		db.Role.create(adminRole)
-			.then(newRole => {
-					userParams.roleId = newRole.id
-					db.User.create(userParams)
-						.then((newUser) => {
-							request.post('/api/users/login')
-								.send(userParams)
-								.end((err, response) => {
-									if (err) return err;
-									token = response.body.token;
-                  console.log(token)
-									goodDocument.ownerId = response.body.UserId;
-									done();
-								});
-						});
-				});
-	});
+  before((done) => {
+    db.Role.create(adminRole)
+      .then((newRole) => {
+        userParams.roleId = newRole.id;
+        db.Role.create({ title: 'regular' });
+        db.User.create(userParams)
+          .then(() => {
+            request.post('/api/users/login')
+              .send(userParams)
+              .end((err, response) => {
+                if (err) return err;
+                token = response.body.token;
+                done();
+              });
+          });
+      });
+  });
 
-    after(() => db.sequelize.sync({ force: true }));
+  after(() => db.sequelize.sync({ force: true }));
 
   describe('verifyToken', () => {
     it('returns an error if token is not passed', (done) => {
@@ -53,7 +48,8 @@ describe('Middleware Test', () => {
         url: '/api/users',
       });
       res.on('end', () => {
-        expect(res._getData().message).to.equal('Token required to access this route');
+        expect(res._getData().message).to.equal(
+          'Token required to access this route');
         done();
       });
       authentication.verifyToken(req, res);
@@ -90,7 +86,8 @@ describe('Middleware Test', () => {
       done();
     });
 
-    it('should not call next function if the token is not passed', (done) => {
+    it('should not call next function if the token is not passed', (
+      done) => {
       const res = createResponse();
       const req = httpMocks.createRequest({
         method: 'POST',
@@ -118,7 +115,8 @@ describe('Middleware Test', () => {
         }
       });
       res.on('end', () => {
-        expect(res._getData().message).to.equal('Token required to access this route');
+        expect(res._getData().message).to.equal(
+          'Token required to access this route');
         done();
       });
       authentication.verifyToken(req, res);
@@ -144,7 +142,8 @@ describe('Middleware Test', () => {
       done();
     });
 
-    it('should not call next function if the user is not an admin', (done) => {
+    it('should not call next function if the user is not an admin', (
+      done) => {
       const res = createResponse();
       const req = httpMocks.createRequest({
         method: 'GET',
@@ -163,5 +162,4 @@ describe('Middleware Test', () => {
       done();
     });
   });
-
 });

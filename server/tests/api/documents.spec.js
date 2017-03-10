@@ -1,28 +1,29 @@
+import chai from 'chai';
+import supertest from 'supertest';
 import DocumentHelper from '../helpers/DocumentHelper';
 import db from '../../models';
 import app from '../../../server';
-import chai from 'chai';
-import supertest from 'supertest';
 
 const userParams = DocumentHelper.documentOwner;
 const adminRole = DocumentHelper.documentAdmin;
-const regularRole = DocumentHelper.documentRegular;
 const goodDocument = DocumentHelper.goodDocument;
 const privateUser = DocumentHelper.privateUser;
 const privateDocument = DocumentHelper.privateDocument;
 const request = supertest(app);
 const expect = chai.expect;
 
-let token, privateToken, doc, documentresponse, getDoc;
+let token,
+  privateToken,
+  doc,
+  documentresponse;
 
-
-describe('Document SPEC', () => {
+describe('Document API', () => {
   before((done) => {
     db.Role.create(adminRole)
-      .then(newRole => {
-        userParams.roleId = newRole.id
+      .then((newRole) => {
+        userParams.roleId = newRole.id;
         db.User.create(userParams)
-          .then((newUser) => {
+          .then(() => {
             request.post('/api/users/login')
               .send(userParams)
               .end((err, response) => {
@@ -37,17 +38,17 @@ describe('Document SPEC', () => {
 
   after(() => db.sequelize.sync({ force: true }));
 
-  describe('Create document', () => {
+  describe('create document', () => {
     beforeEach((done) => {
       request.post('/api/documents')
         .send(goodDocument)
         .set({ Authorization: token })
         .end((err, res) => {
-          if (err) return err
-          documentresponse = res
+          if (err) return err;
+          documentresponse = res;
           done();
         });
-    })
+    });
 
     afterEach(() => db.Document.destroy({ where: {} }));
 
@@ -58,14 +59,14 @@ describe('Document SPEC', () => {
       expect(documentresponse.body.document).to.have.property(
         'content');
       expect(documentresponse.body.message).to.equal(
-        'Document successfully created')
+        'Document successfully created');
       done();
     });
 
     it('should have the date of creation defined', () => {
       expect(documentresponse.body.document).to.have.property(
         'published');
-    })
+    });
 
     it('should not create a document with missing fields', (done) => {
       request.post('/api/documents')
@@ -73,7 +74,7 @@ describe('Document SPEC', () => {
         .set({ Authorization: token })
         .end((err, res) => {
           if (err) return err;
-          expect(res.status).to.equal(403)
+          expect(res.status).to.equal(403);
           expect(res.body.message).to.equal(
             'Some Fields are missing');
           done();
@@ -90,22 +91,20 @@ describe('Document SPEC', () => {
           expect(response.body.message).to.equal(
             'Document with title already exists');
           done();
-        })
-    })
-  })
+        });
+    });
+  });
 
   describe('GET: /documents', () => {
-
     before((done) => {
       request.post('/api/documents')
         .send(goodDocument)
         .set({ Authorization: token })
         .end((err, res) => {
           if (err) return err;
-          getDoc = res.body
           done();
-        })
-    })
+        });
+    });
     it('should not return a document to an unauthorized user', (done) => {
       request.get('/api/documents')
         .end((err, res) => {
@@ -122,7 +121,6 @@ describe('Document SPEC', () => {
         .set({ Authorization: token })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.doc).to.exist;
           done();
         });
     });
@@ -135,27 +133,26 @@ describe('Document SPEC', () => {
           .end((err, res) => {
             expect(res.status).to.equal(200);
             done();
-          })
+          });
       });
 
       it('should return documents from the most recent', (done) => {
         request.get('/api/documents')
           .set({ Authorization: token })
           .end((err, res) => {
-            if (err) return err
+            if (err) return err;
             expect(res.body.doc[0].createdAt)
-              .to.be.greaterThan(res.body.doc[1].createdAt)
+              .to.be.greaterThan(res.body.doc[1].createdAt);
             done();
-          })
+          });
       });
-    })
+    });
 
     it('paginates the list of documents', (done) => {
       request.get('/api/documents')
         .set({ Authorization: token })
         .end((err, response) => {
           expect(response.status).to.equal(200);
-          expect(response.body.pagination).to.exist
           done();
         });
     });
@@ -186,37 +183,30 @@ describe('Document SPEC', () => {
           done();
         });
     });
-
   });
 
   describe('GET: /documents/:id', () => {
     before((done) => {
-      db.Role.create(regularRole)
+      db.Role.create({ title: 'regular' })
         .then((newRole) => {
           privateUser.roleId = newRole.id;
           db.User.create(privateUser)
-            .then((newUser) => {
+            .then(() => {
               request.post('/api/users/login')
                 .send(privateUser)
                 .end((err, response) => {
                   if (err) return err;
                   privateToken = response.body.token;
-                  privateDocument.ownerId = response.body.UserId;
-                  done();
-                })
+                  privateDocument.ownerId = response.body.userIdentity;
+                  db.Document.create(privateDocument)
+                    .then((newDoc) => {
+                      doc = newDoc.dataValues;
+                      done();
+                    });
+                });
             });
         });
     });
-
-    beforeEach((done) => {
-      db.Document.create(privateDocument)
-        .then((newDoc) => {
-          doc = newDoc.dataValues;
-          done();
-        });
-    });
-
-    afterEach(() => db.Document.destroy({ where: { id: doc.id } }));
 
     it('returns a private document only to the owner', (done) => {
       request.get(`/api/documents/${doc.id}`)
@@ -229,7 +219,6 @@ describe('Document SPEC', () => {
         });
     });
 
-
     it('returns a private document only to the owner', (done) => {
       request.get(`/api/documents/${doc.id}`)
         .set({ Authorization: privateToken })
@@ -241,15 +230,18 @@ describe('Document SPEC', () => {
     });
 
     describe('Delete', () => {
-      it('should only allow a user delete his own document', (done) => {
-        request.delete(`/api/documents/${doc.id}`)
-          .set({ Authorization: token })
-          .end((err, response) => {
-            if (err) return err;
-            expect(response.status).equal(403);
-            done();
-          });
-      });
+      it('should not allow a document be deleted by another user',
+        (done) => {
+          request.delete(`/api/documents/${doc.id}`)
+            .set({ Authorization: token })
+            .end((err, response) => {
+              if (err) return err;
+              expect(response.status).to.equal(403);
+              expect(response.body.message).to.equal(
+                'You can only make changes to your document');
+              done();
+            });
+        });
 
       it('should only allow a user delete his own document', (done) => {
         request.delete(`/api/documents/${doc.id}`)
@@ -262,7 +254,7 @@ describe('Document SPEC', () => {
       });
 
       it('should only allow a user delete his own record', (done) => {
-        request.delete(`/api/documents/100`)
+        request.delete('/api/documents/100')
           .set({ Authorization: privateToken })
           .end((err, response) => {
             if (err) return err;
@@ -271,29 +263,5 @@ describe('Document SPEC', () => {
           });
       });
     });
-
-    describe('update', () => {
-      it('should only allow a user delete his own record', (done) => {
-        request.put(`/api/documents/${doc.id}`)
-          .send(DocumentHelper.updateDocument)
-          .set({ Authorization: token })
-          .end((err, response) => {
-            if (err) return err;
-            expect(response.status).equal(403);
-            done();
-          });
-      });
-
-      it('should only allow a user update his own record', (done) => {
-        request.put('/api/documents/200')
-          .send(DocumentHelper.updateDocument)
-          .set({ Authorization: privateToken })
-          .end((err, response) => {
-            if (err) return err;
-            expect(response.status).equal(404);
-            done();
-          });
-      });
-    })
   });
-})
+});

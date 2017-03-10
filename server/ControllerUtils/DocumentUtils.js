@@ -1,7 +1,11 @@
 import validateParameters from '../ControllerUtils/Utils';
 import { Document } from '../models';
 
-const requiredParameters = ['title', 'content', 'access'];
+const requiredParameters = [
+  'title',
+  'content',
+  'access'
+];
 
 const DocumentUtils = {
   /**
@@ -100,7 +104,7 @@ const DocumentUtils = {
           }
           return reject({
             message: 'You can only make changes to your document',
-            status: 404
+            status: 403
           });
         });
     });

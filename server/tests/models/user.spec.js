@@ -1,19 +1,23 @@
 import chai from 'chai';
 import db from '../../models';
-import  helper from  '../test-helper';
+import helper from '../test-helper';
 
 const expect = chai.expect;
-
 const userParams = helper.regularUser;
 const roleParams = helper.regularRole;
 
-const notNullAttrs = ['firstname', 'lastname', 'username', 'email', 'password', 'roleId'];
-const uniqueAttrs = ['username', 'email'];
+const notNullAttrs = [
+  'firstname',
+  'lastname',
+  'username',
+  'email',
+  'password',
+  'roleId'
+];
 
+let user;
 
-let user
-
-describe('<Unit Test>', () => {
+describe('User Model', () => {
   before((done) => {
     db.Role.create(roleParams)
       .then((newRole) => {
@@ -53,11 +57,13 @@ describe('<Unit Test>', () => {
 
   describe('Update User', () => {
     it('hashes updated passwords', () => {
-      user.save().then((newUser) => newUser.update({ password: 'validpassword' }))
+      user.save()
+        .then(newUser => newUser.update({ password: 'validpassword' }))
         .then((updatedUser) => {
-          expect(updatedUser.password).to.not.equal('validpassword');
-        })
-    })
+          expect(updatedUser.password).to.not.equal(
+            'validpassword');
+        });
+    });
   });
 
   describe('Validations', () => {
@@ -66,12 +72,12 @@ describe('<Unit Test>', () => {
         it(`fails without ${attr}`, () => {
           user[attr] = null;
           return user.save()
-            .then((newUser) => expect(newUser).to.not.exist)
+            .then(newUser => expect(newUser).to.not.exist)
             .catch(err =>
-              expect(/notNull/.test(err.message)).to.be.true);
+              expect(/notNull/.test(err.message)).to.be.true
+            );
         });
       });
     });
   });
-
-  });
+});
