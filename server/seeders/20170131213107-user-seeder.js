@@ -1,6 +1,5 @@
-'use strict';
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface) {
     return queryInterface.bulkInsert('Users', [
       {
         firstname: 'Ngozi',
@@ -12,7 +11,7 @@ module.exports = {
         updatedAt: new Date(),
         roleId: 1
       },
-       {
+      {
         firstname: 'Ngozii',
         lastname: 'Ekekwei',
         username: 'Ngeei',
@@ -21,11 +20,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         roleId: 2
-       }
+      }
     ], {});
   },
 
-  down: function (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Users', null, {})
+  down(queryInterface) {
+    return queryInterface.bulkDelete('Users', null, {});
   }
 };

@@ -1,8 +1,5 @@
-'use strict';
-const faker = require('faker');
-
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up(queryInterface) {
     return queryInterface.bulkInsert('Documents', [
       {
         title: 'hello',
@@ -21,10 +18,10 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ], {})
+    ], {});
   },
 
-  down: function (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Documents', null, {})
+  down(queryInterface) {
+    return queryInterface.bulkDelete('Documents', null, {});
   }
 };

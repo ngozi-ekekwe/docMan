@@ -6,9 +6,7 @@ let found;
 
 const validate = request => new Promise((resolve) => {
   if (validateParameters(request, requiredParameters)) {
-    Role.findOne({
-        where: { title: request.body.title }
-      })
+    Role.findOne({ where: { title: request.body.title } })
       .then((foundRole) => {
         if (foundRole) {
           found = true;
@@ -25,7 +23,7 @@ const validate = request => new Promise((resolve) => {
 export const indexPagination = (request, pageCount, totalCount, query) => ({
   page: Number(request.query.offset) || 1,
   page_count: Math.floor((totalCount.count + 1) / 10),
-  page_size: Number(query.limit) || 1,
+  page_size: Number(query.limit) || 10,
   total_count: totalCount.count
 });
 

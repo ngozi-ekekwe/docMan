@@ -99,19 +99,54 @@ const DocumentController = {
   },
 
   listMyDocuments(req, res) {
-    Document.findAll({
-        where: {
-          ownerId: req.decoded.UserId
-        }
-      })
-      .then((docs) => {
-        return res.status(200).send(docs);
-      });
+    Document.findAll({ where: { ownerId: req.decoded.UserId } })
+      .then(docs => res.status(200).send(docs));
   },
 
   search(req, res) {
-
-  }
+    const query = {
+      where: {
+        $and: [{
+          $or: [{
+            access: 'public'
+          }, {
+            ownerId: req.decoded.UserId,
+          }],
+        }],
+      },
+      order: [
+        ['createdAt', 'DESC'],
+      ]
+    };
+    if (req.query.limit >= 0) query.limit = req.query.limit;
+    if (req.query.offset >= 0) query.offset = (req.query.offset - 1) * 10;
+    if (req.query.term) {
+      query.where.$and.push({
+        $or: [{
+          title: {
+            $iLike: `%${req.query.term}%`,
+          },
+        }, {
+          content: {
+            $iLike: `%${req.query.term}%`
+          },
+        }],
+      });
+    }
+    Document.findAndCountAll().then((documents) => {
+      const totalCount = documents;
+      Document.findAll(query)
+        .then((doc) => {
+          const pageCount = (totalCount + 1) / 10;
+          return res.status(200).send({
+            doc,
+            pagination: DocumentUtils.indexPagination(req,
+              pageCount, totalCount, query)
+          });
+        });
+    });
+  },
 };
+
 
 export default DocumentController;

@@ -9,8 +9,8 @@ router.route('/')
     documentController.index)
   .post(authentication.verifyToken, documentController.create);
 
-// router.route('/search')
-//   .get(authentication.verifyToken, documentController.search);
+router.route('/search')
+  .get(authentication.verifyToken, documentController.search);
 
 router.route('/userdocs/')
   .get(authentication.verifyToken, documentController.listMyDocuments);

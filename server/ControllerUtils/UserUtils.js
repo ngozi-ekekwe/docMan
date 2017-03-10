@@ -44,15 +44,17 @@ const UserUtils = {
 
   /**
    * indexPagination
-   * @param page_count {Number} Number
-   * @param total_count {Number}
-   * @returns {Object} 
+   * @param {Object} request object
+   * @param  {Number} pageCount number
+   * @param {Number} totalCount number
+   * @param {Object} query object
+   * @returns {Object} object
    */
   indexPagination(request, pageCount, totalCount, query) {
     return ({
       page: Number(request.query.offset) || 1,
       pageCount: Math.floor((totalCount.count + 1) / 10),
-      page_size: Number(query.limit) || 1,
+      page_size: Number(query.limit) || 10,
       totalCount: totalCount.count
     });
   },
@@ -62,7 +64,7 @@ const UserUtils = {
    * userDetails
    * format user details
    * @param {Object} user object
-   * @returns {Object}
+   * @returns {Object} profile object
    */
   userDetails(user) {
     const profile = {
@@ -81,16 +83,19 @@ const UserUtils = {
    * ifUserExists
    * Checks if a user exists
    * @param {Object} request object
-   * @param {Boolean} allowAdmin
+   * @param {Boolean} allowAdmin boolean
+   * @returns {Object} promise
    */
   ifUserExists(request, allowAdmin) {
     return new Promise((resolve, reject) => {
       User.findById(request.params.id)
         .then((foundUser) => {
-          if (!foundUser) return reject({
-            message: 'User Not Found',
-            status: 404
-          });
+          if (!foundUser) {
+            return reject({
+              message: 'User Not Found',
+              status: 404
+            });
+          }
 
           if ((allowAdmin && request.decoded.RoleId === 1) || foundUser
             .id ===

@@ -1,7 +1,6 @@
-'use strict';
 const bcrypt = require('bcrypt');
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstname: {
       allowNull: false,
@@ -56,11 +55,12 @@ module.exports = function(sequelize, DataTypes) {
 
     hooks: {
       beforeCreate(user) {
-        user.hashPassword()
+        user.hashPassword();
       },
 
       beforeUpdate(user) {
-        if(user._changed.password) {
+        /* eslint-disable no-underscore-dangle*/
+        if (user._changed.password) {
           user.hashPassword();
         }
       }

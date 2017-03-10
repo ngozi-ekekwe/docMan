@@ -7,36 +7,37 @@ const RoleController = {
 
   /**
    * create - create a new Role
-   * @params  {Object} req Request object
-   * @params  {Object} res Response object
+   * @param  {Object} req Request object
+   * @param  {Object} res Response object
+   * @returns {void} - returns void
    */
   create(req, res) {
     validate(req).then((role) => {
       switch (role) {
-      case 'Fields Missing':
-        return res.status(403).send({
-          message: 'Some Fields are missing'
-        });
-        break;
-      case true:
-        return res.status(409).send({
-          message: 'Role already exists'
-        });
-        break;
-      default:
-        Role.create(req.body)
+        case 'Fields Missing':
+          res.status(403).send({
+            message: 'Some Fields are missing'
+          });
+          break;
+        case true:
+          res.status(409).send({
+            message: 'Role already exists'
+          });
+          break;
+        default:
+          Role.create(req.body)
           .then(() => res.status(200).send({
             message: 'Role successfully created'
           }));
-        break;
+          break;
       }
     });
   },
 
   /**
    * fetchRoles - return all roles
-   * @params {Object} req Request object
-   * @params {Object} res Response object
+   * @param {Object} request Request object
+   * @param {Object} response Response object
    * @returns {Object} res Response object
    */
   fetchRoles(request, response) {
@@ -53,25 +54,23 @@ const RoleController = {
     Role.findAndCountAll().then((roles) => {
       const totalCount = roles;
       Role.findAll(query)
-        .then((foundRoles) => {
-          const pageCount = (totalCount + 1) / 10;
-          return response.status(200).json({
-            foundRoles,
-            pagination: {
-              page: Number(request.query.offset) || null,
-              pageCount: Math.floor((totalCount.count + 1) / 10),
-              page_size: Number(query.limit) || null,
-              total_count: totalCount.count + 1
-            }
-          });
-        });
+        .then(foundRoles => response.status(200).json({
+          foundRoles,
+          pagination: {
+            page: Number(request.query.offset) || null,
+            pageCount: Math.floor((totalCount.count + 1) / 10),
+            page_size: Number(query.limit) || null,
+            total_count: totalCount.count + 1
+          }
+        }));
     });
   },
 
   /**
    * updateRole - update a role
-   * @param {Object} req request object
-   * @param {Object} res response object
+   * @param {Object} request request object
+   * @param {Object} response response object
+   * @returns {void} - returns void
    */
   updateRole(request, response) {
     Role.findById(request.params.id)
@@ -98,8 +97,9 @@ const RoleController = {
 
   /**
    * deleteRole -  delete a role
-   * @param {Object}  req request object
-   * @param {Object}  res response object
+   * @param {Object}  request request object
+   * @param {Object}  response response object
+   * @returns {void} - returns void
    */
   deleteRole(request, response) {
     Role.findById(request.params.id)
@@ -128,8 +128,9 @@ const RoleController = {
 
   /**
    * retrieve -  return a role
-   * @param {Object}  req request object
-   * @param {Object}  res response object
+   * @param {Object}  request request object
+   * @param {Object}  response response object
+   * @returns {void} - returns void
    */
   retrieve(request, response) {
     Role.findById(request.params.id)

@@ -34,8 +34,9 @@ const UserController = {
 
   /**
    * deletes a user
-   * @params {Object} request object
-   * @params {Object} request object
+   * @param {Object} request object
+   * @param {Object} response object
+   * @returns {void} - returns void
    */
   deleteUser(request, response) {
     UserUtils.ifUserExists(request).then((foundUser) => {
@@ -52,8 +53,9 @@ const UserController = {
 
   /** update
    * updates a user
-   * @params {Object} request object
-   * @params {Object} request object
+   * @param {Object} request object
+   * @param {Object} response object
+   * @returns {void} - returns void
    */
   update(request, response) {
     UserUtils.ifUserExists(request).then((foundUser) => {
@@ -70,8 +72,9 @@ const UserController = {
 
   /** logout
    * logs a user out
-   * @params {Object} request object
-   * @params {Object} request object
+   * @param {Object} request object
+   * @param {Object} response object
+   * @returns {void} - returns void
    */
   logout(request, response) {
     response.status(200).send({
@@ -81,8 +84,9 @@ const UserController = {
 
   /** index
    * returns all users
-   * @params {Object} request object
-   * @params {Object} request object
+   * @param {Object} request object
+   * @param {Object} response object
+   * @returns {void} - returns void
    */
   index(request, response) {
     const query = {};
@@ -93,6 +97,7 @@ const UserController = {
     if (Number(request.query.offset >= 0)) query.offset = request.query.offset;
     User.findAndCountAll().then((users) => {
       const totalCount = users;
+      /* eslint-disable no-shadow */
       User.findAll(query)
         .then((users) => {
           const pageCount = (totalCount + 1) / 10;
@@ -107,8 +112,9 @@ const UserController = {
 
   /** retrieve
    * returns a particular user
-   * @params {Object} request object
-   * @params {Object} request object
+   * @param {Object} request object
+   * @param {Object} response object
+   * @returns {void} - returns void
    */
   retrieve(request, response) {
     UserUtils.ifUserExists(request, true).then(foundUser => response.status(
@@ -121,15 +127,12 @@ const UserController = {
 
   /** login
    * logs a user into the application
-   * @params {Object} request object
-   * @params {Object} request object
+   * @param {Object} request object
+   * @param {Object} response object
+   * @returns {void} - returns void
    */
   login(request, response) {
-    User.findOne({
-        where: {
-          email: request.body.email
-        }
-      })
+    User.findOne({ where: { email: request.body.email } })
       .then((user) => {
         if (user && user.validPassword(request.body.password)) {
           const token = jwt.sign({

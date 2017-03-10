@@ -1,11 +1,52 @@
-[![Build Status](https://travis-ci.org/andela-nekekwe/docMan.svg?branch=feature%2F%23140388735%2Fsever-side)](https://travis-ci.org/andela-nekekwe/docMan)
-[![Coverage Status](https://coveralls.io/repos/github/andela-nekekwe/docMan/badge.svg?branch=feature%2F%23140388735%2Fsever-side)](https://coveralls.io/github/andela-nekekwe/docMan?branch=feature%2F%23140388735%2Fsever-side)
+[![Build Status](https://travis-ci.org/andela-nekekwe/docMan.svg?branch=fix)](https://travis-ci.org/andela-nekekwe/docMan)
+[![Coverage Status](https://coveralls.io/repos/github/andela-nekekwe/docMan/badge.svg?branch=fix)](https://coveralls.io/github/andela-nekekwe/docMan?branch=fix)
 # DOCUMENT MANAGEMENT SYSTEM 
 
 About the Application
 -------------
 Document Management System, complete with roles and privileges. Each document defines access rights; the document defines which roles can access it. 
 Also, each document specifies the date it was published.
+
+### **API Features**
+
+The following features make up the Document Management System API:
+
+##### Authentication
+- It uses JSON Web Token (JWT) for authentication.  
+- It generates a token upon successul login / account creation and returns it to the client.   
+- It verifies the token to ensures a user is authenticated to access some endpoints.
+
+##### Users
+- It allows users to be created.  
+- It allows users to login and obtain a token  
+- It allows authenticated users to retrieve and edit their information only.   
+- All users can be retrieved, modified and deleted by the admin user.
+
+##### Roles
+- It ensures that users have roles.   
+- It ensures user roles could be `admin` or `regular`, or as created by the admin .   
+- It ensures roles can be created, retrieved, updated and deleted by an admin user. 
+- A non-admin user cannot create, retrieve, modify, or delete roles.  
+
+##### Documents
+- It allows new documents to be created by authenticated users.  
+- It ensures all documents have access roles defined as `public` or `private`.  
+- It allows admin users to create, retrieve, modify, and delete documents.
+- It allows the admin user to retrieve all documents.   
+- It allows `private` and `public` access documents to be retrieved by its owners.    
+- It ensures users can delete, edit and update documents that they own.   
+- It allows users to retrieve all documents they own.
+- It allows users to set a type for any document they create.   
+
+##### Types
+- It allows documents to be defined based on types. Eg. Note, Report etc.   
+- It allows users to add types to any document they create.   
+- It allows users to create and retrieve types.
+- It allows only admin user to modify and delete types   
+
+##### Search
+- It allows users to search `public` documents that belong to other users (as well as documents that belong to the user).
+- It allows admin to retrieve all documents that matches search term, be it `public` or `private`.
 
 Tech Stack
 --------------
@@ -14,7 +55,7 @@ Tech Stack
 * [Enzyme] - A JavaScript Testing utility for React
 * [Materialize] - great UI boilerplate for modern web apps
 * [node.js] - evented I/O for the backend
-* [Express] - fast node.js network app framework [@tjholowaychuk]
+* [Express] - fast node.js network app framework
 * [Webpack] - the streaming build system
 * [Sequelize] - Sequelize is a promise-based ORM for Node.js and io.js.
 * [JWT] - To authenticate routes
@@ -339,6 +380,18 @@ Endpoint for document API.
   "updatedAt": "2017-02-19T17:34:19.992Z"
 }]
 ```
+
+#### Limitations:
+The limitations to the Document Management System API are as follows:
+
+* Users can only create plain textual documents and retrieve same when needed. 
+* Users cannot share documents with people, but can make document `public` to make it available to other users.
+* Users cannot delete their accounts unless via the action of an admin of the system.
+* Users login and obtain a token which is verified on every request, but users cannot logout (nullify the token), however tokens become invalid when it expires (after 1 day).
+
+#### _**Contributing**_
+Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:
+
 
 
 

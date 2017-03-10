@@ -1,20 +1,23 @@
 import validateParameters from '../ControllerUtils/Utils';
 import { Document } from '../models';
 
-const requiredParameters = ['title', 'content', 'access'];
+const requiredParameters = [
+  'title',
+  'content',
+  'access'
+];
 
 const DocumentUtils = {
   /**
    * Checks request parameters to ensure they are valid
-   * @params {Object} request object
-   * @returns promise
+   * @param {Object} request object
+   * @param {Object} resolve object
+   * @returns {Object} promise
    */
   validate(request) {
     return new Promise((resolve, reject) => {
       if (validateParameters(request, requiredParameters)) {
-        Document.findOne({
-            where: { title: request.body.title }
-          })
+        Document.findOne({ where: { title: request.body.title } })
           .then((foundDocument) => {
             if (foundDocument) {
               reject({
@@ -33,14 +36,16 @@ const DocumentUtils = {
   /**
    * method returns meteData for pagination
    * @param  {Object} request object
-   * @param page_count {Number} Number
-   * @param total_count {Number}
+   * @param {Number} pageCount number
+   * @param {Number} totalCount number
+   * @param {Object} query object
+   * @returns {Object} - returns object
    */
   indexPagination(request, pageCount, totalCount, query) {
     return ({
       page: Number(request.query.offset) || 1,
       page_count: Math.floor((totalCount.count + 1) / 10),
-      page_size: Number(query.limit) || 1,
+      page_size: Number(query.limit) || 10,
       total_count: totalCount.count
     });
   },
@@ -48,10 +53,10 @@ const DocumentUtils = {
   /**
    * ifDocumentExists
    * @param {Object} request object
-   * @param {Boolean} allowAdmin
-   * @returns
+   * @param {Boolean} resolve object
+   * @returns {Object} - returns object
    */
-  ifDocumentExists(request, allowAdmin) {
+  ifDocumentExists(request) {
     return new Promise((resolve, reject) => {
       Document.findById(request.params.id)
         .then((foundDocument) => {
@@ -85,6 +90,7 @@ const DocumentUtils = {
     return docformat;
   },
 
+
   manageDocument(req) {
     return new Promise((resolve, reject) => {
       Document.findById(req.params.id)
@@ -100,7 +106,7 @@ const DocumentUtils = {
           }
           return reject({
             message: 'You can only make changes to your document',
-            status: 404
+            status: 403
           });
         });
     });

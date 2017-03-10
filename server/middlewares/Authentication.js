@@ -30,7 +30,7 @@ const authentication = {
   /**
    * generateToken generates token for authentication
    * @param {Object} user object
-   *
+   * @returns {Object} jwt
    */
   generateToken(user) {
     return jwt.sign({
@@ -42,8 +42,9 @@ const authentication = {
   /**
    * validateAdmin
    * @param {Object} request object
-   * @param {Object} request object
-   * @param {Object} next
+   * @param {Object} response object
+   * @param {Object} next object
+   * @returns {Object} response message
    */
   validateAdmin(request, response, next) {
     Role.findById(request.decoded.RoleId)
