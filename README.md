@@ -1,6 +1,6 @@
 
 [![Build Status](https://travis-ci.org/andela-nekekwe/docMan.svg?branch=test-development)](https://travis-ci.org/andela-nekekwe/docMan)
-[![Coverage Status](https://coveralls.io/repos/github/andela-nekekwe/docMan/badge.png?branch=test-development)](https://coveralls.io/github/andela-nekekwe/docMan?branch=test-development)
+[![Coverage Status](https://coveralls.io/repos/github/andela-nekekwe/docMan/badge.png?branch=fix)](https://coveralls.io/github/andela-nekekwe/docMan?branch=fix)
 # DOCUMENT MANAGEMENT SYSTEM 
 
 About the Application
