@@ -6,8 +6,8 @@ const DocumentContent = ({document}) => {
         <p>
           {document.content}
         </p>
-    )
-}
+    );
+};
 
 export default DocumentContent;
 

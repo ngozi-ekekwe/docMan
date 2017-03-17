@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
 const renderIfLoggedIn = () => {
-	const user = JSON.parse(localStorage.getItem('currentUser'));
-	if (user && user.UserId) {
-		return (
+  const user = JSON.parse(localStorage.getItem('currentUser'));
+  if (user && user.UserId) {
+    return (
 			<ul id="nav-mobile" className="right hide-on-med-and-down">
 				<li>
 					<Link to="/createdoc" activeClassName="active" className="right">Add Document</Link>
@@ -28,9 +28,9 @@ const renderIfLoggedIn = () => {
 					<Link to="/documents" activeClassName="active" className="right">Documents</Link>
 				</li>
 			</ul>
-		);
-	}
-	return (
+  );
+  }
+  return (
 		<ul id="nav-mobile" className="right hide-on-med-and-down">
 			<li>
 				<Link to="/" activeClassName="active" className="right">Home</Link>
@@ -42,10 +42,9 @@ const renderIfLoggedIn = () => {
 				<Link to="/signups" activeClassName="active" className="right">Sign up</Link>
 			</li>
 		</ul>
-	)
-}
-const Header = () => {
-	return (
+  );
+};
+const Header = () => (
 		<nav className="white">
 			<div className="navbar nav-wrapper">
 				<IndexLink to="/" activeClassName="active" className="brand-logo">DMS</IndexLink>
@@ -53,7 +52,6 @@ const Header = () => {
 			</div>
 		</nav>
 
-	);
-}
+  );
 
 export default Header;

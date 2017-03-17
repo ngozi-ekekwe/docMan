@@ -3,8 +3,7 @@ import DocumentTitle from '../components/DocumentListTitle';
 import DocumentContent from '../components/DocumentContent';
 
 
-const DocumentList = ({documents}) => {
-  console.log(documents, 'here')
+const DocumentList = ({ documents }) => {
   const dd = documents.documents;
   return (
     <div>
@@ -13,7 +12,7 @@ const DocumentList = ({documents}) => {
         <div className="col s6">
           <div className="card white darken-1">
             <div className="card-content black-text">
-              <DocumentTitle  document={document} />
+              <DocumentTitle document={document} />
               <DocumentContent document={document} />
             </div>
             <div className="card-action">
@@ -24,7 +23,7 @@ const DocumentList = ({documents}) => {
       </div>
       )}
       </div>
-  )
-}
+  );
+};
 
 export default DocumentList;

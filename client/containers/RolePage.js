@@ -3,30 +3,31 @@ import { connect } from 'react-redux';
 import * as roleAction from '../actions/roleAction';
 import RoleList from '../components/RoleList';
 import RoleListRow from '../components/RoleListRow';
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 
 class Role extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      roles: ""
-    }
+      roles: ''
+    };
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
-  };
+  }
   componentWillMount() {
     this.props.loadRoles();
   }
+
   redirectToRolePage() {
     browserHistory.push('/role');
   }
   render() {
-    const {roles} = this.props;
+    const { roles } = this.props;
     return (
       <div className="page-wrapper">
         <input
           type="submit"
-          value='Add Role'
-          className='col s12 btn btn-large waves-effect indigo'
+          value="Add Role"
+          className="col s12 btn btn-large waves-effect indigo"
           onClick={this.redirectToRolePage} />
         <RoleList roles={roles} />
 
@@ -39,18 +40,13 @@ Role.PropTypes = {
   roles: PropTypes.array.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createRole: (role) => dispatch(roleAction.createRole(role)),
-    loadRoles: () => dispatch(roleAction.fetchRoles())
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  createRole: role => dispatch(roleAction.createRole(role)),
+  loadRoles: () => dispatch(roleAction.fetchRoles())
+});
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    roles: state.roles
-  };
-  ;
-}
+const mapStateToProps = (state) => ({
+  roles: state.roles
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Role);
-export { Role as PureMyComponent}
+export { Role as PureMyComponent };

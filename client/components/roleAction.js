@@ -1,123 +1,99 @@
-import * as types from './actionTypes';
 import fetch from 'isomorphic-fetch';
+import * as types from './actionTypes';
 
 
-export const createRole = (role) => {
-  return {
-    type: types.CREATE_ROLE,
-    role
-  }
-}
+export const createRole = role => ({
+  type: types.CREATE_ROLE,
+  role
+});
 
-//action creators
-export const getRoleSuccess = (roles) => {
-  return {
-    type: types.LOAD_ROLE_SUCCESS,
-    roles
-  }
-}
+// action creators
+export const getRoleSuccess = roles => ({
+  type: types.LOAD_ROLE_SUCCESS,
+  roles
+});
 
-export const updateRoleSuccess = (role) => {
-  return {
-    type: types.UPDATE_ROLE_SUCCESS,
-    role
-  }
-}
+export const updateRoleSuccess = role => ({
+  type: types.UPDATE_ROLE_SUCCESS,
+  role
+});
 
 
-export const createRoleSuccess = (role) => {
-  return {
-    type: types.CREATE_ROLE_SUCCESS,
-    role
-  }
-}
-//get roles
+export const createRoleSuccess = role => ({
+  type: types.CREATE_ROLE_SUCCESS,
+  role
+});
+// get roles
 export const roleApi = () => {
-  const {token} = JSON.parse(localStorage.getItem('currentUser'));
+  const { token } = JSON.parse(localStorage.getItem('currentUser'));
   return fetch('http://localhost:8000/roles', {
     method: 'GET',
     headers: {
       Authorization: token
     }
   })
-    .then(response => {
+    .then((response) => {
       if (response.status >= 400) {
-        throw new Error("Bad response from server");
+        throw new Error('Bad response from server');
       }
       return response.json();
     })
-    .then((roles) => {
-      return roles
-    })
-    .catch(error => {
-      throw error
-    })
+    .then(roles => roles)
+    .catch((error) => {
+      throw error;
+    });
 };
 
-export const fetchARole = (roleId) => {
-  return fetch(`http://localhost:8000/roles/${roleId}`)
-    .then(response => {
+export const fetchARole = roleId => fetch(`http://localhost:8000/roles/${roleId}`)
+    .then((response) => {
       if (response.status >= 400) {
-        throw new Error("Bad response from server");
+        throw new Error('Bad response from server');
       }
       return response.json();
     })
-    .then((role) => {
-      return role
-    })
-    .catch(error => {
-      throw error
-    })
-}
+    .then((role) => role)
+    .catch((error) => {
+      throw error;
+    });
 
-//thunk
-export const fetchRoles = () => {
-  return dispatch => {
-    return roleApi()
-      .then(roles => {
-        dispatch(getRoleSuccess(roles))
+// thunk
+export const fetchRoles = () => (dispatch) => roleApi()
+      .then((roles) => {
+        dispatch(getRoleSuccess(roles));
       })
-      .catch(error => { throw error; })
-  }
-}
+      .catch((error) => { throw error; });
 
 
 export const roleSaver = (role) => {
-  const newBody = JSON.stringify(role)
-  const {token} = JSON.parse(localStorage.getItem('currentUser'));
+  const newBody = JSON.stringify(role);
+  const { token } = JSON.parse(localStorage.getItem('currentUser'));
   return fetch('http://localhost:8000/roles', {
     method: 'post',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': token
+      Authorization: token
     },
     body: newBody
   })
-    .then(response => {
+    .then((response) => {
       if (response.status >= 400) {
-        throw new Error("Bad response from server");
+        throw new Error('Bad response from server');
       }
       return response.json();
     })
-    .then((role) => {
-      return role
-    })
-    .catch(error => {
-      throw error
+    .then(role => role)
+    .catch((error) => {
+      throw error;
     });
-}
+};
 
-export const saveRole = (roleJson) => {
-  return (dispatch, getState) => {
-    return roleSaver(roleJson)
+export const saveRole = roleJson => (dispatch) => roleSaver(roleJson)
       .then((savedRole) => {
         roleJson.id ? dispatch(updateRoleSuccess(savedRole)) :
           dispatch(createRoleSuccess(savedRole));
       }).catch((error) => {
         throw (error);
-      })
-  }
-}
+      });
 
 

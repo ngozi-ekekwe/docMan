@@ -1,8 +1,8 @@
 import React from 'react';
 import TextInput from '../components/TextInput';
 
-const RoleForm = ({role, onSave, onChange, loading, errors}) => {
-    return (
+const RoleForm = ({ role, onSave, onChange, loading, errors }) => {
+  return (
         <form method="POST">
             <TextInput
                 name="title"
@@ -18,7 +18,7 @@ const RoleForm = ({role, onSave, onChange, loading, errors}) => {
                 className='col s12 btn btn-large waves-effect indigo'
                 onClick={onSave} />
         </form>
-    )
-}
+    );
+};
 
-export default RoleForm
+export default RoleForm;

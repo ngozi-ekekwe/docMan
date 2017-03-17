@@ -2,8 +2,8 @@ import React from 'react';
 import Typist from 'react-typist';
 
 class HomePage extends React.Component {
-	render() {
-		return (
+  render() {
+    return (
 			<div>
 				<div className="parallax-container">
 					<div id="parallax">
@@ -20,8 +20,8 @@ class HomePage extends React.Component {
 					</div>
 				</div>
 			</div>
-		);
-	}
-};
+    );
+  }
+}
 
 export default HomePage;

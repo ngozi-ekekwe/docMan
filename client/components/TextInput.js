@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
 
-const TextInput = ({name, label, onChange, error}) => {
-	let wrapperClass = "row";
-	if (error && error.length > 0) {
-		wrapperClass += " " + 'has-error';
-	}
-	return (
+const TextInput = ({ name, label, onChange, error }) => {
+  let wrapperClass = 'row';
+  if (error && error.length > 0) {
+    wrapperClass += ' ' + 'has-error';
+  }
+  return (
 		<main>
 			<center>
 				<div className="row">
@@ -16,7 +16,7 @@ const TextInput = ({name, label, onChange, error}) => {
 								<input
 									type="text"
 									name={name}
-									className=''
+									className=""
 									onChange={onChange} />
 
 							</div>
@@ -25,6 +25,6 @@ const TextInput = ({name, label, onChange, error}) => {
 				</div>
 			</center>
 		</main>
-	)
-}
+  );
+};
 export default TextInput;

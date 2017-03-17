@@ -6,44 +6,44 @@ import DocumentForm from '../components/DocumentForm';
 import DocumentMarkdown from '../components/DocumentMarkdown';
 
 class DocumentContainer extends React.Component {
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			document: Object.assign({}, this.props.document),
-			error: {},
-			saving: false
-		}
-		this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.updateDocumentState = this.updateDocumentState.bind(this);
-		this.handleEditorchange = this.handleEditorchange.bind(this);
-	}
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      document: Object.assign({}, this.props.document),
+      error: {},
+      saving: false
+    };
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.updateDocumentState = this.updateDocumentState.bind(this);
+    this.handleEditorchange = this.handleEditorchange.bind(this);
+  }
 
-	updateDocumentState(event) {
-		const field = event.target.name;
-		let document = this.state.document;
-		document[field] = event.target.value;
-		return this.setState({ document: document });
+  componentDidMount() {
+    this.props.fetchDocuments();
+  }
 
-	}
+  handleFormSubmit(event) {
+    event.preventDefault();
+    this.props.saveDocument(this.state.document);
+    this.setState({ saving: true });
+  }
 
-	handleFormSubmit(event) {
-		event.preventDefault();
-		this.props.saveDocument(this.state.document)
-		this.setState({ saving: true });
-	}
+  handleEditorchange(event) {
+    const document = this.state.document;
+    document.content = event.target.getContent({ format: 'raw' });
+    return this.setState({ document });
+  }
 
-	handleEditorchange(event) {
-		let content
-		let document = this.state.document;
-		document.content = event.target.getContent({ format: 'raw' });
-		return this.setState({ document: document });
-	}
 
-	componentDidMount() {
-		this.props.fetchDocuments();
-	}
-	render() {
-		return (
+
+  updateDocumentState(event) {
+    const field = event.target.name;
+    const document = this.state.document;
+    document[field] = event.target.value;
+    return this.setState({ document });
+  }
+  render() {
+    return (
 			<div className="container">
 				<DocumentForm
 					document={this.state.document}
@@ -62,23 +62,21 @@ class DocumentContainer extends React.Component {
         </button>
 				</center>
 			</div>
-		)
-	}
+    );
+  }
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		fetchDocuments: () => dispatch(documentAction.fetchDocuments()),
-		saveDocument: (document) => dispatch(documentAction.saveDocument(document))
-	}
-}
+const mapDispatchToProps = dispatch => ({
+  fetchDocuments: () => dispatch(documentAction.fetchDocuments()),
+  saveDocument: document => dispatch(documentAction.saveDocument(document))
+});
 
-const mapStateToProps = (state, ownProps) => {
-	let document = { title: "", content: "", access: "", userId: "" }
-	return {
-		documents: document
-	};
-}
+const mapStateToProps = () => {
+  const document = { title: '', content: '', access: '', userId: '' };
+  return {
+    documents: document
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentContainer);
-export { DocumentContainer as PureMyComponent}
+export { DocumentContainer as PureMyComponent };

@@ -1,37 +1,36 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import { bindActionCreators } from 'redux';
 import * as roleActions from '../actions/roleAction';
-import RoleForm from '../components/RoleForm'
-import toastr from 'toastr';
+import RoleForm from '../components/RoleForm';
 
 class ManageRolePage extends React.Component {
   constructor(props, context) {
-    super(props, context)
+    super(props);
     this.state = {
       role: Object.assign({}, this.props.role),
       errors: {},
       saving: false
-    }
+    };
     this.updateRoleState = this.updateRoleState.bind(this);
     this.saveRole = this.saveRole.bind(this);
   }
   updateRoleState(event) {
     const field = event.target.name;
-    let role = this.state.role;
+    const role = this.state.role;
     role[field] = event.target.value;
-    return this.setState({role: role})
-
+    return this.setState({ role });
   }
-  
+
   saveRole(event) {
     event.preventDefault();
     this.props.saveRole(this.state.role);
     this.context.router.push('/roles');
-    this.setState({saving: true});
-    toastr.success('Role saved')
+    this.setState({ saving: true });
+    toastr.success('Role saved');
   }
-  
+
   render() {
     return (
       <div>
@@ -42,29 +41,26 @@ class ManageRolePage extends React.Component {
           onSave={this.saveRole}
           error={this.state.error} />
       </div>
-    )
+    );
   }
 }
 
 ManageRolePage.PropTypes = {
 
-}
+};
 
 ManageRolePage.contextTypes = {
   router: PropTypes.object
-}
-const mapDispatchToProps = (dispatch) => {
+};
+const mapDispatchToProps = dispatch => ({
+  saveRole: role => dispatch(roleActions.saveRole(role))
+});
+
+const mapStateToProps = (state) => {
+  const role = { id: '', title: '', createdAt: '', updatedAt: '' };
   return {
-    saveRole: (role) => dispatch(roleActions.saveRole(role))
-  }
-
-}
-
-const mapStateToProps = (state, ownProps) => {
-  let role = { id: '', title: '', createdAt: '', updatedAt: '' }
-  return {  
     roles: role
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ManageRolePage)
-export {ManageRolePage as PureMyComponent}
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ManageRolePage);
+export { ManageRolePage as PureMyComponent };

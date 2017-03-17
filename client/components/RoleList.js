@@ -1,8 +1,7 @@
 import React, { propTypes } from 'react';
 import RoleListRow from './RoleListRow';
 
-const RoleList = ({roles}) => {
-    return (
+const RoleList = ({ roles }) => (
         <table className="table bordered">
             <thead>
                 <tr>
@@ -18,7 +17,6 @@ const RoleList = ({roles}) => {
             <tbody>
             </tbody>
         </table>
-    )
-}
+    );
 
-export default RoleList
+export default RoleList;

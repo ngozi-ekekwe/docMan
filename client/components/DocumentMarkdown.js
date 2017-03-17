@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import TinyMCE from 'react-tinymce';
 
 const DocumentMarkdown = ({document, onChange}) => {
