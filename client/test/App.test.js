@@ -4,7 +4,7 @@ import expect from 'expect';
 import App from '../containers/App';
 
 describe('Role container Test via Enzyme', () => {
-    const wrapper = shallow(<App />)
+    const wrapper = shallow(<App />);
     it('should render a `container-fluid` element', () => {
         expect(wrapper.node.props.className).toBe('container-fluid');
     });
@@ -12,8 +12,4 @@ describe('Role container Test via Enzyme', () => {
     it('should have a `Header` children componet', () => {
         expect(wrapper.find('Header').length).toBeGreaterThanOrEqualTo(1);
     });
-
-    it('should have a `footer` child component', () => {
-        expect(wrapper.find('Footer').length).toBeGreaterThanOrEqualTo(1);
-    })
-}) 
+});
