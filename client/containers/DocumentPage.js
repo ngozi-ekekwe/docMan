@@ -17,11 +17,11 @@ class DocumentPage extends React.Component {
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchDocuments();
   }
   redirectToRolePage() {
-    browserHistory.push('/user');
+    browserHistory.push('/docuemnts');
   }
 
   render() {

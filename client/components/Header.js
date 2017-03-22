@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router';
 
 const renderIfLoggedIn = () => {
   const user = JSON.parse(localStorage.getItem('currentUser'));
-  if (user && user.UserId) {
+  if (user && user.userIdentity) {
     return (
 			<ul id="nav-mobile" className="right hide-on-med-and-down">
 				<li>

@@ -9,10 +9,12 @@ export const createUser = user => ({
 });
 
 // action creators
-export const getUserSuccess = users => ({
-  type: types.LOAD_USER_SUCCESS,
-  users
-});
+export const getUserSuccess = (users) => {
+  return {
+    type: types.LOAD_USER_SUCCESS,
+    users
+  };
+};
 
 export const updateUserSuccess = user => ({
   type: types.UPDATE_USER_SUCCESS,
@@ -43,19 +45,29 @@ export const userApi = () => {
       }
       return response.json();
     })
-    .then(users => users)
+    .then((users) => {
+      return users;
+    })
     .catch((error) => {
       throw error;
     });
 };
 
 
-export const fetchUsers = () => dispatch => userApi()
-  .then((users) => {
-    dispatch(getUserSuccess(users));
-  })
-  .catch((error) => { throw error; });
-export const login = (email, password) => dispatch => fetch('/users/login', {
+export const fetchUsers = () => {
+  console.log('got here');
+  return (dispatch) => {
+    return userApi()
+      .then((users) => {
+        console.log(users, 'fetch')
+        return dispatch(getUserSuccess(users));
+      })
+      .catch((error) => { throw error; });
+  };
+};
+
+
+export const login = (email, password) => dispatch => fetch('/api/users/login', {
   method: 'post',
   headers: {
     'Content-Type': 'application/json'

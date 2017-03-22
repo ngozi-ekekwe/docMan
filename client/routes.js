@@ -1,12 +1,12 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import App from './containers/App';
 import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import Register from './components/SignUp';
 import RolePage from './containers/RolePage';
-import ManageRolePage from './containers/ManageRolePage'
-import UserPage from './containers/UserPage'
+import ManageRolePage from './containers/ManageRolePage';
+import UserPage from './containers/UserPage';
 import ManageUserPage from './containers/ManageUserPage';
 import DocumentContainer from '../client/containers/DocumentContainer';
 import DocumentPage from '../client/containers/DocumentPage';
@@ -20,7 +20,7 @@ const checkIfLoggedIn = (nextState, replace) => {
 
 const logUserOut = (nextState, replace, done) => {
   const user = JSON.parse(localStorage.getItem('currentUser'));
-  if (user && user.userId == undefined) {
+  if (user && user.userId === undefined) {
     replace({ pathname: '/' });
   }
   localStorage.removeItem("currentUser");
@@ -42,4 +42,4 @@ export default (
         <Route path="logout" onEnter={logUserOut} />
         <Route path="documents" component={DocumentPage} />
     </Route>
-)
+);
